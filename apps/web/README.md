@@ -1,6 +1,6 @@
 # EduForge Web
 
-EduForge 智学工坊前端应用。第三阶段新增数据底座页面，用于展示 SQLite + SQLModel seed 数据和最小 CRUD 联调效果。
+Next.js 前端应用，当前处于第四阶段：课程资料与知识库基础。
 
 ## 技术栈
 
@@ -10,10 +10,11 @@ EduForge 智学工坊前端应用。第三阶段新增数据底座页面，用�
 - shadcn/ui 基础组件
 - pnpm
 
-## 安装依赖
+## 安装
 
 ```bash
-cd apps/web
+corepack enable
+corepack prepare pnpm@latest --activate
 pnpm install
 ```
 
@@ -23,33 +24,37 @@ pnpm install
 pnpm dev
 ```
 
-默认访问：
+默认访问 [http://localhost:3000](http://localhost:3000)。
 
-- 首页：[http://localhost:3000](http://localhost:3000)
-- Dashboard：[http://localhost:3000/dashboard](http://localhost:3000/dashboard)
-- Health：[http://localhost:3000/health](http://localhost:3000/health)
-- 数据底座：[http://localhost:3000/database](http://localhost:3000/database)
-- 课程管理：[http://localhost:3000/courses](http://localhost:3000/courses)
-- 学生管理：[http://localhost:3000/students](http://localhost:3000/students)
+## 页面
 
-## 前后端联调
+- `/`：项目首页
+- `/dashboard`：阶段进度与入口
+- `/health`：前后端联调状态
+- `/database`：SQLite 数据底座
+- `/courses`：课程与知识点管理
+- `/students`：学生与画像草稿
+- `/knowledge-base`：课程资料导入、上传、分块、检索演示
 
-前端通过 `NEXT_PUBLIC_API_BASE_URL` 直接访问后端，默认值为：
+## 第四阶段知识库页面
 
-```bash
-http://localhost:8000
-```
+`/knowledge-base` 支持：
 
-后端未启动时页面会显示错误提示，不会白屏。
+- 选择《数据库系统》课程
+- 查看知识库统计
+- 导入原创示例课程资料
+- 上传 `.md` / `.txt`
+- 查看文档列表
+- 查看文档 chunks
+- 搜索“幻读”“B+树”“JOIN”
+
+页面直接通过 `NEXT_PUBLIC_API_BASE_URL` 请求 FastAPI 后端，不使用 Next.js API route 转发。
 
 ## 检查
 
 ```bash
 pnpm lint
 pnpm typecheck
-pnpm build
 ```
 
-## 当前阶段范围
-
-第三阶段只展示数据底座和基础 CRUD，不实现登录、RAG、LLM、Agent、学习画像生成、资源生成、测验评估或图表分析。
+当前不引入 axios、react-query、复杂状态管理、图表库、认证库或 AI SDK。

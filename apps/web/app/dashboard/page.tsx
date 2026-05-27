@@ -1,4 +1,4 @@
-import { ArrowRight, Database, Milestone } from "lucide-react";
+import { ArrowRight, LibraryBig, Milestone } from "lucide-react";
 import Link from "next/link";
 
 import { AppSidebar } from "@/components/app-sidebar";
@@ -19,16 +19,16 @@ export default function DashboardPage() {
         <section className="rounded-lg border bg-card p-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <Badge variant="warning">Phase 3</Badge>
+              <Badge variant="warning">Phase 4</Badge>
               <h1 className="mt-3 text-3xl font-bold">Dashboard 骨架</h1>
               <p className="mt-2 text-sm text-muted-foreground">
-                当前阶段只建立数据底座和最小 CRUD，不实现 AI 业务链路。
+                当前已完成数据底座，正在建设课程资料解析、分块和基础检索能力。
               </p>
             </div>
             <Button asChild>
-              <Link href="/database">
-                <Database className="h-4 w-4" aria-hidden="true" />
-                查看数据底座
+              <Link href="/knowledge-base">
+                <LibraryBig className="h-4 w-4" aria-hidden="true" />
+                进入知识库
               </Link>
             </Button>
           </div>
@@ -46,7 +46,7 @@ export default function DashboardPage() {
               <CardTitle className="text-base">数据库模型与基础 CRUD</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Badge variant="warning">进行中</Badge>
+              <Badge variant="success">已完成</Badge>
               <p className="text-sm text-muted-foreground">
                 SQLite + SQLModel 已接入，用于课程、学生、知识点、画像草稿和资源占位。
               </p>
@@ -58,7 +58,24 @@ export default function DashboardPage() {
               </Button>
             </CardContent>
           </Card>
-          {["课程知识库", "LLM Provider", "学习画像"].map((title) => (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">课程知识库</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Badge variant="warning">进行中</Badge>
+              <p className="text-sm text-muted-foreground">
+                正在建设原创课程资料导入、Markdown/TXT 解析、文本分块和关键词检索。
+              </p>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/knowledge-base">
+                  查看知识库
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+          {["LLM Provider", "学习画像"].map((title) => (
             <Card key={title}>
               <CardHeader>
                 <CardTitle className="text-base">{title}</CardTitle>
@@ -82,9 +99,9 @@ export default function DashboardPage() {
               </div>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Progress value={30} />
+              <Progress value={40} />
               <p className="text-sm text-muted-foreground">
-                第一、二阶段已完成，第三阶段正在补齐数据库模型与基础 CRUD。
+                第一至三阶段已完成，第四阶段正在补齐课程资料解析、分块和基础检索。
               </p>
             </CardContent>
           </Card>

@@ -7,37 +7,40 @@
 - 比赛：第十五届中国软件杯
 - 赛题：A3 - 基于大模型的个性化资源生成与学习多智能体系统开发
 - 出题企业：科大讯飞股份有限公司
-
-## 项目定位
-
-EduForge 智学工坊是面向高校课程学习场景的 AI 个性化学习资源工厂。后续系统将支持对话式学习画像、课程知识库 RAG、多智能体协作、个性化学习路径、多类型学习资源生成、智能辅导、测验批改、学习效果评估和防幻觉引用来源。
+- 项目定位：面向高校课程学习场景的 AI 个性化学习资源工厂
 
 ## 当前阶段
 
-当前处于第三阶段：数据库模型与基础 CRUD。
+当前处于第四阶段：课程资料与知识库基础。
 
-已完成：
+本阶段已经建设：
 
-- FastAPI 后端基础结构：`core / db / routers / schemas`
-- SQLite 数据库：默认文件 `apps/api/eduforge.db`
-- SQLModel 数据模型：Student、Course、KnowledgePoint、ProfileDraft、ResourceItem
-- 启动时自动初始化数据库并写入默认 seed
-- 最小 CRUD API：列表、创建、详情或按课程查询
-- Next.js 前端数据页面：`/database`、`/courses`、`/students`
-- 前后端 health/meta 联调仍保留
+- 原创《数据库系统》示例课程资料
+- Markdown / TXT 文档解析
+- 文本分块
+- CourseDocument / DocumentChunk 数据模型
+- SQLite 入库
+- 基础关键词检索
+- 前端 `/knowledge-base` 演示页
 
-本阶段只做数据底座，不实现 RAG、课程资料上传、LLM Provider、MockLLM、Agent、学习画像生成、学习路径生成、资源生成、智能辅导、测验批改、登录、权限、Docker 或 Alembic。
+本阶段不是完整 RAG，不接入大模型，不使用 embedding，不接 ChromaDB，不实现 Agent。
 
-## 推荐开发环境
+## 版权与资料边界
+
+`data/sample_courses/database_system/` 下的示例课程资料为项目原创整理内容，只参考数据库系统通用知识体系，不包含出版教材 PDF、扫描件、出版社配套资料、教材原文或大段摘录。
+
+不要把出版书籍、课程教材 PDF、扫描版教材、电子书放入仓库。后续如果支持用户上传资料，也应由用户自行保证资料具有合法使用权。
+
+## 推荐环境
 
 - Conda
 - Python 3.11
 - Node.js >= 20.9
 - pnpm
 - Git
-- Docker 可选，当前阶段不配置
+- Docker 可选，当前不配置
 
-## 后端环境准备
+## 后端安装
 
 ```powershell
 conda create -n cnsoftbei_a3_eduforge python=3.11 -y
@@ -50,9 +53,9 @@ pip install -r requirements-dev.txt
 pip install -e .
 ```
 
-## 前端环境准备
+## 前端安装
 
-```bash
+```powershell
 corepack enable
 corepack prepare pnpm@latest --activate
 
@@ -60,69 +63,93 @@ cd apps/web
 pnpm install
 ```
 
-## 启动服务
+## 启动
 
-终端 1 启动后端：
+后端：
 
 ```powershell
 conda activate cnsoftbei_a3_eduforge
 .\scripts\run-api-dev.ps1
 ```
 
-终端 2 启动前端：
+前端：
 
 ```powershell
 .\scripts\run-web-dev.ps1
 ```
 
-也可以手动启动：
+macOS/Linux：
 
 ```bash
-cd apps/api
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-
-cd apps/web
-pnpm dev
+./scripts/run-api-dev.sh
+./scripts/run-web-dev.sh
 ```
 
-## 后端 API
+## 访问地址
 
-- Health：[http://localhost:8000/api/health](http://localhost:8000/api/health)
-- Meta：[http://localhost:8000/api/meta](http://localhost:8000/api/meta)
-- Students：[http://localhost:8000/api/students](http://localhost:8000/api/students)
-- Courses：[http://localhost:8000/api/courses](http://localhost:8000/api/courses)
-- Knowledge Points：`http://localhost:8000/api/courses/{course_id}/knowledge-points`
-- Profile Drafts：[http://localhost:8000/api/profile-drafts](http://localhost:8000/api/profile-drafts)
-- Resource Items：[http://localhost:8000/api/resource-items](http://localhost:8000/api/resource-items)
-- Swagger：[http://localhost:8000/docs](http://localhost:8000/docs)
+前端：
 
-## 前端页面
+- [http://localhost:3000](http://localhost:3000)
+- [http://localhost:3000/dashboard](http://localhost:3000/dashboard)
+- [http://localhost:3000/database](http://localhost:3000/database)
+- [http://localhost:3000/courses](http://localhost:3000/courses)
+- [http://localhost:3000/students](http://localhost:3000/students)
+- [http://localhost:3000/knowledge-base](http://localhost:3000/knowledge-base)
 
-- 首页：[http://localhost:3000](http://localhost:3000)
-- Dashboard：[http://localhost:3000/dashboard](http://localhost:3000/dashboard)
-- Health：[http://localhost:3000/health](http://localhost:3000/health)
-- 数据底座：[http://localhost:3000/database](http://localhost:3000/database)
-- 课程管理：[http://localhost:3000/courses](http://localhost:3000/courses)
-- 学生管理：[http://localhost:3000/students](http://localhost:3000/students)
+后端：
 
-## 数据库说明
+- [http://localhost:8000/api/health](http://localhost:8000/api/health)
+- [http://localhost:8000/api/meta](http://localhost:8000/api/meta)
+- [http://localhost:8000/api/courses](http://localhost:8000/api/courses)
+- [http://localhost:8000/api/students](http://localhost:8000/api/students)
+- [http://localhost:8000/docs](http://localhost:8000/docs)
 
-- 数据库：SQLite
-- ORM：SQLModel
-- 默认数据库文件：`apps/api/eduforge.db`
-- 数据库文件不会提交到 Git，`.gitignore` 已忽略 `*.db`
-- 后端启动时会自动执行 `SQLModel.metadata.create_all(engine)` 并写入 seed 数据
-- 当前不使用 Alembic，后续部署形态稳定后再考虑迁移工具
+第四阶段 API：
 
-## 默认 Seed 数据
+- `GET /api/courses/{course_id}/documents`
+- `POST /api/courses/{course_id}/documents/import-sample`
+- `POST /api/courses/{course_id}/documents/upload`
+- `GET /api/courses/{course_id}/documents/{document_id}/chunks`
+- `GET /api/courses/{course_id}/knowledge-base/stats`
+- `GET /api/courses/{course_id}/knowledge-base/search?q=幻读`
 
-- 默认学生：示例学生
-- 默认课程：数据库系统
-- 默认知识点：数据库基础、关系模型、SQL 基础、JOIN 与子查询、ER 建模、函数依赖与范式、事务与并发控制、索引与 B+ 树、查询优化、综合复习
-- 默认画像草稿：7 天掌握数据库系统期末重点
-- 默认资源占位：讲义、思维导图、练习题、实操案例、视频脚本
+## 示例资料目录
 
-## 检查命令
+```text
+data/sample_courses/database_system/
+  01_intro.md
+  02_relational_model.md
+  03_sql_basic.md
+  04_sql_join.md
+  05_er_model.md
+  06_normalization.md
+  07_transaction.md
+  08_index_btree.md
+  09_query_optimization.md
+  10_exam_review.md
+```
+
+上传文件保存到 `apps/api/storage/uploads/`，该目录不提交 Git。SQLite 数据库默认生成在 `apps/api/eduforge.db`，也不提交 Git。
+
+## 验收命令
+
+根目录自检：
+
+```powershell
+python scripts/check-env.py
+```
+
+第四阶段一键检查：
+
+```powershell
+.\scripts\check-phase4.ps1
+```
+
+macOS/Linux：
+
+```bash
+./scripts/check-phase4.sh
+```
 
 后端：
 
@@ -141,34 +168,24 @@ pnpm lint
 pnpm typecheck
 ```
 
-根目录自检：
+## 手动演示流程
 
-```bash
-python scripts/check-env.py
-```
-
-一键检查第三阶段：
-
-Windows：
-
-```powershell
-.\scripts\check-phase3.ps1
-```
-
-macOS/Linux：
-
-```bash
-./scripts/check-phase3.sh
-```
+1. 启动后端和前端。
+2. 打开 `/knowledge-base`。
+3. 选择或默认使用《数据库系统》课程。
+4. 点击“导入《数据库系统》示例资料”。
+5. 查看文档数和 chunk 数。
+6. 搜索“幻读”，应看到事务与并发控制相关片段。
+7. 搜索“B+树”，应看到索引与 B+ 树相关片段。
+8. 搜索“JOIN”，应看到 JOIN 与子查询相关片段。
+9. 上传一个 `.txt` 或 `.md` 文件，确认可以解析并分块。
 
 ## 后续阶段计划
 
-- 第四阶段：课程资料与知识库基础
 - 第五阶段：LLM Provider 与 Mock 模型
-- 第六阶段：对话式学习画像
-- 第七阶段：个性化学习路径
-- 第八阶段：多类型学习资源生成
-- 第九阶段：智能辅导与防幻觉
-- 第十阶段：测验批改与学习效果评估
-- 第十一阶段：前端演示优化
-- 第十二阶段：文档、PPT、演示视频脚本
+- 后续：向量检索或 RAG 编排
+- 后续：对话式学习画像
+- 后续：个性化学习路径
+- 后续：多类型资源生成
+- 后续：智能辅导、防幻觉引用来源
+- 后续：测验批改与学习效果评估

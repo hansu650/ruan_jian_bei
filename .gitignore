@@ -34,6 +34,10 @@ build/
 *.sqlite3
 .chroma/
 
+# Local uploads
+apps/api/storage/uploads/
+apps/api/storage/tmp/
+
 # IDE
 .vscode/
 .idea/

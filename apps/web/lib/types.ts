@@ -129,3 +129,57 @@ export interface ResourceItemCreate {
   status?: string;
   content_preview?: string | null;
 }
+
+export interface CourseDocument {
+  id: number;
+  course_id: number;
+  filename: string;
+  original_filename: string;
+  file_type: string;
+  source_type: string;
+  status: string;
+  chunk_count: number;
+  error_message?: string | null;
+  content_hash?: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface DocumentChunk {
+  id: number;
+  document_id: number;
+  course_id: number;
+  chunk_index: number;
+  section_title?: string | null;
+  content: string;
+  char_count: number;
+  content_hash: string;
+  metadata_json: string;
+  created_at: string;
+}
+
+export interface DocumentImportResult {
+  imported_documents: number;
+  indexed_documents: number;
+  created_chunks: number;
+  skipped_documents: number;
+  message: string;
+}
+
+export interface DocumentSearchResult {
+  document_id: number;
+  filename: string;
+  chunk_id: number;
+  chunk_index: number;
+  section_title?: string | null;
+  content: string;
+  score: number;
+  metadata_json: string;
+}
+
+export interface KnowledgeBaseStats {
+  course_id: number;
+  document_count: number;
+  chunk_count: number;
+  indexed_document_count: number;
+}

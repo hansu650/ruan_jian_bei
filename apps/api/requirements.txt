@@ -6,3 +6,4 @@ python-dotenv>=1.0
 httpx>=0.26
 typer>=0.9
 sqlmodel>=0.0.22
+python-multipart>=0.0.9

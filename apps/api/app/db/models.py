@@ -79,3 +79,36 @@ class ResourceItem(SQLModel, table=True):
     content_preview: str | None = None
     created_at: datetime = Field(default_factory=utc_now)
     updated_at: datetime = Field(default_factory=utc_now)
+
+
+class CourseDocument(SQLModel, table=True):
+    __tablename__ = "course_document"
+
+    id: int | None = Field(default=None, primary_key=True)
+    course_id: int = Field(foreign_key="course.id", index=True)
+    filename: str
+    original_filename: str
+    file_type: str
+    source_type: str = "sample"
+    storage_path: str | None = None
+    status: str = "uploaded"
+    chunk_count: int = 0
+    error_message: str | None = None
+    content_hash: str | None = None
+    created_at: datetime = Field(default_factory=utc_now)
+    updated_at: datetime = Field(default_factory=utc_now)
+
+
+class DocumentChunk(SQLModel, table=True):
+    __tablename__ = "document_chunk"
+
+    id: int | None = Field(default=None, primary_key=True)
+    document_id: int = Field(foreign_key="course_document.id", index=True)
+    course_id: int = Field(foreign_key="course.id", index=True)
+    chunk_index: int
+    section_title: str | None = None
+    content: str
+    char_count: int
+    content_hash: str
+    metadata_json: str = "{}"
+    created_at: datetime = Field(default_factory=utc_now)

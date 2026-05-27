@@ -10,6 +10,7 @@ from app.db.database import engine, init_db
 from app.db.seed import seed_default_data
 from app.routers import (
     courses,
+    documents,
     health,
     knowledge_points,
     meta,
@@ -33,7 +34,7 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title=f"{settings.app_display_name} API",
         description="EduForge 智学工坊后端基础服务",
-        version="0.3.0",
+        version="0.4.0",
         lifespan=lifespan,
     )
 
@@ -53,6 +54,7 @@ def create_app() -> FastAPI:
     app.include_router(meta.router)
     app.include_router(students.router)
     app.include_router(courses.router)
+    app.include_router(documents.router)
     app.include_router(knowledge_points.router)
     app.include_router(profile_drafts.router)
     app.include_router(resource_items.router)

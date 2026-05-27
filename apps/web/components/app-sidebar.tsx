@@ -3,6 +3,7 @@ import {
   Database,
   FlaskConical,
   GraduationCap,
+  LibraryBig,
   Route,
   ShieldCheck,
 } from "lucide-react";
@@ -12,7 +13,8 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
 const navItems = [
-  { label: "数据底座", state: "进行中", icon: Database, href: "/database" },
+  { label: "数据底座", state: "已完成", icon: Database, href: "/database" },
+  { label: "课程知识库", state: "进行中", icon: LibraryBig, href: "/knowledge-base" },
   { label: "课程管理", state: "可查看", icon: BookOpen, href: "/courses" },
   { label: "学生管理", state: "可查看", icon: GraduationCap, href: "/students" },
   { label: "学习路径", state: "待开始", icon: Route, href: "/dashboard" },
@@ -25,7 +27,9 @@ export function AppSidebar() {
     <aside className="rounded-lg border bg-card p-4">
       <div>
         <p className="text-sm font-semibold">EduForge 控制台</p>
-        <p className="mt-1 text-xs text-muted-foreground">第三阶段展示 SQLite 数据底座</p>
+        <p className="mt-1 text-xs text-muted-foreground">
+          第四阶段建设课程资料解析、分块和基础检索
+        </p>
       </div>
       <Separator className="my-4" />
       <div className="space-y-2">

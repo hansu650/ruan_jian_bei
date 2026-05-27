@@ -1,7 +1,12 @@
 import type {
   Course,
   CourseCreate,
+  CourseDocument,
+  DocumentChunk,
+  DocumentImportResult,
+  DocumentSearchResult,
   HealthResponse,
+  KnowledgeBaseStats,
   KnowledgePoint,
   KnowledgePointCreate,
   MetaResponse,
@@ -48,6 +53,42 @@ async function requestJson<T>(path: string, options: RequestOptions = {}): Promi
         ...(options.body ? { "Content-Type": "application/json" } : {}),
       },
       body: options.body ? JSON.stringify(options.body) : undefined,
+    });
+
+    if (!response.ok) {
+      throw new ApiRequestError(`请求失败：HTTP ${response.status}`, {
+        status: response.status,
+        url,
+      });
+    }
+
+    return (await response.json()) as T;
+  } catch (error) {
+    if (error instanceof ApiRequestError) {
+      throw error;
+    }
+
+    if (error instanceof DOMException && error.name === "AbortError") {
+      throw new ApiRequestError("请求超时，请确认后端服务是否已启动。", { url });
+    }
+
+    throw new ApiRequestError("无法连接后端服务，请检查 API 地址和 CORS 配置。", { url });
+  } finally {
+    globalThis.clearTimeout(timeout);
+  }
+}
+
+async function requestForm<T>(path: string, formData: FormData): Promise<T> {
+  const url = `${API_BASE_URL}${path}`;
+  const controller = new AbortController();
+  const timeout = globalThis.setTimeout(() => controller.abort(), 10000);
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      signal: controller.signal,
+      headers: { Accept: "application/json" },
+      body: formData,
     });
 
     if (!response.ok) {
@@ -143,4 +184,38 @@ export function getResourceItems(params?: {
 
 export function createResourceItem(payload: ResourceItemCreate): Promise<ResourceItem> {
   return requestJson<ResourceItem>("/api/resource-items", { method: "POST", body: payload });
+}
+
+export function getCourseDocuments(courseId: number): Promise<CourseDocument[]> {
+  return requestJson<CourseDocument[]>(`/api/courses/${courseId}/documents`);
+}
+
+export function importSampleDocuments(courseId: number): Promise<DocumentImportResult> {
+  return requestJson<DocumentImportResult>(`/api/courses/${courseId}/documents/import-sample`, {
+    method: "POST",
+  });
+}
+
+export function uploadCourseDocument(courseId: number, file: File): Promise<CourseDocument> {
+  const formData = new FormData();
+  formData.set("file", file);
+  return requestForm<CourseDocument>(`/api/courses/${courseId}/documents/upload`, formData);
+}
+
+export function getDocumentChunks(courseId: number, documentId: number): Promise<DocumentChunk[]> {
+  return requestJson<DocumentChunk[]>(`/api/courses/${courseId}/documents/${documentId}/chunks`);
+}
+
+export function getKnowledgeBaseStats(courseId: number): Promise<KnowledgeBaseStats> {
+  return requestJson<KnowledgeBaseStats>(`/api/courses/${courseId}/knowledge-base/stats`);
+}
+
+export function searchKnowledgeBase(
+  courseId: number,
+  query: string,
+  limit = 10,
+): Promise<DocumentSearchResult[]> {
+  return requestJson<DocumentSearchResult[]>(
+    `/api/courses/${courseId}/knowledge-base/search${queryString({ q: query, limit })}`,
+  );
 }

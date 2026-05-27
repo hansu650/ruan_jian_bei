@@ -1,10 +1,19 @@
-import { Activity, BookOpen, Database, GraduationCap, LayoutDashboard, Sparkles } from "lucide-react";
+import {
+  Activity,
+  BookOpen,
+  Database,
+  GraduationCap,
+  LayoutDashboard,
+  LibraryBig,
+  Sparkles,
+} from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
 const navItems = [
   { href: "/database", label: "数据底座", icon: Database },
+  { href: "/knowledge-base", label: "知识库", icon: LibraryBig },
   { href: "/courses", label: "课程管理", icon: BookOpen },
   { href: "/students", label: "学生管理", icon: GraduationCap },
   { href: "/health", label: "Health", icon: Activity },

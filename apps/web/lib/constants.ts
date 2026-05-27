@@ -20,13 +20,13 @@ export const CORE_LOOP = [
 export const CORE_FEATURES = [
   {
     title: "数据库模型与基础 CRUD",
-    status: "进行中",
-    description: "当前阶段建立 SQLite 数据底座、默认 seed 和最小 CRUD API。",
+    status: "已完成",
+    description: "SQLite 数据底座、默认 seed 和最小 CRUD API 已完成。",
   },
   {
-    title: "课程知识库",
-    status: "待开始",
-    description: "后续将把课程资料组织为可检索知识库。",
+    title: "课程资料与知识库基础",
+    status: "进行中",
+    description: "正在建设 Markdown/TXT 解析、分块、入库和关键词检索。",
   },
   {
     title: "LLM Provider",
@@ -47,8 +47,8 @@ export const PROJECT_STAGES: Array<{
 }> = [
   { name: "第一阶段", description: "环境准备", status: "已完成" },
   { name: "第二阶段", description: "前端骨架与联调", status: "已完成" },
-  { name: "第三阶段", description: "数据库模型与基础 CRUD", status: "进行中" },
-  { name: "第四阶段", description: "课程知识库", status: "待开始" },
+  { name: "第三阶段", description: "数据库模型与基础 CRUD", status: "已完成" },
+  { name: "第四阶段", description: "课程资料与知识库基础", status: "进行中" },
   { name: "第五阶段", description: "LLM Provider", status: "待开始" },
   { name: "第六阶段", description: "学习画像", status: "待开始" },
   { name: "第七阶段", description: "学习路径", status: "待开始" },
