@@ -31,6 +31,9 @@ def project_meta(settings: SettingsDep) -> MetaResponse:
             "后端健康检查",
             "前端基础骨架",
             "前后端联调",
+            "SQLite 数据库模型",
+            "基础 CRUD API",
+            "默认数据库系统课程 seed",
         ],
         planned_features=[
             "课程知识库",

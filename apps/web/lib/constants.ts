@@ -19,29 +19,24 @@ export const CORE_LOOP = [
 
 export const CORE_FEATURES = [
   {
+    title: "数据库模型与基础 CRUD",
+    status: "进行中",
+    description: "当前阶段建立 SQLite 数据底座、默认 seed 和最小 CRUD API。",
+  },
+  {
+    title: "课程知识库",
+    status: "待开始",
+    description: "后续将把课程资料组织为可检索知识库。",
+  },
+  {
+    title: "LLM Provider",
+    status: "待开始",
+    description: "后续再接入 Mock 与真实模型供应商配置。",
+  },
+  {
     title: "学习画像",
-    status: "待实现",
+    status: "待开始",
     description: "后续通过自然语言对话抽取 8 维学生画像。",
-  },
-  {
-    title: "个性化学习路径",
-    status: "待实现",
-    description: "后续根据画像、课程进度和薄弱点生成学习步骤。",
-  },
-  {
-    title: "资源生成",
-    status: "待实现",
-    description: "后续生成讲义、思维导图、练习题和实操案例等资源。",
-  },
-  {
-    title: "智能辅导",
-    status: "待实现",
-    description: "后续基于课程知识库提供可追溯答疑。",
-  },
-  {
-    title: "学习效果评估",
-    status: "待实现",
-    description: "后续跟踪练习反馈并更新掌握度。",
   },
 ];
 
@@ -51,8 +46,8 @@ export const PROJECT_STAGES: Array<{
   status: StageStatus;
 }> = [
   { name: "第一阶段", description: "环境准备", status: "已完成" },
-  { name: "第二阶段", description: "前端骨架与联调", status: "进行中" },
-  { name: "第三阶段", description: "数据库模型", status: "待开始" },
+  { name: "第二阶段", description: "前端骨架与联调", status: "已完成" },
+  { name: "第三阶段", description: "数据库模型与基础 CRUD", status: "进行中" },
   { name: "第四阶段", description: "课程知识库", status: "待开始" },
   { name: "第五阶段", description: "LLM Provider", status: "待开始" },
   { name: "第六阶段", description: "学习画像", status: "待开始" },

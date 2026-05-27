@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     competition_track: str = "A3"
     competition_topic: str = "基于大模型的个性化资源生成与学习多智能体系统开发"
     frontend_origin: str = "http://localhost:3000"
+    database_url: str = "sqlite:///./eduforge.db"
 
     model_config = SettingsConfigDict(
         env_file=(".env", "../../.env"),

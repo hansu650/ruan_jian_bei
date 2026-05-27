@@ -1,9 +1,11 @@
-import { Database, Milestone } from "lucide-react";
+import { ArrowRight, Database, Milestone } from "lucide-react";
+import Link from "next/link";
 
 import { AppSidebar } from "@/components/app-sidebar";
 import { FeatureCard } from "@/components/feature-card";
 import { StageCard } from "@/components/stage-card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { CORE_FEATURES, PROJECT_STAGES } from "@/lib/constants";
@@ -17,30 +19,57 @@ export default function DashboardPage() {
         <section className="rounded-lg border bg-card p-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <Badge variant="warning">Phase 2</Badge>
+              <Badge variant="warning">Phase 3</Badge>
               <h1 className="mt-3 text-3xl font-bold">Dashboard 骨架</h1>
               <p className="mt-2 text-sm text-muted-foreground">
-                当前只展示比赛演示结构，正式学习业务将在后续阶段接入。
+                当前阶段只建立数据底座和最小 CRUD，不实现 AI 业务链路。
               </p>
             </div>
-            <div className="rounded-lg border bg-background p-4">
-              <div className="flex items-center gap-2">
-                <Database className="h-5 w-5 text-primary" aria-hidden="true" />
-                <span className="text-sm font-semibold">当前课程：数据库系统</span>
-              </div>
-              <p className="mt-2 text-xs text-muted-foreground">状态：后续阶段接入</p>
-            </div>
+            <Button asChild>
+              <Link href="/database">
+                <Database className="h-4 w-4" aria-hidden="true" />
+                查看数据底座
+              </Link>
+            </Button>
           </div>
         </section>
 
-        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          <FeatureCard
-            title="当前课程"
-            status="后续阶段接入"
-            description="后续将以《数据库系统》作为第一门示例课程知识库。"
-          />
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {CORE_FEATURES.map((feature) => (
             <FeatureCard key={feature.title} {...feature} />
+          ))}
+        </section>
+
+        <section className="grid gap-4 md:grid-cols-3">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">数据库模型与基础 CRUD</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Badge variant="warning">进行中</Badge>
+              <p className="text-sm text-muted-foreground">
+                SQLite + SQLModel 已接入，用于课程、学生、知识点、画像草稿和资源占位。
+              </p>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/database">
+                  进入数据底座
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+          {["课程知识库", "LLM Provider", "学习画像"].map((title) => (
+            <Card key={title}>
+              <CardHeader>
+                <CardTitle className="text-base">{title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Badge variant="outline">待开始</Badge>
+                <p className="mt-3 text-sm text-muted-foreground">
+                  当前只预留数据结构，正式能力将在后续阶段实现。
+                </p>
+              </CardContent>
+            </Card>
           ))}
         </section>
 
@@ -53,9 +82,9 @@ export default function DashboardPage() {
               </div>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Progress value={20} />
+              <Progress value={30} />
               <p className="text-sm text-muted-foreground">
-                第一阶段已完成，第二阶段正在完成前端骨架与前后端联调。
+                第一、二阶段已完成，第三阶段正在补齐数据库模型与基础 CRUD。
               </p>
             </CardContent>
           </Card>

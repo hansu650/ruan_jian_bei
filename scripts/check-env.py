@@ -162,6 +162,13 @@ def check_file(root: Path, relative_path: str, reporter: Reporter) -> None:
         reporter.error(f"文件缺失：{relative_path}")
 
 
+def check_optional_file(root: Path, relative_path: str, reporter: Reporter, hint: str) -> None:
+    if (root / relative_path).exists():
+        reporter.ok(f"文件存在：{relative_path}")
+    else:
+        reporter.warn(f"文件缺失：{relative_path}，{hint}")
+
+
 def check_directory(
     root: Path,
     relative_path: str,
@@ -202,12 +209,23 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/api/requirements.txt",
         "apps/api/app/main.py",
         "apps/api/app/core/config.py",
+        "apps/api/app/db/database.py",
+        "apps/api/app/db/models.py",
+        "apps/api/app/db/seed.py",
         "apps/api/app/routers/health.py",
         "apps/api/app/routers/meta.py",
+        "apps/api/app/routers/students.py",
+        "apps/api/app/routers/courses.py",
+        "apps/api/app/routers/knowledge_points.py",
+        "apps/api/app/routers/profile_drafts.py",
+        "apps/api/app/routers/resource_items.py",
         "apps/web/package.json",
         "apps/web/app/page.tsx",
         "apps/web/app/health/page.tsx",
         "apps/web/app/dashboard/page.tsx",
+        "apps/web/app/database/page.tsx",
+        "apps/web/app/courses/page.tsx",
+        "apps/web/app/students/page.tsx",
         "apps/web/lib/api.ts",
     ]
     for file_path in required_files:
@@ -226,6 +244,12 @@ def check_project_files(reporter: Reporter) -> None:
         reporter,
         required=False,
         hint="请运行 cd apps/web && pnpm install",
+    )
+    check_optional_file(
+        root,
+        "apps/api/eduforge.db",
+        reporter,
+        "后端启动后会自动创建 SQLite 数据库",
     )
 
 
@@ -248,15 +272,15 @@ def print_next_steps() -> None:
     print("5. 启动前端：")
     print("   cd apps/web")
     print("   pnpm dev")
-    print("6. 如果 pnpm 未安装：")
-    print("   corepack enable")
-    print("   corepack prepare pnpm@latest --activate")
+    print("6. 一键检查第三阶段：")
+    print("   .\\scripts\\check-phase3.ps1")
+    print("   ./scripts/check-phase3.sh")
 
 
 def main() -> int:
     reporter = Reporter()
 
-    print("EduForge 智学工坊 - 第二阶段环境自检")
+    print("EduForge 智学工坊 - 第三阶段环境自检")
     print()
 
     check_python(reporter)
@@ -265,16 +289,14 @@ def main() -> int:
     check_import("fastapi", reporter)
     check_import("uvicorn", reporter)
     check_import("pytest", reporter)
+    check_import("sqlmodel", reporter)
     check_executable("node", ["node", "--version"], reporter, required=True, min_version=MIN_NODE)
     check_executable(
         "pnpm",
         ["pnpm", "--version"],
         reporter,
         required=True,
-        install_hint=(
-            "第二阶段已创建前端项目，请执行 corepack enable；"
-            "corepack prepare pnpm@latest --activate"
-        ),
+        install_hint="请执行 corepack enable；corepack prepare pnpm@latest --activate",
     )
     check_executable("git", ["git", "--version"], reporter, required=True)
     check_executable(
@@ -293,7 +315,7 @@ def main() -> int:
         return 1
 
     print()
-    print("[OK] 环境自检通过，可以继续启动前后端或运行第二阶段检查。")
+    print("[OK] 环境自检通过，可以继续启动前后端或运行第三阶段检查。")
     return 0
 
 

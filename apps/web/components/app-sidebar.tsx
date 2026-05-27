@@ -1,15 +1,23 @@
-import { BookOpen, FlaskConical, GraduationCap, Route, ShieldCheck } from "lucide-react";
+import {
+  BookOpen,
+  Database,
+  FlaskConical,
+  GraduationCap,
+  Route,
+  ShieldCheck,
+} from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
 const navItems = [
-  { label: "课程管理", state: "后续阶段", icon: BookOpen },
-  { label: "学习画像", state: "待实现", icon: GraduationCap },
-  { label: "学习路径", state: "待实现", icon: Route },
-  { label: "资源生成", state: "待实现", icon: FlaskConical },
-  { label: "防幻觉校验", state: "待实现", icon: ShieldCheck },
+  { label: "数据底座", state: "进行中", icon: Database, href: "/database" },
+  { label: "课程管理", state: "可查看", icon: BookOpen, href: "/courses" },
+  { label: "学生管理", state: "可查看", icon: GraduationCap, href: "/students" },
+  { label: "学习路径", state: "待开始", icon: Route, href: "/dashboard" },
+  { label: "资源生成", state: "待开始", icon: FlaskConical, href: "/dashboard" },
+  { label: "防幻觉校验", state: "待开始", icon: ShieldCheck, href: "/dashboard" },
 ];
 
 export function AppSidebar() {
@@ -17,25 +25,26 @@ export function AppSidebar() {
     <aside className="rounded-lg border bg-card p-4">
       <div>
         <p className="text-sm font-semibold">EduForge 控制台</p>
-        <p className="mt-1 text-xs text-muted-foreground">第二阶段只展示演示骨架</p>
+        <p className="mt-1 text-xs text-muted-foreground">第三阶段展示 SQLite 数据底座</p>
       </div>
       <Separator className="my-4" />
       <div className="space-y-2">
         {navItems.map((item) => {
           const Icon = item.icon;
           return (
-            <div
+            <Link
               key={item.label}
-              className="flex items-center justify-between gap-3 rounded-md border bg-background px-3 py-2"
+              href={item.href}
+              className="flex items-center justify-between gap-3 rounded-md border bg-background px-3 py-2 hover:border-primary/40"
             >
               <div className="flex min-w-0 items-center gap-2">
                 <Icon className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
                 <span className="truncate text-sm">{item.label}</span>
               </div>
-              <Badge variant="outline" className="shrink-0">
+              <Badge variant={item.state === "进行中" ? "warning" : "outline"} className="shrink-0">
                 {item.state}
               </Badge>
-            </div>
+            </Link>
           );
         })}
       </div>

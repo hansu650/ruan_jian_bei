@@ -1,31 +1,17 @@
 # EduForge API
 
-EduForge 智学工坊后端服务。第二阶段已整理基础工程结构，并提供前后端联调用的 health 和 meta 接口。
+EduForge 智学工坊后端服务。第三阶段接入 SQLite + SQLModel，提供数据底座与最小 CRUD API。
 
 ## 技术栈
 
 - Python 3.11
 - FastAPI
+- SQLModel
+- SQLite
 - Uvicorn
-- Pydantic
 - pytest
 - ruff
 - mypy
-
-## Conda 环境
-
-统一环境名：
-
-```bash
-cnsoftbei_a3_eduforge
-```
-
-创建并激活：
-
-```bash
-conda create -n cnsoftbei_a3_eduforge python=3.11 -y
-conda activate cnsoftbei_a3_eduforge
-```
 
 ## 安装依赖
 
@@ -37,34 +23,14 @@ pip install -r requirements-dev.txt
 pip install -e .
 ```
 
-`pip install -e .` 会以可编辑模式安装后端包。这样本地修改 `app/` 下的代码后，不需要重新安装包即可被测试和开发服务器识别，适合比赛项目快速迭代。
-
-## 启动 FastAPI
+## 启动
 
 ```bash
 cd apps/api
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-访问：
-
-- [http://localhost:8000/api/health](http://localhost:8000/api/health)
-- [http://localhost:8000/api/meta](http://localhost:8000/api/meta)
-- [http://localhost:8000/docs](http://localhost:8000/docs)
-
-## 运行测试
-
-```bash
-cd apps/api
-pytest
-```
-
-## 当前阶段接口
-
-- `GET /api/health`：后端健康检查
-- `GET /api/meta`：项目和赛题基础信息
-
-当前阶段不包含数据库模型、多智能体、RAG、学习画像、资源生成、学习路径或测验评估。
+启动时会自动创建 `apps/api/eduforge.db` 并写入默认 seed 数据。数据库文件不会提交到 Git。
 
 ## 当前结构
 
@@ -72,22 +38,47 @@ pytest
 app/
   core/
     config.py
+  db/
+    database.py
+    models.py
+    seed.py
   routers/
     health.py
     meta.py
+    students.py
+    courses.py
+    knowledge_points.py
+    profile_drafts.py
+    resource_items.py
   schemas/
-    health.py
-    meta.py
   main.py
 ```
 
-`main.py` 只负责创建 FastAPI app、配置 CORS 和注册路由，不堆业务逻辑。
+## 当前接口
 
-## 后续会加入
+- `GET /api/health`
+- `GET /api/meta`
+- `GET /api/students`
+- `POST /api/students`
+- `GET /api/students/{student_id}`
+- `GET /api/courses`
+- `POST /api/courses`
+- `GET /api/courses/{course_id}`
+- `GET /api/courses/{course_id}/knowledge-points`
+- `POST /api/courses/{course_id}/knowledge-points`
+- `GET /api/profile-drafts`
+- `POST /api/profile-drafts`
+- `GET /api/resource-items`
+- `POST /api/resource-items`
 
-- 数据库模型
-- 课程知识库
-- LLM Provider
-- 多智能体
-- RAG
-- 测验评估
+## 检查
+
+```bash
+pytest
+ruff check .
+mypy app tests
+```
+
+## 当前阶段不做
+
+第三阶段不实现 RAG、文件上传、LLM Provider、MockLLM、Agent、学习画像生成、学习路径生成、资源生成、智能辅导、测验批改、登录、权限、Docker 或 Alembic。

@@ -1,6 +1,6 @@
 # EduForge Web
 
-EduForge 智学工坊前端应用，第二阶段用于完成 Next.js 骨架、比赛演示首页、Dashboard 骨架页和前后端 health check 联调。
+EduForge 智学工坊前端应用。第三阶段新增数据底座页面，用于展示 SQLite + SQLModel seed 数据和最小 CRUD 联调效果。
 
 ## 技术栈
 
@@ -10,18 +10,6 @@ EduForge 智学工坊前端应用，第二阶段用于完成 Next.js 骨架、�
 - shadcn/ui 基础组件
 - pnpm
 
-## 环境要求
-
-- Node.js >= 20.9
-- pnpm
-
-如果 pnpm 未安装：
-
-```bash
-corepack enable
-corepack prepare pnpm@latest --activate
-```
-
 ## 安装依赖
 
 ```bash
@@ -29,10 +17,9 @@ cd apps/web
 pnpm install
 ```
 
-## 启动开发服务
+## 启动
 
 ```bash
-cd apps/web
 pnpm dev
 ```
 
@@ -40,7 +27,10 @@ pnpm dev
 
 - 首页：[http://localhost:3000](http://localhost:3000)
 - Dashboard：[http://localhost:3000/dashboard](http://localhost:3000/dashboard)
-- Health 页面：[http://localhost:3000/health](http://localhost:3000/health)
+- Health：[http://localhost:3000/health](http://localhost:3000/health)
+- 数据底座：[http://localhost:3000/database](http://localhost:3000/database)
+- 课程管理：[http://localhost:3000/courses](http://localhost:3000/courses)
+- 学生管理：[http://localhost:3000/students](http://localhost:3000/students)
 
 ## 前后端联调
 
@@ -50,15 +40,9 @@ pnpm dev
 http://localhost:8000
 ```
 
-本目录提供 `.env.example`：
-
-```bash
-NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
-```
-
 后端未启动时页面会显示错误提示，不会白屏。
 
-## 检查命令
+## 检查
 
 ```bash
 pnpm lint
@@ -68,4 +52,4 @@ pnpm build
 
 ## 当前阶段范围
 
-第二阶段只实现前端骨架和前后端联调，不实现登录、数据库、学习画像、多智能体、RAG、资源生成、测验评估或真实大模型 API。
+第三阶段只展示数据底座和基础 CRUD，不实现登录、RAG、LLM、Agent、学习画像生成、资源生成、测验评估或图表分析。
