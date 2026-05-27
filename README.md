@@ -28,6 +28,14 @@ EduForge 智学工坊是面向高校课程学习场景的 AI 个性化学习资�
 - pnpm workspace 基础配置
 - 第二阶段检查脚本与文档更新
 
+Phase 2.1 收尾修复：
+
+- `scripts/check-env.py` 已适配第二阶段前端项目，会检查 pnpm、前端 package、关键页面、`lib/api.ts` 和后端 router/config 文件。
+- `.env.example` 与后端 `Settings` 保持一致，包含 `FRONTEND_ORIGIN=http://localhost:3000`。
+- 后端 `Settings` 同时兼容 `apps/api/.env` 和项目根目录 `.env`。
+- CORS methods 已为第三阶段基础 CRUD 预留 `GET/POST/PUT/PATCH/DELETE/OPTIONS`。
+- Phase 2.1 仍不包含数据库、CRUD、登录、学习画像、多智能体、RAG、LLM Provider 或测验功能。
+
 本阶段不包含数据库、登录、学习画像、多智能体、RAG、资源生成、测验评估或真实大模型 API。
 
 ## 推荐开发环境
@@ -228,6 +236,7 @@ macOS/Linux：
 - 前端首页展示 EduForge、A3 赛题信息、核心闭环和后端状态
 - `/dashboard` 展示比赛演示风格的功能骨架和阶段进度
 - `/health` 展示前端状态、后端 health/meta 返回结果和失败提示
+- `python scripts/check-env.py` 使用第二阶段规则检查前后端环境
 - 后端 `pytest`、`ruff check .`、`mypy app tests` 通过
 - 前端 `pnpm lint`、`pnpm typecheck` 通过
 - 项目中没有提前实现正式业务功能

@@ -130,6 +130,8 @@ def check_executable(
     code, output = run_command(command)
     if code != 0:
         message = f"{name} 命令可找到，但执行失败"
+        if install_hint:
+            message = f"{message}，{install_hint}"
         if required:
             reporter.error(message)
         else:
@@ -153,21 +155,19 @@ def check_executable(
         )
 
 
-def check_file(root: Path, relative_path: str, reporter: Reporter, required: bool = True) -> None:
-    path = root / relative_path
-    if path.exists():
+def check_file(root: Path, relative_path: str, reporter: Reporter) -> None:
+    if (root / relative_path).exists():
         reporter.ok(f"文件存在：{relative_path}")
-    elif required:
-        reporter.error(f"文件缺失：{relative_path}")
     else:
-        reporter.warn(f"文件缺失：{relative_path}")
+        reporter.error(f"文件缺失：{relative_path}")
 
 
 def check_directory(
     root: Path,
     relative_path: str,
     reporter: Reporter,
-    required: bool = True,
+    *,
+    required: bool,
     hint: str | None = None,
 ) -> None:
     path = root / relative_path
@@ -195,16 +195,20 @@ def check_project_files(reporter: Reporter) -> None:
         reporter.ok(f"当前目录像项目根目录：{root}")
 
     required_files = [
+        ".env.example",
+        "package.json",
+        "pnpm-workspace.yaml",
         "apps/api/pyproject.toml",
         "apps/api/requirements.txt",
         "apps/api/app/main.py",
+        "apps/api/app/core/config.py",
+        "apps/api/app/routers/health.py",
+        "apps/api/app/routers/meta.py",
         "apps/web/package.json",
         "apps/web/app/page.tsx",
-        "apps/web/app/dashboard/page.tsx",
         "apps/web/app/health/page.tsx",
-        "package.json",
-        "pnpm-workspace.yaml",
-        ".env.example",
+        "apps/web/app/dashboard/page.tsx",
+        "apps/web/lib/api.ts",
     ]
     for file_path in required_files:
         check_file(root, file_path, reporter)
@@ -242,6 +246,7 @@ def print_next_steps() -> None:
     print("4. 启动后端：")
     print("   uvicorn app.main:app --reload --host 0.0.0.0 --port 8000")
     print("5. 启动前端：")
+    print("   cd apps/web")
     print("   pnpm dev")
     print("6. 如果 pnpm 未安装：")
     print("   corepack enable")
@@ -266,7 +271,10 @@ def main() -> int:
         ["pnpm", "--version"],
         reporter,
         required=True,
-        install_hint="第二阶段已创建前端项目，请先安装 pnpm",
+        install_hint=(
+            "第二阶段已创建前端项目，请执行 corepack enable；"
+            "corepack prepare pnpm@latest --activate"
+        ),
     )
     check_executable("git", ["git", "--version"], reporter, required=True)
     check_executable(
