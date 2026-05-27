@@ -5,31 +5,30 @@
 ## 赛题信息
 
 - 比赛：第十五届中国软件杯
-- 赛题：A3 赛题
-- 赛题名称：基于大模型的个性化资源生成与学习多智能体系统开发
+- 赛题：A3 - 基于大模型的个性化资源生成与学习多智能体系统开发
 - 出题企业：科大讯飞股份有限公司
 
 ## 项目定位
 
-EduForge 智学工坊是面向高校课程学习场景的 AI 个性化学习资源工厂。学生通过自然语言对话生成动态学习画像，系统后续将基于课程知识库和多智能体协作，自动规划个性化学习路径，生成讲义、思维导图、练习题、实操案例、拓展材料和视频讲解脚本，并通过测验反馈动态更新画像和资源推荐策略。
-
-## A3 题面要求摘要
-
-- 对话式学习画像：学生通过自然语言描述专业、目标、基础、偏好、薄弱点等信息，系统抽取特征并构建动态画像。
-- 多智能体协同资源生成：通过不同角色智能体协作完成学习资源生成。
-- 至少 5 类个性化资源：例如讲义、思维导图、练习题、拓展阅读、实操案例、视频脚本等。
-- 个性化学习路径规划和资源推送：根据画像、课程内容、学习进度和薄弱点生成动态路径。
-- 智能辅导：支持学生提问，基于课程知识库提供即时答疑。
-- 学习效果评估：跟踪练习结果和反馈数据，评估知识点掌握度并调整计划。
-- 防幻觉与内容安全：回答应有知识库依据，后续需要引用来源和校验机制。
-- 生成进度或流式输出：资源生成不能长时间白屏，需要进度提示或流式呈现。
-- 初赛交付：文档、PPT、7 分钟内演示视频和可完整运行的源码与配置。
+EduForge 智学工坊是面向高校课程学习场景的 AI 个性化学习资源工厂。学生后续将通过自然语言对话生成动态学习画像，系统基于课程知识库和多智能体协作，规划个性化学习路径，生成讲义、思维导图、练习题、实操案例、拓展材料和视频讲解脚本，并通过测验反馈动态更新画像和推荐策略。
 
 ## 当前阶段
 
-第一阶段仅完成环境准备和项目规范初始化，不包含正式业务功能。当前后端只提供一个极简 FastAPI health check 接口，用于验证 Python 环境、依赖安装和服务启动是否正常。
+当前处于第二阶段：前端骨架与前后端联调。
 
-本阶段未实现学习画像、多智能体、RAG、资源生成、学习路径、测验批改、数据库业务表或真实大模型 API。
+已完成：
+
+- 后端 FastAPI 基础结构整理
+- `/api/health`
+- `/api/meta`
+- CORS 支持 `localhost:3000`
+- Next.js + TypeScript + Tailwind CSS + shadcn/ui 前端骨架
+- 首页、Dashboard、Health 页面
+- 前端直连后端 health/meta 接口
+- pnpm workspace 基础配置
+- 第二阶段检查脚本与文档更新
+
+本阶段不包含数据库、登录、学习画像、多智能体、RAG、资源生成、测验评估或真实大模型 API。
 
 ## 推荐开发环境
 
@@ -40,33 +39,29 @@ EduForge 智学工坊是面向高校课程学习场景的 AI 个性化学习资�
 - Git
 - Docker 可选
 
-Docker 在第一阶段不强制配置。建议等后端 API、前端骨架、数据库或知识库目录、统一启动方式稳定后，再补充 `Dockerfile` 和 `docker-compose.yml`，避免早期频繁返工。
+Docker 当前仍不强制配置。建议等后端、前端、数据库或知识库目录、统一启动方式稳定后，再补充 `Dockerfile` 和 `docker-compose.yml`。
 
 ## 目录结构
 
 ```text
-eduforge/
-  apps/
-    api/
-      app/
-      tests/
-      requirements.txt
-      requirements-dev.txt
-      pyproject.toml
-      README.md
-    web/
-      README.md
-  scripts/
-  docs/
-  data/
-  .env.example
-  .gitignore
-  README.md
+apps/
+  api/
+    app/
+      core/
+      routers/
+      schemas/
+      main.py
+    tests/
+  web/
+    app/
+    components/
+    lib/
+scripts/
+docs/
+data/
 ```
 
-## Windows 环境准备
-
-在项目根目录执行：
+## 后端环境准备
 
 ```powershell
 conda create -n cnsoftbei_a3_eduforge python=3.11 -y
@@ -79,38 +74,7 @@ pip install -r requirements-dev.txt
 pip install -e .
 ```
 
-回到项目根目录：
-
-```powershell
-cd ../..
-python scripts/check-env.py
-```
-
-## macOS/Linux 环境准备
-
-在项目根目录执行：
-
-```bash
-conda create -n cnsoftbei_a3_eduforge python=3.11 -y
-conda activate cnsoftbei_a3_eduforge
-
-cd apps/api
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-pip install -r requirements-dev.txt
-pip install -e .
-```
-
-回到项目根目录：
-
-```bash
-cd ../..
-python scripts/check-env.py
-```
-
-## 一键脚本方式
-
-Windows：
+也可以使用脚本：
 
 ```powershell
 .\scripts\setup-conda.ps1
@@ -123,31 +87,40 @@ chmod +x scripts/setup-conda.sh scripts/run-api-dev.sh scripts/run-web-dev.sh
 ./scripts/setup-conda.sh
 ```
 
-脚本完成后按提示执行：
+## 前端环境准备
+
+如果 pnpm 未安装：
 
 ```bash
-conda activate cnsoftbei_a3_eduforge
-python scripts/check-env.py
+corepack enable
+corepack prepare pnpm@latest --activate
+```
+
+安装前端依赖：
+
+```bash
+cd apps/web
+pnpm install
 ```
 
 ## 环境自检
 
+在项目根目录执行：
+
 ```bash
 python scripts/check-env.py
 ```
 
-自检脚本会检查 Python、Conda、pip、FastAPI、uvicorn、pytest、Node.js、pnpm、Git、Docker 和关键项目文件。Docker 与 pnpm 在第一阶段不是阻塞项；Node.js 需要满足后续前端开发要求。
+第二阶段自检会检查 Python、Conda、后端依赖、Node.js、pnpm、Git、Docker、前端 package、pnpm 锁文件和关键页面文件。Docker 缺失只会显示 WARN。
 
-## 后端启动
-
-方式一：在后端目录直接启动。
+## 启动后端
 
 ```bash
 cd apps/api
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-方式二：使用启动脚本。
+或使用脚本：
 
 Windows：
 
@@ -161,42 +134,106 @@ macOS/Linux：
 ./scripts/run-api-dev.sh
 ```
 
-## 打开接口
+## 启动前端
 
-- Health check：[http://localhost:8000/api/health](http://localhost:8000/api/health)
-- Swagger 文档：[http://localhost:8000/docs](http://localhost:8000/docs)
-
-预期 health check 返回：
-
-```json
-{
-  "status": "ok",
-  "service": "eduforge-api",
-  "project": "EduForge 智学工坊",
-  "competition": "中国软件杯 A3"
-}
+```bash
+cd apps/web
+pnpm dev
 ```
 
-## 运行测试
+或使用脚本：
+
+Windows：
+
+```powershell
+.\scripts\run-web-dev.ps1
+```
+
+macOS/Linux：
+
+```bash
+./scripts/run-web-dev.sh
+```
+
+## 前后端同时启动
+
+终端 1：
+
+```powershell
+conda activate cnsoftbei_a3_eduforge
+.\scripts\run-api-dev.ps1
+```
+
+终端 2：
+
+```powershell
+.\scripts\run-web-dev.ps1
+```
+
+macOS/Linux：
+
+```bash
+conda activate cnsoftbei_a3_eduforge
+./scripts/run-api-dev.sh
+./scripts/run-web-dev.sh
+```
+
+## 访问地址
+
+- 前端首页：[http://localhost:3000](http://localhost:3000)
+- 前端 Health 页面：[http://localhost:3000/health](http://localhost:3000/health)
+- 前端 Dashboard：[http://localhost:3000/dashboard](http://localhost:3000/dashboard)
+- 后端 Swagger：[http://localhost:8000/docs](http://localhost:8000/docs)
+- 后端 Health：[http://localhost:8000/api/health](http://localhost:8000/api/health)
+- 后端 Meta：[http://localhost:8000/api/meta](http://localhost:8000/api/meta)
+
+## 检查命令
+
+后端：
 
 ```bash
 cd apps/api
 pytest
+ruff check .
+mypy app tests
 ```
 
-## 环境变量
-
-复制 `.env.example` 为本地 `.env` 后按需填写：
+前端：
 
 ```bash
-cp .env.example .env
+cd apps/web
+pnpm lint
+pnpm typecheck
+pnpm build
 ```
 
-不要提交 `.env`，不要在仓库中保存真实 API Key。
+一键检查：
+
+Windows：
+
+```powershell
+.\scripts\check-phase2.ps1
+```
+
+macOS/Linux：
+
+```bash
+./scripts/check-phase2.sh
+```
+
+## 第二阶段验收标准
+
+- `/api/health` 返回 `status=ok` 和 `stage=phase-2`
+- `/api/meta` 返回 A3 赛题基础信息
+- 前端首页展示 EduForge、A3 赛题信息、核心闭环和后端状态
+- `/dashboard` 展示比赛演示风格的功能骨架和阶段进度
+- `/health` 展示前端状态、后端 health/meta 返回结果和失败提示
+- 后端 `pytest`、`ruff check .`、`mypy app tests` 通过
+- 前端 `pnpm lint`、`pnpm typecheck` 通过
+- 项目中没有提前实现正式业务功能
 
 ## 后续阶段计划
 
-- 第二阶段：前后端项目骨架
 - 第三阶段：数据库模型与基础 CRUD
 - 第四阶段：课程资料与知识库
 - 第五阶段：LLM Provider 与 Mock 模型
@@ -207,19 +244,3 @@ cp .env.example .env
 - 第十阶段：测验批改与学习效果评估
 - 第十一阶段：前端演示优化
 - 第十二阶段：文档、PPT、演示视频脚本
-
-## 当前开源依赖记录
-
-第一阶段仅引入轻量基础依赖：
-
-- FastAPI：后端 Web 框架
-- Uvicorn：ASGI 开发服务器
-- Pydantic / pydantic-settings：数据校验与配置基础
-- python-dotenv：本地环境变量加载
-- httpx：后续服务调用与测试基础
-- Typer：后续脚本命令行能力预留
-- pytest / pytest-cov：测试
-- ruff：代码风格检查
-- mypy：类型检查
-
-后续若使用其他开源项目或 AI 工具，需要在文档中继续补充名称、来源和协议。

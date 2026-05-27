@@ -30,9 +30,15 @@ class Reporter:
 
 
 def run_command(command: list[str]) -> tuple[int, str]:
+    command_to_run = command
+    if os.name == "nt" and command:
+        resolved = shutil.which(command[0])
+        if resolved and Path(resolved).suffix.lower() in {".cmd", ".bat"}:
+            command_to_run = ["cmd", "/c", *command]
+
     try:
         completed = subprocess.run(
-            command,
+            command_to_run,
             check=False,
             capture_output=True,
             text=True,
@@ -147,45 +153,97 @@ def check_executable(
         )
 
 
+def check_file(root: Path, relative_path: str, reporter: Reporter, required: bool = True) -> None:
+    path = root / relative_path
+    if path.exists():
+        reporter.ok(f"文件存在：{relative_path}")
+    elif required:
+        reporter.error(f"文件缺失：{relative_path}")
+    else:
+        reporter.warn(f"文件缺失：{relative_path}")
+
+
+def check_directory(
+    root: Path,
+    relative_path: str,
+    reporter: Reporter,
+    required: bool = True,
+    hint: str | None = None,
+) -> None:
+    path = root / relative_path
+    if path.exists() and path.is_dir():
+        reporter.ok(f"目录存在：{relative_path}")
+        return
+
+    message = f"目录缺失：{relative_path}"
+    if hint:
+        message = f"{message}，{hint}"
+    if required:
+        reporter.error(message)
+    else:
+        reporter.warn(message)
+
+
 def check_project_files(reporter: Reporter) -> None:
     root = Path.cwd()
     root_markers = ["apps", "scripts", "README.md"]
     missing_markers = [marker for marker in root_markers if not (root / marker).exists()]
 
     if missing_markers:
-        reporter.error(
-            "当前目录不像项目根目录，缺少：" + "、".join(missing_markers)
-        )
+        reporter.error("当前目录不像项目根目录，缺少：" + "、".join(missing_markers))
     else:
         reporter.ok(f"当前目录像项目根目录：{root}")
 
     required_files = [
-        Path("apps/api/pyproject.toml"),
-        Path("apps/api/requirements.txt"),
-        Path(".env.example"),
+        "apps/api/pyproject.toml",
+        "apps/api/requirements.txt",
+        "apps/api/app/main.py",
+        "apps/web/package.json",
+        "apps/web/app/page.tsx",
+        "apps/web/app/dashboard/page.tsx",
+        "apps/web/app/health/page.tsx",
+        "package.json",
+        "pnpm-workspace.yaml",
+        ".env.example",
     ]
     for file_path in required_files:
-        if (root / file_path).exists():
-            reporter.ok(f"文件存在：{file_path.as_posix()}")
-        else:
-            reporter.error(f"文件缺失：{file_path.as_posix()}")
+        check_file(root, file_path, reporter)
+
+    if (root / "apps/web/pnpm-lock.yaml").exists():
+        reporter.ok("文件存在：apps/web/pnpm-lock.yaml")
+    elif (root / "pnpm-lock.yaml").exists():
+        reporter.ok("文件存在：pnpm-lock.yaml（pnpm workspace 根锁文件）")
+    else:
+        reporter.error("文件缺失：pnpm-lock.yaml")
+
+    check_directory(
+        root,
+        "apps/web/node_modules",
+        reporter,
+        required=False,
+        hint="请运行 cd apps/web && pnpm install",
+    )
 
 
 def print_next_steps() -> None:
     print()
     print("下一步建议：")
-    print("1. 创建环境：")
+    print("1. 创建并激活后端环境：")
     print(f"   conda create -n {TARGET_CONDA_ENV} python=3.11 -y")
-    print("2. 激活环境：")
     print(f"   conda activate {TARGET_CONDA_ENV}")
-    print("3. 安装依赖：")
+    print("2. 安装后端依赖：")
     print("   cd apps/api")
     print("   pip install -r requirements.txt")
     print("   pip install -r requirements-dev.txt")
     print("   pip install -e .")
+    print("3. 安装前端依赖：")
+    print("   cd apps/web")
+    print("   pnpm install")
     print("4. 启动后端：")
     print("   uvicorn app.main:app --reload --host 0.0.0.0 --port 8000")
-    print("5. 安装 pnpm：")
+    print("5. 启动前端：")
+    print("   pnpm dev")
+    print("6. 如果 pnpm 未安装：")
     print("   corepack enable")
     print("   corepack prepare pnpm@latest --activate")
 
@@ -193,7 +251,7 @@ def print_next_steps() -> None:
 def main() -> int:
     reporter = Reporter()
 
-    print("EduForge 智学工坊 - 第一阶段环境自检")
+    print("EduForge 智学工坊 - 第二阶段环境自检")
     print()
 
     check_python(reporter)
@@ -207,8 +265,8 @@ def main() -> int:
         "pnpm",
         ["pnpm", "--version"],
         reporter,
-        required=False,
-        install_hint="第一阶段尚未创建前端项目，可稍后安装",
+        required=True,
+        install_hint="第二阶段已创建前端项目，请先安装 pnpm",
     )
     check_executable("git", ["git", "--version"], reporter, required=True)
     check_executable(
@@ -216,7 +274,7 @@ def main() -> int:
         ["docker", "--version"],
         reporter,
         required=False,
-        install_hint="Docker 为可选工具",
+        install_hint="Docker 为可选工具，后续阶段再配置",
     )
     check_project_files(reporter)
     print_next_steps()
@@ -227,7 +285,7 @@ def main() -> int:
         return 1
 
     print()
-    print("[OK] 环境自检通过，可以继续启动后端或运行测试。")
+    print("[OK] 环境自检通过，可以继续启动前后端或运行第二阶段检查。")
     return 0
 
 

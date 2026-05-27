@@ -9,8 +9,18 @@ fi
 cd apps/web
 
 if [ ! -f "package.json" ]; then
-  echo "第一阶段尚未创建 Next.js 项目，请在第二阶段创建前端骨架。"
-  exit 0
+  echo "[ERROR] apps/web/package.json was not found." >&2
+  exit 1
+fi
+
+if ! command -v pnpm >/dev/null 2>&1; then
+  echo "[ERROR] pnpm was not found. Run: corepack enable && corepack prepare pnpm@latest --activate" >&2
+  exit 1
+fi
+
+if [ ! -d "node_modules" ]; then
+  echo "[ERROR] Frontend dependencies are not installed. Run: cd apps/web && pnpm install" >&2
+  exit 1
 fi
 
 pnpm dev

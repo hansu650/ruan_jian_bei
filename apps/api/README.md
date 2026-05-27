@@ -1,6 +1,6 @@
 # EduForge API
 
-EduForge 智学工坊后端服务，第一阶段仅用于验证 Python 后端环境和 FastAPI 启动链路。
+EduForge 智学工坊后端服务。第二阶段已整理基础工程结构，并提供前后端联调用的 health 和 meta 接口。
 
 ## 技术栈
 
@@ -49,6 +49,7 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 访问：
 
 - [http://localhost:8000/api/health](http://localhost:8000/api/health)
+- [http://localhost:8000/api/meta](http://localhost:8000/api/meta)
 - [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ## 运行测试
@@ -58,13 +59,29 @@ cd apps/api
 pytest
 ```
 
-## 当前阶段范围
+## 当前阶段接口
 
-第一阶段只有 health check：
+- `GET /api/health`：后端健康检查
+- `GET /api/meta`：项目和赛题基础信息
 
-- `GET /api/health`
+当前阶段不包含数据库模型、多智能体、RAG、学习画像、资源生成、学习路径或测验评估。
 
-当前阶段不包含正式业务路由、数据库模型、多智能体、RAG、学习画像、资源生成、学习路径或测验评估。
+## 当前结构
+
+```text
+app/
+  core/
+    config.py
+  routers/
+    health.py
+    meta.py
+  schemas/
+    health.py
+    meta.py
+  main.py
+```
+
+`main.py` 只负责创建 FastAPI app、配置 CORS 和注册路由，不堆业务逻辑。
 
 ## 后续会加入
 
