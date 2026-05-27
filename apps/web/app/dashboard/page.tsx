@@ -1,4 +1,4 @@
-import { ArrowRight, MessagesSquare, Milestone } from "lucide-react";
+import { ArrowRight, Milestone, UserRound } from "lucide-react";
 import Link from "next/link";
 
 import { AppSidebar } from "@/components/app-sidebar";
@@ -19,16 +19,16 @@ export default function DashboardPage() {
         <section className="rounded-lg border bg-card p-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <Badge variant="warning">Phase 5</Badge>
+              <Badge variant="warning">Phase 6</Badge>
               <h1 className="mt-3 text-3xl font-bold">Dashboard 骨架</h1>
               <p className="mt-2 text-sm text-muted-foreground">
-                当前正在建设 MockLLM 与讯飞接口预留能力，为后续 ProfileAgent 和多智能体协作做准备。
+                当前正在建设 A3 核心能力之一：对话式学习画像，学生可通过自然语言生成 8 维动态画像。
               </p>
             </div>
             <Button asChild>
-              <Link href="/llm-lab">
-                <MessagesSquare className="h-4 w-4" aria-hidden="true" />
-                进入模型实验室
+              <Link href="/profile">
+                <UserRound className="h-4 w-4" aria-hidden="true" />
+                进入学习画像
               </Link>
             </Button>
           </div>
@@ -40,59 +40,42 @@ export default function DashboardPage() {
           ))}
         </section>
 
-        <section className="grid gap-4 md:grid-cols-3">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base">数据库模型与基础 CRUD</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Badge variant="success">已完成</Badge>
-              <p className="text-sm text-muted-foreground">
-                SQLite + SQLModel 已接入，用于课程、学生、知识点、画像草稿和资源占位。
-              </p>
-              <Button asChild variant="outline" size="sm">
-                <Link href="/database">
-                  进入数据底座
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base">课程知识库</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Badge variant="success">已完成</Badge>
-              <p className="text-sm text-muted-foreground">
-                已完成原创课程资料导入、Markdown/TXT 解析、文本分块和关键词检索。
-              </p>
-              <Button asChild variant="outline" size="sm">
-                <Link href="/knowledge-base">
-                  查看知识库
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
+        <section className="grid gap-4 md:grid-cols-4">
           <Card>
             <CardHeader>
               <CardTitle className="text-base">模型实验室</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Badge variant="warning">进行中</Badge>
+              <Badge variant="success">已完成</Badge>
               <p className="text-sm text-muted-foreground">
-                当前只测试 Mock 模型与 SparkProvider 预留，不调用真实外部 API。
+                MockLLM、Provider 抽象与调用日志已完成，仍不调用真实外部 API。
               </p>
               <Button asChild variant="outline" size="sm">
                 <Link href="/llm-lab">
-                  测试 MockLLM
+                  查看模型实验室
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </Button>
             </CardContent>
           </Card>
-          {["学习画像"].map((title) => (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">学习画像</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Badge variant="warning">进行中</Badge>
+              <p className="text-sm text-muted-foreground">
+                ProfileAgent 已接入 MockLLM，可从自然语言对话中抽取 8 维画像并持续更新。
+              </p>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/profile">
+                  生成学习画像
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+          {["学习路径", "资源生成"].map((title) => (
             <Card key={title}>
               <CardHeader>
                 <CardTitle className="text-base">{title}</CardTitle>
@@ -100,7 +83,7 @@ export default function DashboardPage() {
               <CardContent>
                 <Badge variant="outline">待开始</Badge>
                 <p className="mt-3 text-sm text-muted-foreground">
-                  当前只预留数据结构，正式能力将在后续阶段实现。
+                  后续阶段再实现，不在当前阶段提前展开。
                 </p>
               </CardContent>
             </Card>
@@ -116,9 +99,9 @@ export default function DashboardPage() {
               </div>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Progress value={50} />
+              <Progress value={60} />
               <p className="text-sm text-muted-foreground">
-                第一至四阶段已完成，第五阶段正在补齐 MockLLM、Provider 抽象和调用日志。
+                前五阶段已完成，第六阶段正在补齐对话式学习画像，为后续 PlannerAgent 和资源生成打基础。
               </p>
             </CardContent>
           </Card>

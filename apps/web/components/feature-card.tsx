@@ -11,6 +11,7 @@ interface FeatureCardProps {
 
 export function FeatureCard({ title, status, description }: FeatureCardProps) {
   const isReady = status === "已完成";
+  const isActive = status === "进行中";
   const Icon = isReady ? CheckCircle2 : Clock3;
 
   return (
@@ -21,7 +22,7 @@ export function FeatureCard({ title, status, description }: FeatureCardProps) {
             <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
             <CardTitle className="text-base">{title}</CardTitle>
           </div>
-          <Badge variant={isReady ? "success" : "outline"}>{status}</Badge>
+          <Badge variant={isReady ? "success" : isActive ? "warning" : "outline"}>{status}</Badge>
         </div>
       </CardHeader>
       <CardContent>

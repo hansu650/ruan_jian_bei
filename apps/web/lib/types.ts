@@ -251,3 +251,73 @@ export interface LLMCallLog {
   latency_ms?: number | null;
   created_at: string;
 }
+
+export interface LearnerProfile {
+  id: number;
+  student_id: number;
+  course_id: number;
+  major: string;
+  learning_goal: string;
+  knowledge_base: string;
+  learning_preference_json: string;
+  cognitive_style: string;
+  weak_points_json: string;
+  time_constraint: string;
+  mastery_json: string;
+  profile_summary: string;
+  version: number;
+  source: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ProfileChatMessage {
+  id: number;
+  student_id: number;
+  course_id: number;
+  profile_id?: number | null;
+  role: "user" | "assistant" | "system" | string;
+  content: string;
+  created_at: string;
+}
+
+export interface ProfileChatRequest {
+  student_id: number;
+  course_id: number;
+  message: string;
+}
+
+export interface ProfileChatResponse {
+  profile: LearnerProfile;
+  assistant_message: string;
+  extracted_updates: Record<string, unknown>;
+  is_created: boolean;
+  agent_run_id?: number | null;
+  llm_log_id?: number | null;
+}
+
+export interface ProfileSummaryResponse {
+  profile?: LearnerProfile | null;
+  messages: ProfileChatMessage[];
+}
+
+export interface ProfileDimensionCheck {
+  required_dimensions: string[];
+  completed_dimensions: string[];
+  missing_dimensions: string[];
+  completion_rate: number;
+}
+
+export interface AgentRun {
+  id: number;
+  agent_name: string;
+  student_id?: number | null;
+  course_id?: number | null;
+  input_preview: string;
+  output_preview?: string | null;
+  status: string;
+  error_message?: string | null;
+  latency_ms?: number | null;
+  llm_log_id?: number | null;
+  created_at: string;
+}

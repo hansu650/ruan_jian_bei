@@ -11,4 +11,4 @@ def test_health_check() -> None:
     data = response.json()
     assert data["status"] == "ok"
     assert data["service"] == "eduforge-api"
-    assert data["stage"] == "phase-5"
+    assert data["stage"] == "phase-6"

@@ -11,10 +11,8 @@ interface StageCardProps {
 }
 
 export function StageCard({ name, description, status }: StageCardProps) {
-  const Icon =
-    status === "已完成" ? CheckCircle2 : status === "进行中" ? Loader2 : CircleDashed;
-  const badgeVariant =
-    status === "已完成" ? "success" : status === "进行中" ? "warning" : "outline";
+  const Icon = status === "已完成" ? CheckCircle2 : status === "进行中" ? Loader2 : CircleDashed;
+  const badgeVariant = status === "已完成" ? "success" : status === "进行中" ? "warning" : "outline";
 
   return (
     <Card>

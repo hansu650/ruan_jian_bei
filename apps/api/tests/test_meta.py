@@ -13,5 +13,7 @@ def test_project_meta() -> None:
     assert "基础 CRUD API" in data["implemented_features"]
     assert "基础关键词检索" in data["implemented_features"]
     assert "MockLLMProvider" in data["implemented_features"]
+    assert "ProfileAgent" in data["implemented_features"]
+    assert "8 维学习画像" in data["implemented_features"]
     assert "多智能体编排" in data["planned_features"]
     assert "真实讯飞星火接入" in data["planned_features"]

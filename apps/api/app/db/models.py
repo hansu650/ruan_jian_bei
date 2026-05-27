@@ -127,3 +127,56 @@ class LLMCallLog(SQLModel, table=True):
     error_message: str | None = None
     latency_ms: int | None = None
     created_at: datetime = Field(default_factory=utc_now)
+
+
+class LearnerProfile(SQLModel, table=True):
+    __tablename__ = "learner_profile"
+
+    id: int | None = Field(default=None, primary_key=True)
+    student_id: int = Field(foreign_key="student.id", index=True)
+    course_id: int = Field(foreign_key="course.id", index=True)
+    major: str = ""
+    learning_goal: str = ""
+    knowledge_base: str = ""
+    learning_preference_json: str = "[]"
+    cognitive_style: str = ""
+    weak_points_json: str = "[]"
+    time_constraint: str = ""
+    mastery_json: str = "{}"
+    profile_summary: str = ""
+    version: int = 1
+    source: str = "profile_agent"
+    created_at: datetime = Field(default_factory=utc_now)
+    updated_at: datetime = Field(default_factory=utc_now)
+
+
+class ProfileChatMessage(SQLModel, table=True):
+    __tablename__ = "profile_chat_message"
+
+    id: int | None = Field(default=None, primary_key=True)
+    student_id: int = Field(foreign_key="student.id", index=True)
+    course_id: int = Field(foreign_key="course.id", index=True)
+    profile_id: int | None = Field(
+        default=None,
+        foreign_key="learner_profile.id",
+        index=True,
+    )
+    role: str
+    content: str
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class AgentRun(SQLModel, table=True):
+    __tablename__ = "agent_run"
+
+    id: int | None = Field(default=None, primary_key=True)
+    agent_name: str
+    student_id: int | None = Field(default=None, foreign_key="student.id", index=True)
+    course_id: int | None = Field(default=None, foreign_key="course.id", index=True)
+    input_preview: str
+    output_preview: str | None = None
+    status: str = "success"
+    error_message: str | None = None
+    latency_ms: int | None = None
+    llm_log_id: int | None = Field(default=None, foreign_key="llm_call_log.id", index=True)
+    created_at: datetime = Field(default_factory=utc_now)

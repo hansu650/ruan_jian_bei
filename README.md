@@ -1,71 +1,36 @@
 # EduForge 智学工坊
 
-基于大模型的个性化资源生成与学习多智能体系统。
-
-## 赛题信息
-
-- 比赛：第十五届中国软件杯
-- 赛题：A3 - 基于大模型的个性化资源生成与学习多智能体系统开发
-- 出题企业：科大讯飞股份有限公司
-- 项目定位：面向高校课程学习场景的 AI 个性化学习资源工厂
+基于大模型的个性化资源生成与学习多智能体系统。项目面向第十五届中国软件杯 A3 赛题，由科大讯飞股份有限公司出题，定位为面向高校课程学习场景的 AI 个性化学习资源工厂。
 
 ## 当前阶段
 
-当前处于第五阶段：MockLLM 与讯飞接口预留。
+当前处于第六阶段：对话式学习画像 ProfileAgent。
 
-本阶段已经建设：
+已完成内容：
 
-- LLMProvider 抽象接口
-- MockLLMProvider 离线演示模型
-- SparkProvider 预留类
-- LLM 调用日志 `LLMCallLog`
-- Prompt 模板目录
-- LLM 测试 API
-- 前端 `/llm-lab` 模型实验室
-
-当前不接真实外部 API，不需要 API Key，不产生费用。不调用 OpenAI、DeepSeek、通义、讯飞星火真实接口或任何外部模型服务。
-
-## 已完成基础
-
+- Conda + Python 3.11 后端环境与 FastAPI 基础服务
+- Next.js + TypeScript + Tailwind CSS 前端骨架
 - SQLite + SQLModel 数据底座
-- 《数据库系统》原创示例课程资料
-- Markdown / TXT 文档解析、分块、入库
-- 基础关键词检索
-- `/knowledge-base` 知识库页面
-- `/database`、`/courses`、`/students` 基础数据页面
+- 原创《数据库系统》示例课程资料、Markdown/TXT 解析、分块、入库和关键词检索
+- MockLLMProvider、SparkProvider 预留、LLMCallLog 和 `/llm-lab`
+- ProfileAgent 对话式学习画像
+- LearnerProfile、ProfileChatMessage、AgentRun
+- `/profile` 页面，可通过自然语言生成并更新 8 维画像
 
-## 版权与资料边界
+第六阶段仍然只使用 MockLLM，不调用真实外部 API，不需要 API Key，不产生费用。
 
-`data/sample_courses/database_system/` 下的示例课程资料为项目原创整理内容，只参考数据库系统通用知识体系，不包含出版教材 PDF、扫描件、出版社配套资料、教材原文或大段摘录。
+## 8 维学习画像
 
-不要把出版书籍、课程教材 PDF、扫描版教材、电子书放入仓库。后续如果支持用户上传资料，也应由用户自行保证资料具有合法使用权。
+ProfileAgent 当前生成并更新以下 8 个维度：
 
-## 推荐环境
-
-- Conda
-- Python 3.11
-- Node.js >= 20.9
-- pnpm
-- Git
-- Docker 可选，当前不配置
-
-## LLM 环境变量
-
-`.env.example` 中默认：
-
-```env
-USE_MOCK_LLM=true
-LLM_PROVIDER=mock
-LLM_MODEL=mock-edu-model
-LLM_TIMEOUT_SECONDS=60
-
-SPARK_APP_ID=
-SPARK_API_KEY=
-SPARK_API_SECRET=
-SPARK_MODEL=
-```
-
-`USE_MOCK_LLM=true` 时系统总是使用 MockLLM。Spark 相关变量只是为后续根据 A3 答疑群要求接入科大讯飞相关工具预留，当前不会调用真实接口，也不会在日志或响应中输出密钥。
+- 专业背景
+- 学习目标
+- 知识基础
+- 学习偏好
+- 认知风格
+- 易错点
+- 时间约束
+- 知识点掌握度
 
 ## 安装
 
@@ -94,16 +59,10 @@ pnpm install
 
 ## 启动
 
-后端：
+Windows：
 
 ```powershell
-conda activate cnsoftbei_a3_eduforge
 .\scripts\run-api-dev.ps1
-```
-
-前端：
-
-```powershell
 .\scripts\run-web-dev.ps1
 ```
 
@@ -122,25 +81,26 @@ macOS/Linux：
 - [http://localhost:3000/dashboard](http://localhost:3000/dashboard)
 - [http://localhost:3000/knowledge-base](http://localhost:3000/knowledge-base)
 - [http://localhost:3000/llm-lab](http://localhost:3000/llm-lab)
+- [http://localhost:3000/profile](http://localhost:3000/profile)
 
 后端：
 
 - [http://localhost:8000/api/health](http://localhost:8000/api/health)
 - [http://localhost:8000/api/meta](http://localhost:8000/api/meta)
-- [http://localhost:8000/api/llm/status](http://localhost:8000/api/llm/status)
-- [http://localhost:8000/api/llm/scenarios](http://localhost:8000/api/llm/scenarios)
-- [http://localhost:8000/api/llm/logs](http://localhost:8000/api/llm/logs)
+- [http://localhost:8000/api/learner-profiles](http://localhost:8000/api/learner-profiles)
+- [http://localhost:8000/api/agent-runs](http://localhost:8000/api/agent-runs)
 - [http://localhost:8000/docs](http://localhost:8000/docs)
 
-LLM API：
+ProfileAgent API：
 
-- `GET /api/llm/status`
-- `GET /api/llm/scenarios`
-- `POST /api/llm/generate`
-- `POST /api/llm/chat`
-- `GET /api/llm/logs`
+- `GET /api/learner-profiles`
+- `GET /api/learner-profiles/{profile_id}`
+- `POST /api/learner-profiles/chat`
+- `GET /api/learner-profiles/summary/by-student-course`
+- `GET /api/learner-profiles/dimension-check/by-student-course`
+- `GET /api/agent-runs`
 
-## 验收命令
+## 验收
 
 根目录自检：
 
@@ -148,51 +108,42 @@ LLM API：
 python scripts/check-env.py
 ```
 
-第五阶段一键检查：
+第六阶段一键检查：
 
 ```powershell
-.\scripts\check-phase5.ps1
+.\scripts\check-phase6.ps1
 ```
 
 macOS/Linux：
 
 ```bash
-./scripts/check-phase5.sh
+./scripts/check-phase6.sh
 ```
 
-后端：
+手动检查：
 
 ```bash
 cd apps/api
 pytest
 ruff check .
 mypy app tests
-```
 
-前端：
-
-```bash
-cd apps/web
+cd ../web
 pnpm lint
 pnpm typecheck
 ```
 
-## 手动演示流程
+## 演示流程
 
 1. 启动后端和前端。
-2. 打开 `/llm-lab`。
-3. 查看 LLM Provider 状态，应显示 mock。
-4. 确认页面说明当前不接真实 API、不需要 API Key、不产生费用。
-5. 选择 profile 场景并点击 Generate，看到模拟学习画像 JSON。
-6. 选择 resource_note 场景并点击 Generate，看到 Markdown 讲义。
-7. 使用 Chat 测试答疑回复。
-8. 查看 LLM 调用日志。
-9. 确认没有真实 API Key 泄露，也没有真实外部 API 调用。
+2. 打开 `/profile`。
+3. 默认选择“示例学生”和“数据库系统”。
+4. 点击“填入示例输入”，发送给 ProfileAgent。
+5. 查看 8 维画像、掌握度进度条、画像完成度和 AgentRun 运行记录。
+6. 再发送“我这周每天只有 1 小时，想优先补事务隔离级别。”，确认画像更新而不是清空。
 
-## 后续阶段计划
+## 阶段边界
 
-- 第六阶段：对话式学习画像 ProfileAgent
-- 后续：个性化学习路径
-- 后续：多类型资源生成
-- 后续：智能辅导、防幻觉引用来源
-- 后续：测验批改与学习效果评估
+第六阶段没有实现完整多智能体、学习路径规划、资源生成、智能辅导、测验批改、RAG、embedding 或真实讯飞星火接入。项目不提交真实 API Key，不使用出版教材 PDF、扫描件或出版教材原文。
+
+下一阶段计划：第七阶段，个性化学习路径 PlannerAgent。

@@ -1,6 +1,6 @@
 # EduForge Web
 
-Next.js 前端应用，当前处于第五阶段：MockLLM 与讯飞接口预留。
+Next.js 前端应用，当前处于第六阶段：对话式学习画像 ProfileAgent。
 
 ## 技术栈
 
@@ -27,20 +27,15 @@ pnpm dev
 - `/database`：SQLite 数据底座
 - `/courses`：课程与知识点管理
 - `/students`：学生与画像草稿
-- `/knowledge-base`：课程资料导入、上传、分块、检索演示
+- `/knowledge-base`：课程资料导入、上传、分块和检索
 - `/llm-lab`：MockLLM、场景提示词和调用日志测试
+- `/profile`：ProfileAgent 对话式学习画像
 
-## 模型实验室
+## /profile 页面
 
-`/llm-lab` 支持：
+页面支持选择学生和课程、发送自然语言画像描述、展示画像对话、8 维画像卡片、掌握度进度条、画像完成度和最近 ProfileAgent 运行记录。
 
-- 查看 provider 状态
-- 查看场景列表
-- Generate 测试
-- Chat 测试
-- 查看最近 LLM 调用日志
-
-页面说明当前只使用 Mock 模型和 SparkProvider 预留，不代表已实现学习画像、Agent 或资源生成。当前不调用真实外部 API，不需要 API Key，不产生费用。
+当前页面只使用 MockLLM，不调用真实外部 API，不需要 API Key，不产生费用。
 
 ## 检查
 

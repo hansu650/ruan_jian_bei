@@ -1,4 +1,5 @@
 import type {
+  AgentRun,
   Course,
   CourseCreate,
   CourseDocument,
@@ -16,9 +17,14 @@ import type {
   LLMGenerateResponse,
   LLMScenario,
   LLMStatusResponse,
+  LearnerProfile,
   MetaResponse,
+  ProfileChatRequest,
+  ProfileChatResponse,
+  ProfileDimensionCheck,
   ProfileDraft,
   ProfileDraftCreate,
+  ProfileSummaryResponse,
   ResourceItem,
   ResourceItemCreate,
   Student,
@@ -251,4 +257,57 @@ export function chatLLM(payload: LLMChatRequest): Promise<LLMChatResponse> {
 
 export function getLLMLogs(limit = 50): Promise<LLMCallLog[]> {
   return requestJson<LLMCallLog[]>(`/api/llm/logs${queryString({ limit })}`);
+}
+
+export function getLearnerProfiles(params?: {
+  student_id?: number;
+  course_id?: number;
+}): Promise<LearnerProfile[]> {
+  return requestJson<LearnerProfile[]>(`/api/learner-profiles${queryString(params ?? {})}`);
+}
+
+export function getLearnerProfile(profileId: number): Promise<LearnerProfile> {
+  return requestJson<LearnerProfile>(`/api/learner-profiles/${profileId}`);
+}
+
+export function chatWithProfileAgent(
+  payload: ProfileChatRequest,
+): Promise<ProfileChatResponse> {
+  return requestJson<ProfileChatResponse>("/api/learner-profiles/chat", {
+    method: "POST",
+    body: payload,
+  });
+}
+
+export function getProfileSummary(
+  studentId: number,
+  courseId: number,
+): Promise<ProfileSummaryResponse> {
+  return requestJson<ProfileSummaryResponse>(
+    `/api/learner-profiles/summary/by-student-course${queryString({
+      student_id: studentId,
+      course_id: courseId,
+    })}`,
+  );
+}
+
+export function getProfileDimensionCheck(
+  studentId: number,
+  courseId: number,
+): Promise<ProfileDimensionCheck> {
+  return requestJson<ProfileDimensionCheck>(
+    `/api/learner-profiles/dimension-check/by-student-course${queryString({
+      student_id: studentId,
+      course_id: courseId,
+    })}`,
+  );
+}
+
+export function getAgentRuns(params?: {
+  agent_name?: string;
+  student_id?: number;
+  course_id?: number;
+  limit?: number;
+}): Promise<AgentRun[]> {
+  return requestJson<AgentRun[]>(`/api/agent-runs${queryString(params ?? {})}`);
 }
