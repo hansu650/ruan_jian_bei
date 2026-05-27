@@ -183,3 +183,71 @@ export interface KnowledgeBaseStats {
   chunk_count: number;
   indexed_document_count: number;
 }
+
+export interface LLMStatusResponse {
+  provider: string;
+  model: string;
+  use_mock_llm: boolean;
+  effective_provider: string;
+  spark_configured: boolean;
+  status: string;
+  warning?: string | null;
+}
+
+export interface LLMScenario {
+  key: string;
+  title: string;
+  description: string;
+  sample_prompt: string;
+}
+
+export interface LLMMessage {
+  role: string;
+  content: string;
+}
+
+export interface LLMGenerateRequest {
+  prompt: string;
+  system_prompt?: string | null;
+  scenario?: string;
+  temperature?: number;
+}
+
+export interface LLMGenerateResponse {
+  content: string;
+  provider: string;
+  model: string;
+  scenario: string;
+  used_mock: boolean;
+  latency_ms: number;
+  log_id?: number | null;
+}
+
+export interface LLMChatRequest {
+  messages: LLMMessage[];
+  scenario?: string;
+  temperature?: number;
+}
+
+export interface LLMChatResponse {
+  content: string;
+  provider: string;
+  model: string;
+  scenario: string;
+  used_mock: boolean;
+  latency_ms: number;
+  log_id?: number | null;
+}
+
+export interface LLMCallLog {
+  id: number;
+  provider: string;
+  model: string;
+  scenario: string;
+  prompt_preview: string;
+  response_preview?: string | null;
+  status: string;
+  error_message?: string | null;
+  latency_ms?: number | null;
+  created_at: string;
+}

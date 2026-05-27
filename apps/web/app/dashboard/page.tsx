@@ -1,4 +1,4 @@
-import { ArrowRight, LibraryBig, Milestone } from "lucide-react";
+import { ArrowRight, MessagesSquare, Milestone } from "lucide-react";
 import Link from "next/link";
 
 import { AppSidebar } from "@/components/app-sidebar";
@@ -19,16 +19,16 @@ export default function DashboardPage() {
         <section className="rounded-lg border bg-card p-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <Badge variant="warning">Phase 4</Badge>
+              <Badge variant="warning">Phase 5</Badge>
               <h1 className="mt-3 text-3xl font-bold">Dashboard 骨架</h1>
               <p className="mt-2 text-sm text-muted-foreground">
-                当前已完成数据底座，正在建设课程资料解析、分块和基础检索能力。
+                当前正在建设 MockLLM 与讯飞接口预留能力，为后续 ProfileAgent 和多智能体协作做准备。
               </p>
             </div>
             <Button asChild>
-              <Link href="/knowledge-base">
-                <LibraryBig className="h-4 w-4" aria-hidden="true" />
-                进入知识库
+              <Link href="/llm-lab">
+                <MessagesSquare className="h-4 w-4" aria-hidden="true" />
+                进入模型实验室
               </Link>
             </Button>
           </div>
@@ -63,9 +63,9 @@ export default function DashboardPage() {
               <CardTitle className="text-base">课程知识库</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Badge variant="warning">进行中</Badge>
+              <Badge variant="success">已完成</Badge>
               <p className="text-sm text-muted-foreground">
-                正在建设原创课程资料导入、Markdown/TXT 解析、文本分块和关键词检索。
+                已完成原创课程资料导入、Markdown/TXT 解析、文本分块和关键词检索。
               </p>
               <Button asChild variant="outline" size="sm">
                 <Link href="/knowledge-base">
@@ -75,7 +75,24 @@ export default function DashboardPage() {
               </Button>
             </CardContent>
           </Card>
-          {["LLM Provider", "学习画像"].map((title) => (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">模型实验室</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Badge variant="warning">进行中</Badge>
+              <p className="text-sm text-muted-foreground">
+                当前只测试 Mock 模型与 SparkProvider 预留，不调用真实外部 API。
+              </p>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/llm-lab">
+                  测试 MockLLM
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+          {["学习画像"].map((title) => (
             <Card key={title}>
               <CardHeader>
                 <CardTitle className="text-base">{title}</CardTitle>
@@ -99,9 +116,9 @@ export default function DashboardPage() {
               </div>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Progress value={40} />
+              <Progress value={50} />
               <p className="text-sm text-muted-foreground">
-                第一至三阶段已完成，第四阶段正在补齐课程资料解析、分块和基础检索。
+                第一至四阶段已完成，第五阶段正在补齐 MockLLM、Provider 抽象和调用日志。
               </p>
             </CardContent>
           </Card>

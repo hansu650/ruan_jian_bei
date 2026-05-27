@@ -9,6 +9,13 @@ import type {
   KnowledgeBaseStats,
   KnowledgePoint,
   KnowledgePointCreate,
+  LLMCallLog,
+  LLMChatRequest,
+  LLMChatResponse,
+  LLMGenerateRequest,
+  LLMGenerateResponse,
+  LLMScenario,
+  LLMStatusResponse,
   MetaResponse,
   ProfileDraft,
   ProfileDraftCreate,
@@ -218,4 +225,30 @@ export function searchKnowledgeBase(
   return requestJson<DocumentSearchResult[]>(
     `/api/courses/${courseId}/knowledge-base/search${queryString({ q: query, limit })}`,
   );
+}
+
+export function getLLMStatus(): Promise<LLMStatusResponse> {
+  return requestJson<LLMStatusResponse>("/api/llm/status");
+}
+
+export function getLLMScenarios(): Promise<LLMScenario[]> {
+  return requestJson<LLMScenario[]>("/api/llm/scenarios");
+}
+
+export function generateLLMText(payload: LLMGenerateRequest): Promise<LLMGenerateResponse> {
+  return requestJson<LLMGenerateResponse>("/api/llm/generate", {
+    method: "POST",
+    body: payload,
+  });
+}
+
+export function chatLLM(payload: LLMChatRequest): Promise<LLMChatResponse> {
+  return requestJson<LLMChatResponse>("/api/llm/chat", {
+    method: "POST",
+    body: payload,
+  });
+}
+
+export function getLLMLogs(limit = 50): Promise<LLMCallLog[]> {
+  return requestJson<LLMCallLog[]>(`/api/llm/logs${queryString({ limit })}`);
 }

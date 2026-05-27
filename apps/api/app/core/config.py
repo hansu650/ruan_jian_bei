@@ -14,6 +14,14 @@ class Settings(BaseSettings):
     competition_topic: str = "基于大模型的个性化资源生成与学习多智能体系统开发"
     frontend_origin: str = "http://localhost:3000"
     database_url: str = "sqlite:///./eduforge.db"
+    use_mock_llm: bool = True
+    llm_provider: str = "mock"
+    llm_model: str = "mock-edu-model"
+    llm_timeout_seconds: int = 60
+    spark_app_id: str = ""
+    spark_api_key: str = ""
+    spark_api_secret: str = ""
+    spark_model: str = ""
 
     model_config = SettingsConfigDict(
         env_file=(".env", "../../.env"),

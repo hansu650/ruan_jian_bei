@@ -4,6 +4,7 @@ import {
   FlaskConical,
   GraduationCap,
   LibraryBig,
+  MessagesSquare,
   Route,
   ShieldCheck,
 } from "lucide-react";
@@ -14,7 +15,8 @@ import { Separator } from "@/components/ui/separator";
 
 const navItems = [
   { label: "数据底座", state: "已完成", icon: Database, href: "/database" },
-  { label: "课程知识库", state: "进行中", icon: LibraryBig, href: "/knowledge-base" },
+  { label: "课程知识库", state: "已完成", icon: LibraryBig, href: "/knowledge-base" },
+  { label: "模型实验室", state: "进行中", icon: MessagesSquare, href: "/llm-lab" },
   { label: "课程管理", state: "可查看", icon: BookOpen, href: "/courses" },
   { label: "学生管理", state: "可查看", icon: GraduationCap, href: "/students" },
   { label: "学习路径", state: "待开始", icon: Route, href: "/dashboard" },
@@ -28,7 +30,7 @@ export function AppSidebar() {
       <div>
         <p className="text-sm font-semibold">EduForge 控制台</p>
         <p className="mt-1 text-xs text-muted-foreground">
-          第四阶段建设课程资料解析、分块和基础检索
+          第五阶段建设 MockLLM 与讯飞接口预留
         </p>
       </div>
       <Separator className="my-4" />

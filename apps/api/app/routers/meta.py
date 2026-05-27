@@ -38,10 +38,14 @@ def project_meta(settings: SettingsDep) -> MetaResponse:
             "Markdown/TXT 解析",
             "文档分块",
             "基础关键词检索",
+            "LLM Provider 抽象",
+            "MockLLMProvider",
+            "SparkProvider 预留",
+            "LLM Lab 测试页",
         ],
         planned_features=[
+            "真实讯飞星火接入",
             "向量检索",
-            "LLM Provider",
             "对话式学习画像",
             "多智能体编排",
             "个性化学习路径",
@@ -49,5 +53,6 @@ def project_meta(settings: SettingsDep) -> MetaResponse:
             "智能辅导",
             "测验批改",
             "防幻觉校验",
+            "流式输出",
         ],
     )

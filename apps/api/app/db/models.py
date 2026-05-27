@@ -112,3 +112,18 @@ class DocumentChunk(SQLModel, table=True):
     content_hash: str
     metadata_json: str = "{}"
     created_at: datetime = Field(default_factory=utc_now)
+
+
+class LLMCallLog(SQLModel, table=True):
+    __tablename__ = "llm_call_log"
+
+    id: int | None = Field(default=None, primary_key=True)
+    provider: str
+    model: str
+    scenario: str
+    prompt_preview: str
+    response_preview: str | None = None
+    status: str = "success"
+    error_message: str | None = None
+    latency_ms: int | None = None
+    created_at: datetime = Field(default_factory=utc_now)

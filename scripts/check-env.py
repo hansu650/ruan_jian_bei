@@ -220,10 +220,18 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/api/app/routers/profile_drafts.py",
         "apps/api/app/routers/resource_items.py",
         "apps/api/app/routers/documents.py",
+        "apps/api/app/routers/llm.py",
+        "apps/api/app/llm/base.py",
+        "apps/api/app/llm/mock_provider.py",
+        "apps/api/app/llm/spark_provider.py",
+        "apps/api/app/llm/factory.py",
         "apps/api/app/services/document_parser.py",
         "apps/api/app/services/chunking.py",
         "apps/api/app/services/document_indexer.py",
         "apps/api/app/services/search_service.py",
+        "apps/api/app/services/llm_service.py",
+        "apps/api/app/schemas/llm.py",
+        "apps/api/app/prompts/profile_prompt.md",
         "data/sample_courses/database_system/01_intro.md",
         "data/sample_courses/database_system/07_transaction.md",
         "data/sample_courses/database_system/08_index_btree.md",
@@ -235,6 +243,7 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/web/app/courses/page.tsx",
         "apps/web/app/students/page.tsx",
         "apps/web/app/knowledge-base/page.tsx",
+        "apps/web/app/llm-lab/page.tsx",
         "apps/web/lib/api.ts",
     ]
     for file_path in required_files:
@@ -267,6 +276,10 @@ def check_project_files(reporter: Reporter) -> None:
         required=False,
         hint="上传课程资料后会自动创建",
     )
+    if os.environ.get("SPARK_API_KEY"):
+        reporter.ok("SPARK_API_KEY 已配置（自检不会读取或输出密钥内容）")
+    else:
+        reporter.warn("SPARK_API_KEY 未配置；第五阶段默认使用 MockLLM，Spark 仅为预留接口")
 
 
 def print_next_steps() -> None:
@@ -288,15 +301,15 @@ def print_next_steps() -> None:
     print("5. 启动前端：")
     print("   cd apps/web")
     print("   pnpm dev")
-    print("6. 一键检查第四阶段：")
-    print("   .\\scripts\\check-phase4.ps1")
-    print("   ./scripts/check-phase4.sh")
+    print("6. 一键检查第五阶段：")
+    print("   .\\scripts\\check-phase5.ps1")
+    print("   ./scripts/check-phase5.sh")
 
 
 def main() -> int:
     reporter = Reporter()
 
-    print("EduForge 智学工坊 - 第四阶段环境自检")
+    print("EduForge 智学工坊 - 第五阶段环境自检")
     print()
 
     check_python(reporter)
@@ -332,7 +345,7 @@ def main() -> int:
         return 1
 
     print()
-    print("[OK] 环境自检通过，可以继续启动前后端或运行第四阶段检查。")
+    print("[OK] 环境自检通过，可以继续启动前后端或运行第五阶段检查。")
     return 0
 
 
