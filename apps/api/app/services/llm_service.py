@@ -1,3 +1,5 @@
+import json
+import re
 from time import perf_counter
 
 from sqlmodel import Session, col, select
@@ -161,6 +163,32 @@ def _response_format_for_scenario(scenario: str) -> str | None:
     return "json_object" if scenario in JSON_SCENARIOS else None
 
 
+def _normalize_json_content(scenario: str, content: str) -> str:
+    if scenario not in JSON_SCENARIOS:
+        return content
+    text = content.strip()
+    if text.startswith("```"):
+        text = re.sub(r"^```(?:json)?", "", text, flags=re.IGNORECASE).strip()
+        text = re.sub(r"```$", "", text).strip()
+    object_start = text.find("{")
+    object_end = text.rfind("}")
+    array_start = text.find("[")
+    array_end = text.rfind("]")
+    candidates: list[str] = []
+    if object_start >= 0 and object_end > object_start:
+        candidates.append(text[object_start : object_end + 1])
+    if array_start >= 0 and array_end > array_start:
+        candidates.append(text[array_start : array_end + 1])
+    candidates.append(text)
+    for candidate in candidates:
+        try:
+            parsed = json.loads(candidate)
+        except json.JSONDecodeError:
+            continue
+        return json.dumps(parsed, ensure_ascii=False, indent=2)
+    return content
+
+
 def get_provider_status(session: Session) -> LLMStatusResponse:
     del session
     settings = get_settings()
@@ -195,6 +223,7 @@ def generate_text(request: LLMGenerateRequest, session: Session) -> LLMGenerateR
             temperature=request.temperature,
             response_format=_response_format_for_scenario(request.scenario),
         )
+        content = _normalize_json_content(request.scenario, content)
         latency = _latency_ms(start)
         log = _save_log(
             session,
@@ -245,6 +274,7 @@ def chat_text(request: LLMChatRequest, session: Session) -> LLMChatResponse:
             temperature=request.temperature,
             response_format=_response_format_for_scenario(request.scenario),
         )
+        content = _normalize_json_content(request.scenario, content)
         latency = _latency_ms(start)
         log = _save_log(
             session,

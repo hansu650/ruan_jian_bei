@@ -49,23 +49,32 @@ class EvaluatorAgent:
         accuracy = float(total_score / max_score) if max_score else 0.0
         recommended_actions = self._recommended_actions(weak_points)
         feedback_summary = self._feedback_summary(accuracy, weak_points, strengths)
-        llm_response = generate_text(
-            LLMGenerateRequest(
-                prompt=json.dumps(
-                    {
-                        "quiz_id": quiz.id,
-                        "accuracy": accuracy,
-                        "weak_points": weak_points,
-                        "strengths": strengths,
-                        "recommended_actions": recommended_actions,
-                    },
-                    ensure_ascii=False,
+        llm_log_id: int | None = None
+        latency_ms: int | None = None
+        llm_hint = "EvaluatorAgent 使用规则批改完成。本次未使用额外模型反馈。"
+        try:
+            llm_response = generate_text(
+                LLMGenerateRequest(
+                    prompt=json.dumps(
+                        {
+                            "quiz_id": quiz.id,
+                            "accuracy": accuracy,
+                            "weak_points": weak_points,
+                            "strengths": strengths,
+                            "recommended_actions": recommended_actions,
+                        },
+                        ensure_ascii=False,
+                    ),
+                    scenario="evaluation",
+                    temperature=0.2,
                 ),
-                scenario="evaluation",
-                temperature=0.2,
-            ),
-            session,
-        )
+                session,
+            )
+            llm_log_id = llm_response.log_id
+            latency_ms = llm_response.latency_ms
+            llm_hint = llm_response.content[:500]
+        except Exception:
+            pass
         parsed = {
             "attempt_summary": {
                 "total_score": total_score,
@@ -94,13 +103,13 @@ class EvaluatorAgent:
                     else "保持当前节奏，进入下一学习路径步骤。"
                 ),
             },
-            "llm_evaluation_hint": llm_response.content[:500],
+            "llm_evaluation_hint": llm_hint,
         }
         return AgentResult(
             content=json.dumps(parsed, ensure_ascii=False),
             parsed=parsed,
-            llm_log_id=llm_response.log_id,
-            latency_ms=llm_response.latency_ms,
+            llm_log_id=llm_log_id,
+            latency_ms=latency_ms,
         )
 
     def _grade_question(self, question: PracticeQuestion, answer: dict[str, Any]) -> dict[str, Any]:

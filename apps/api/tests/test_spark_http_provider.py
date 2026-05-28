@@ -8,6 +8,7 @@ from app.llm.factory import get_llm_provider
 from app.llm.mock_provider import MockLLMProvider
 from app.llm.spark_http_provider import SparkHTTPProvider
 from app.main import app
+from app.services.llm_service import _normalize_json_content
 
 FAKE_PASSWORD = "fake-spark-password-for-tests"
 
@@ -112,6 +113,16 @@ def test_spark_http_provider_non_json_scenario_omits_response_format(
 
     assert provider.chat([{"role": "user", "content": "hello"}]) == "ok"
     assert "response_format" not in captured
+
+
+def test_json_scenario_normalizes_markdown_fenced_json() -> None:
+    content = "```json\n{\"major\":\"计算机科学与技术\",\"weak_points\":[\"JOIN\"]}\n```"
+
+    normalized = _normalize_json_content("profile", content)
+
+    assert normalized.startswith("{")
+    assert "```" not in normalized
+    assert normalized == '{\n  "major": "计算机科学与技术",\n  "weak_points": [\n    "JOIN"\n  ]\n}'
 
 
 def test_spark_http_provider_http_error_hides_password(
