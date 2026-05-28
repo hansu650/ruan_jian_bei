@@ -10,6 +10,7 @@ import {
   LayoutDashboard,
   LibraryBig,
   MessagesSquare,
+  MonitorPlay,
   Route,
   Sparkles,
   UserRound,
@@ -19,6 +20,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
+  { href: "/demo", label: "演示工作台", icon: MonitorPlay },
   { href: "/database", label: "数据底座", icon: Database },
   { href: "/knowledge-base", label: "知识库", icon: LibraryBig },
   { href: "/llm-lab", label: "模型实验室", icon: MessagesSquare },

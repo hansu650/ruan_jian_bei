@@ -145,3 +145,10 @@ http://localhost:8000/api/llm/status
 ## 10. 下一步
 
 Phase 10.1 完成后，再进入第十一阶段：系统收尾、演示流程、文档、PPT 大纲和视频脚本。
+# Phase 11 衔接说明
+
+Phase 10.1 后先进入 Phase 11：端到端演示工作台与稳定性打磨。
+
+Phase 11 允许本地继续使用 spark-http + lite，但 `/demo` 不会自动调用模型。只有用户手动进入画像、路径、资源、辅导、练习等页面并点击生成类按钮时，才会触发真实 API 调用。
+
+自动化测试会强制 Mock 或 mock 外部请求，不真实调用讯飞 API，也不要求配置 APIPassword。

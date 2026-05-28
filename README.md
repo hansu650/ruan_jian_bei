@@ -1,39 +1,32 @@
 # EduForge 智学工坊
 
-基于大模型的个性化资源生成与学习多智能体系统。项目面向第十五届中国软件杯 A3 赛题，由科大讯飞股份有限公司出题。
+EduForge 智学工坊是第十五届中国软件杯 A3 赛题项目，赛题为“基于大模型的个性化资源生成与学习多智能体系统开发”，出题企业为科大讯飞股份有限公司。
 
-EduForge 定位为面向高校课程学习场景的 AI 个性化学习资源工厂：学生通过自然语言生成 8 维学习画像，系统基于课程知识库和智能体协作规划学习路径、生成学习资源、提供智能辅导，并通过练习测验和自动批改更新掌握度。
+项目定位为面向高校课程学习场景的 AI 个性化学习资源工厂。当前已经形成核心学习闭环：课程知识库、对话式学习画像、个性化学习路径、多类型学习资源生成、智能辅导、练习测验、自动批改和学习效果评估。
 
 ## 当前阶段
 
-当前已完成第十阶段，并补充 Phase 10.1：讯飞星火 HTTP Provider 可选接入。
+当前阶段为 **Phase 11：端到端演示工作台与前端/API 稳定性打磨**。
 
 已完成能力：
 
-- Conda + FastAPI + Next.js 工程骨架
+- FastAPI + Next.js + TypeScript + Tailwind CSS 工程骨架
 - SQLite + SQLModel 数据底座
-- 原创《数据库系统》示例知识库
-- MockLLMProvider、SparkProvider 预留和可选 SparkHTTPProvider
-- ProfileAgent 对话式学习画像
+- 原创《数据库系统》示例课程资料和知识库分块检索
+- MockLLMProvider 和可选 SparkHTTPProvider
+- ProfileAgent 对话式 8 维学习画像
 - PlannerAgent 个性化学习路径
-- ResourceAgent 六类资源生成
-- TutorAgent 带引用来源的智能辅导
-- PracticeAgent 多题型练习生成
-- EvaluatorAgent 自动批改、错因分析、掌握度更新
-- LearningEvaluationReport 和 Analytics 学习分析
-- 可选讯飞星火 HTTP Chat Completions 接入，默认不启用
+- ResourceAgent 6 类学习资源生成
+- TutorAgent 智能辅导与 citations 防幻觉提示
+- PracticeAgent 练习生成
+- EvaluatorAgent 自动批改、掌握度更新和学习效果评估
+- `/demo` 演示工作台，用于检查端到端演示准备状态
 
-仍未实现：
-
-- 默认未接入真实讯飞星火 API
-- 仓库未配置真实 API Key
-- 默认未调用任何外部大模型 API
-- 未实现复杂考试系统、防作弊、班级管理、登录、Docker
-- 不使用出版教材 PDF、扫描件或教材原文
+仍未进入最终交付材料阶段：本阶段不生成 PPT、演示视频脚本、最终系统开发说明书，也不做 Docker 部署。
 
 ## 环境
 
-- Conda 环境名：`cnsoftbei_a3_eduforge`
+- Conda 环境：`cnsoftbei_a3_eduforge`
 - Python：3.11
 - Node.js：>= 20.9
 - 前端包管理器：pnpm
@@ -71,7 +64,9 @@ conda activate cnsoftbei_a3_eduforge
 访问地址：
 
 - 前端首页：http://localhost:3000
+- 演示工作台：http://localhost:3000/demo
 - Dashboard：http://localhost:3000/dashboard
+- 知识库：http://localhost:3000/knowledge-base
 - 学习画像：http://localhost:3000/profile
 - 学习路径：http://localhost:3000/learning-path
 - 资源生成：http://localhost:3000/resources
@@ -80,11 +75,26 @@ conda activate cnsoftbei_a3_eduforge
 - 学习评估：http://localhost:3000/analytics
 - Swagger：http://localhost:8000/docs
 
+## Phase 11 演示工作台
+
+新增 API：
+
+- `GET /api/demo/status`：检查默认演示数据、知识库、画像、路径、资源、辅导、测验和评估状态。
+- `POST /api/demo/bootstrap`：准备基础演示数据，只确保默认学生、课程、知识点和原创示例资料就绪。
+
+`/demo` 页面会显示：
+
+- 当前 LLM 模式：Mock 或 spark-http
+- Spark Lite 真实模式提示
+- 每个演示步骤的 ready、warning、missing 状态
+- “准备基础演示数据”按钮
+- 下一步建议和推荐演示路线
+
+注意：`/demo` 不会自动生成画像、路径、资源、辅导回答或测验，也不会自动调用 MockLLM 或真实 Spark。真实 Spark 模式下，只有用户手动进入生成类页面并点击生成按钮才会发起真实 API 调用。
+
 ## 可选讯飞星火 HTTP 接入
 
-A3 出题企业为科大讯飞，因此 Phase 10.1 增加 `spark-http` Provider。默认仍使用 MockLLM，不需要购买 API，不配置密钥也能完整演示。
-
-默认配置：
+默认配置仍为 Mock：
 
 ```env
 USE_MOCK_LLM=true
@@ -92,45 +102,42 @@ LLM_PROVIDER=mock
 LLM_MODEL=mock-edu-model
 ```
 
-本地可选切换到讯飞星火 HTTP APIPassword 方式：
+本地可以可选切换到讯飞星火 HTTP APIPassword 方式：
 
 ```env
 USE_MOCK_LLM=false
 LLM_PROVIDER=spark-http
 SPARK_HTTP_API_URL=https://spark-api-open.xf-yun.com/v1/chat/completions
-SPARK_HTTP_API_PASSWORD=你的 APIPassword
+SPARK_HTTP_API_PASSWORD=自己的 APIPassword
 SPARK_MODEL=lite
 ```
 
 安全要求：
 
-- 不提交 `.env`。
-- 不提交真实 APIPassword。
-- 不在前端页面输入或保存 API Key。
-- 不把 Key 写进 README、截图、Issue、日志或聊天记录。
-- 自动化测试只 mock `httpx`，不会真实调用讯飞 API。
+- 不提交 `.env`
+- 不提交 APIPassword
+- 不在前端输入、传输或保存 API Key
+- 不把 Key 写进 README、测试、日志、截图、Issue 或聊天记录
+- 自动化测试强制 Mock 或 mock 掉 httpx，不真实调用讯飞 API
 
-如果设置 `LLM_PROVIDER=spark-http` 但未配置 `SPARK_HTTP_API_PASSWORD`，系统会自动回退 MockLLMProvider，并在 `/api/llm/status` 返回 warning。
+## 主要 API
 
-## 第十阶段 API
-
-- `GET /api/practice/question-types`
+- `GET /api/demo/status`
+- `POST /api/demo/bootstrap`
+- `GET /api/llm/status`
+- `POST /api/learner-profiles/chat`
+- `POST /api/learning-paths/generate`
+- `POST /api/generated-resources/generate`
+- `POST /api/tutor/chat`
 - `POST /api/practice/quizzes/generate`
-- `GET /api/practice/quizzes`
-- `GET /api/practice/quizzes/{quiz_id}`
 - `POST /api/evaluation/attempts/submit`
-- `GET /api/evaluation/attempts`
-- `GET /api/evaluation/attempts/{attempt_id}`
-- `GET /api/evaluation/reports`
-- `GET /api/evaluation/reports/{report_id}`
 - `GET /api/evaluation/analytics?student_id=1&course_id=1`
 
 ## 验收
 
 ```powershell
 python scripts/check-env.py
-.\scripts\check-phase10.ps1
-.\scripts\check-phase10-1.ps1
+.\scripts\check-phase11.ps1
 ```
 
 或手动执行：
@@ -148,13 +155,15 @@ pnpm typecheck
 
 ## 演示流程
 
-1. 打开 `/knowledge-base`，导入《数据库系统》示例资料。
-2. 打开 `/profile`，生成 8 维学习画像。
-3. 打开 `/learning-path`，生成学习路径。
-4. 打开 `/resources`，为某个学习步骤生成资源。
-5. 打开 `/tutor`，围绕幻读、B+树、JOIN 提问。
-6. 打开 `/practice`，选择学习路径 step，生成测验并提交答案。
-7. 打开 `/analytics`，查看准确率、掌握度变化、薄弱点和评估报告。
+1. 打开 `/demo`，检查当前 LLM 模式和各模块状态。
+2. 点击“准备基础演示数据”，导入原创《数据库系统》示例资料。
+3. 打开 `/knowledge-base`，搜索“幻读”。
+4. 打开 `/profile`，生成 8 维学习画像。
+5. 打开 `/learning-path`，生成 7 天学习路径。
+6. 打开 `/resources`，生成 6 类学习资源。
+7. 打开 `/tutor`，提问“幻读和不可重复读有什么区别？”。
+8. 打开 `/practice`，生成测验并提交答案。
+9. 打开 `/analytics`，查看掌握度变化和评估报告。
 
 ## 版权边界
 

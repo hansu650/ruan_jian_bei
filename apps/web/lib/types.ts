@@ -692,3 +692,44 @@ export interface LearningAnalyticsSummary {
   latest_recommended_actions: string[];
   latest_report?: LearningEvaluationReport | null;
 }
+
+export interface LLMModeInfo {
+  effective_provider: string;
+  model: string;
+  use_mock_llm: boolean;
+  spark_http_configured: boolean;
+  spark_model?: string | null;
+  mode_label: string;
+  mode_level: "safe" | "live" | "warning" | string;
+  message: string;
+}
+
+export interface DemoStepStatus {
+  key: string;
+  title: string;
+  description: string;
+  status: "ready" | "missing" | "warning" | string;
+  count?: number | null;
+  action_label: string;
+  action_href: string;
+  message: string;
+}
+
+export interface DemoStatusResponse {
+  student_id?: number | null;
+  course_id?: number | null;
+  student_name?: string | null;
+  course_title?: string | null;
+  llm_mode: LLMModeInfo;
+  steps: DemoStepStatus[];
+  overall_ready: boolean;
+  next_recommended_step?: string | null;
+}
+
+export interface DemoBootstrapResponse {
+  student_id: number;
+  course_id: number;
+  imported_documents: number;
+  chunk_count: number;
+  message: string;
+}

@@ -20,6 +20,11 @@ export const CORE_LOOP = [
 
 export const CORE_FEATURES = [
   {
+    title: "演示工作台",
+    status: "进行中",
+    description: "Phase 11 新增端到端演示检查入口，比赛前可快速确认各模块状态。",
+  },
+  {
     title: "对话式学习画像",
     status: "已完成",
     description: "ProfileAgent 支持自然语言对话抽取并更新 8 维动态画像。",
@@ -41,7 +46,7 @@ export const CORE_FEATURES = [
   },
   {
     title: "学习效果评估",
-    status: "进行中",
+    status: "已完成",
     description: "PracticeAgent 与 EvaluatorAgent 支持练习生成、自动批改、掌握度更新和补救建议。",
   },
 ];
@@ -59,6 +64,8 @@ export const PROJECT_STAGES: Array<{
   { name: "第六阶段", description: "对话式学习画像 ProfileAgent", status: "已完成" },
   { name: "第七阶段", description: "个性化学习路径 PlannerAgent", status: "已完成" },
   { name: "第八阶段", description: "多类型学习资源生成 ResourceAgent", status: "已完成" },
-  { name: "第九阶段", description: "智能辅导与防幻觉问答 TutorAgent", status: "已完成" },
-  { name: "第十阶段", description: "PracticeAgent + EvaluatorAgent 学习效果评估", status: "进行中" },
+  { name: "第九阶段", description: "TutorAgent 智能辅导与防幻觉问答", status: "已完成" },
+  { name: "第十阶段", description: "PracticeAgent + EvaluatorAgent 学习效果评估", status: "已完成" },
+  { name: "Phase 10.1", description: "讯飞星火 HTTP Provider 可选接入", status: "已完成" },
+  { name: "Phase 11", description: "端到端演示工作台与稳定性打磨", status: "进行中" },
 ];

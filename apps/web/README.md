@@ -1,9 +1,6 @@
 # EduForge Web
 
-Next.js + TypeScript + Tailwind CSS 前端。当前新增第十阶段页面：
-
-- `/practice`：练习测验，生成题目、填写答案、提交自动批改。
-- `/analytics`：学习效果评估，展示测验次数、平均准确率、掌握度和评估报告。
+Next.js + TypeScript + Tailwind CSS 前端。当前新增 Phase 11 演示工作台。
 
 ## 安装和启动
 
@@ -21,27 +18,22 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 
 ## 页面
 
-- `/profile`：对话式学习画像
-- `/learning-path`：个性化学习路径
-- `/resources`：多类型资源生成
-- `/tutor`：智能辅导与引用校验
-- `/practice`：练习测验
-- `/analytics`：学习效果评估
-- `/llm-lab`：模型实验室，可查看 MockLLM 和可选 spark-http Provider 状态
+- `/demo`：演示工作台，检查端到端演示准备状态。
+- `/knowledge-base`：课程知识库和关键词检索。
+- `/profile`：对话式学习画像。
+- `/learning-path`：个性化学习路径。
+- `/resources`：多类型学习资源生成。
+- `/tutor`：智能辅导与引用校验。
+- `/practice`：练习测验。
+- `/analytics`：学习效果评估。
+- `/llm-lab`：模型实验室，可查看 MockLLM 和可选 spark-http Provider 状态。
 
-前端不使用 axios、react-query、复杂状态管理或图表库；表单和答题状态使用 React `useState`。
+## Phase 11 前端组件
 
-## Phase 10.1 说明
+- `components/empty-state.tsx`
+- `components/error-state.tsx`
+- `components/loading-state.tsx`
+- `components/model-mode-badge.tsx`
+- `components/demo-step-card.tsx`
 
-`/llm-lab` 会展示 `spark_http_configured`，用于确认后端是否配置了讯飞星火 HTTP APIPassword。
-
-前端不会提供 API Key 输入框，也不会保存或发送密钥。真实 APIPassword 只允许放在本地后端 `.env` 中：
-
-```env
-USE_MOCK_LLM=false
-LLM_PROVIDER=spark-http
-SPARK_HTTP_API_PASSWORD=你的 APIPassword
-SPARK_MODEL=lite
-```
-
-默认不配置时继续使用 MockLLM，不产生费用。
+`/demo` 页面不会自动调用生成类接口，不会自动调用 Spark，也不会接触 APIPassword。真实 Key 只允许放在后端本地 `.env`。

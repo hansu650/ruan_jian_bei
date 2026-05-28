@@ -8,6 +8,7 @@ import {
   GraduationCap,
   LibraryBig,
   MessagesSquare,
+  MonitorPlay,
   Route,
   UserRound,
 } from "lucide-react";
@@ -17,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
 const navItems = [
+  { label: "演示工作台", state: "进行中", icon: MonitorPlay, href: "/demo" },
   { label: "数据底座", state: "已完成", icon: Database, href: "/database" },
   { label: "课程知识库", state: "已完成", icon: LibraryBig, href: "/knowledge-base" },
   { label: "模型实验室", state: "已完成", icon: MessagesSquare, href: "/llm-lab" },
@@ -24,8 +26,8 @@ const navItems = [
   { label: "学习路径", state: "已完成", icon: Route, href: "/learning-path" },
   { label: "资源生成", state: "已完成", icon: FileText, href: "/resources" },
   { label: "智能辅导", state: "已完成", icon: FileQuestion, href: "/tutor" },
-  { label: "练习测验", state: "进行中", icon: ClipboardCheck, href: "/practice" },
-  { label: "学习评估", state: "进行中", icon: BarChart3, href: "/analytics" },
+  { label: "练习测验", state: "已完成", icon: ClipboardCheck, href: "/practice" },
+  { label: "学习评估", state: "已完成", icon: BarChart3, href: "/analytics" },
   { label: "课程管理", state: "可查看", icon: BookOpen, href: "/courses" },
   { label: "学生管理", state: "可查看", icon: GraduationCap, href: "/students" },
 ];
@@ -36,7 +38,7 @@ export function AppSidebar() {
       <div>
         <p className="text-sm font-semibold">EduForge 控制台</p>
         <p className="mt-1 text-xs text-muted-foreground">
-          第十阶段建设 A3 加分能力：PracticeAgent + EvaluatorAgent，形成测验、批改、评估与掌握度更新闭环。
+          Phase 11 聚焦比赛演示工作台，统一检查知识库、画像、路径、资源、辅导、练习和评估状态。
         </p>
       </div>
       <Separator className="my-4" />

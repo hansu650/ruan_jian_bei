@@ -3,6 +3,8 @@ import type {
   Course,
   CourseCreate,
   CourseDocument,
+  DemoBootstrapResponse,
+  DemoStatusResponse,
   DocumentChunk,
   DocumentImportResult,
   DocumentSearchResult,
@@ -502,4 +504,12 @@ export function getLearningAnalytics(
       course_id: courseId,
     })}`,
   );
+}
+
+export function getDemoStatus(): Promise<DemoStatusResponse> {
+  return requestJson<DemoStatusResponse>("/api/demo/status");
+}
+
+export function bootstrapDemoData(): Promise<DemoBootstrapResponse> {
+  return requestJson<DemoBootstrapResponse>("/api/demo/bootstrap", { method: "POST" });
 }
