@@ -16,5 +16,5 @@ def health_check(settings: SettingsDep) -> HealthResponse:
         service="eduforge-api",
         project=settings.app_display_name,
         competition=f"中国软件杯 {settings.competition_track}",
-        stage="phase-7",
+        stage="phase-8",
     )

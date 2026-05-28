@@ -1,6 +1,6 @@
 # EduForge Web
 
-Next.js 前端应用，当前处于第七阶段：个性化学习路径 PlannerAgent。
+Next.js 前端应用，当前处于第八阶段：多类型学习资源生成 ResourceAgent。
 
 ## 技术栈
 
@@ -31,20 +31,20 @@ pnpm dev
 - `/llm-lab`：MockLLM、场景提示词和调用日志测试
 - `/profile`：ProfileAgent 对话式学习画像
 - `/learning-path`：PlannerAgent 个性化学习路径
+- `/resources`：ResourceAgent 多类型学习资源生成
 
-## /learning-path 页面
+## /resources 页面
 
-页面支持选择学生和课程，读取已有 LearnerProfile，输入目标学习天数，并调用 `POST /api/learning-paths/generate` 生成阶段化学习路径。页面会展示：
+页面支持选择学生、课程、学习路径和路径步骤，选择资源类型后生成资源正文。当前支持：
 
-- 学习画像摘要
-- 历史学习路径列表
-- LearningPath 策略摘要
-- LearningPathStep 时间线
-- 推荐资源类型
-- 薄弱点覆盖检查
-- 总预计学习时长
+- 讲义
+- 思维导图
+- 练习题
+- 拓展阅读
+- 实操案例
+- 视频脚本
 
-本阶段只推荐资源类型，不生成讲义、思维导图、练习题、实操案例或视频脚本正文。
+页面会展示资源正文、citations 引用来源和最近 ResourceAgent 运行记录。
 
 ## 检查
 

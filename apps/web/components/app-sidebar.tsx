@@ -1,7 +1,7 @@
 import {
   BookOpen,
   Database,
-  FlaskConical,
+  FileText,
   GraduationCap,
   LibraryBig,
   MessagesSquare,
@@ -19,10 +19,10 @@ const navItems = [
   { label: "课程知识库", state: "已完成", icon: LibraryBig, href: "/knowledge-base" },
   { label: "模型实验室", state: "已完成", icon: MessagesSquare, href: "/llm-lab" },
   { label: "学习画像", state: "已完成", icon: UserRound, href: "/profile" },
-  { label: "学习路径", state: "进行中", icon: Route, href: "/learning-path" },
+  { label: "学习路径", state: "已完成", icon: Route, href: "/learning-path" },
+  { label: "资源生成", state: "进行中", icon: FileText, href: "/resources" },
   { label: "课程管理", state: "可查看", icon: BookOpen, href: "/courses" },
   { label: "学生管理", state: "可查看", icon: GraduationCap, href: "/students" },
-  { label: "资源生成", state: "待开始", icon: FlaskConical, href: "/dashboard" },
   { label: "防幻觉校验", state: "待开始", icon: ShieldCheck, href: "/dashboard" },
 ];
 
@@ -32,7 +32,7 @@ export function AppSidebar() {
       <div>
         <p className="text-sm font-semibold">EduForge 控制台</p>
         <p className="mt-1 text-xs text-muted-foreground">
-          第七阶段建设 A3 核心能力：个性化学习路径。
+          第八阶段建设 A3 核心能力：多类型学习资源生成。
         </p>
       </div>
       <Separator className="my-4" />

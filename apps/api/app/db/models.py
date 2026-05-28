@@ -220,3 +220,24 @@ class LearningPathStep(SQLModel, table=True):
     status: str = "pending"
     created_at: datetime = Field(default_factory=utc_now)
     updated_at: datetime = Field(default_factory=utc_now)
+
+
+class GeneratedResource(SQLModel, table=True):
+    __tablename__ = "generated_resource"
+
+    id: int | None = Field(default=None, primary_key=True)
+    student_id: int = Field(foreign_key="student.id", index=True)
+    course_id: int = Field(foreign_key="course.id", index=True)
+    profile_id: int | None = Field(default=None, foreign_key="learner_profile.id", index=True)
+    path_id: int | None = Field(default=None, foreign_key="learning_path.id", index=True)
+    step_id: int = Field(foreign_key="learning_path_step.id", index=True)
+    resource_type: str
+    title: str
+    content_format: str = "markdown"
+    content: str
+    citations_json: str = "[]"
+    status: str = "ready"
+    source: str = "resource_agent"
+    llm_log_id: int | None = Field(default=None, foreign_key="llm_call_log.id", index=True)
+    created_at: datetime = Field(default_factory=utc_now)
+    updated_at: datetime = Field(default_factory=utc_now)

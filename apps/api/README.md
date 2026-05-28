@@ -1,6 +1,6 @@
 # EduForge API
 
-FastAPI 后端服务，当前处于第七阶段：个性化学习路径 PlannerAgent。
+FastAPI 后端服务，当前处于第八阶段：多类型学习资源生成 ResourceAgent。
 
 ## 技术栈
 
@@ -11,7 +11,7 @@ FastAPI 后端服务，当前处于第七阶段：个性化学习路径 PlannerA
 - SQLite
 - pytest / ruff / mypy
 
-第七阶段不新增大模型 SDK，不引入 LangChain、OpenAI SDK、ChromaDB、sentence-transformers、torch、Redis 或 Celery。
+第八阶段不新增大模型 SDK，不引入 LangChain、OpenAI SDK、ChromaDB、sentence-transformers、torch、Redis 或 Celery。
 
 ## 启动
 
@@ -28,18 +28,22 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 学习画像：
 
-- `GET /api/learner-profiles`
 - `POST /api/learner-profiles/chat`
 - `GET /api/learner-profiles/summary/by-student-course`
-- `GET /api/learner-profiles/dimension-check/by-student-course`
 
 学习路径：
 
 - `POST /api/learning-paths/generate`
-- `GET /api/learning-paths`
 - `GET /api/learning-paths/{path_id}`
 - `GET /api/learning-paths/{path_id}/steps`
-- `GET /api/learning-paths/{path_id}/plan-check`
+
+学习资源：
+
+- `GET /api/generated-resources/types`
+- `POST /api/generated-resources/generate`
+- `POST /api/generated-resources/generate-for-step`
+- `GET /api/generated-resources`
+- `GET /api/generated-resources/{resource_id}`
 
 运行记录：
 
@@ -47,17 +51,15 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 ## 数据模型
 
-- `LearnerProfile`：保存 8 维动态学习画像。
-- `ProfileChatMessage`：保存画像构建过程中的用户和助手消息。
-- `AgentRun`：保存 ProfileAgent、PlannerAgent 等智能体运行记录。
-- `LearningPath`：保存一次学习路径规划结果。
-- `LearningPathStep`：保存路径中的阶段化学习步骤。
+- `GeneratedResource`：保存资源正文、资源类型、content_format、citations_json、llm_log_id。
+- `AgentRun`：保存 ResourceAgent 运行记录。
+- `LLMCallLog`：保存 MockLLM 调用日志。
 
-## PlannerAgent
+## ResourceAgent
 
-PlannerAgent 会读取学生、课程、学习画像、课程知识点和少量文档 chunk 摘要，调用 MockLLM 的 `learning_path` 场景，并在 JSON 解析失败时使用 fallback 规划算法。生成结果会覆盖画像中的薄弱点，例如 JOIN、事务隔离级别、B+ 树索引和查询优化。
+ResourceAgent 会读取学生、课程、学习画像、学习路径步骤和知识库检索片段，调用 MockLLM 资源场景，并生成 6 类资源正文。生成结果会写入 `GeneratedResource`，引用来源会写入 `citations_json`。
 
-本阶段只推荐资源类型，例如讲义、思维导图、练习题、拓展阅读、实操案例和视频脚本，不生成具体资源内容。
+本阶段没有实现智能辅导、答题提交、自动批改、学习效果评估或真实外部模型调用。
 
 ## 测试
 
@@ -66,7 +68,3 @@ pytest
 ruff check .
 mypy app tests
 ```
-
-## 阶段边界
-
-本阶段没有实现 ResourceAgent、TutorAgent、测验批改、完整多智能体编排、真实 RAG、embedding 或真实外部模型调用。

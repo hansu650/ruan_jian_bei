@@ -386,3 +386,71 @@ export interface LearningPathPlanCheck {
   total_estimated_minutes: number;
   recommended_resource_types: string[];
 }
+
+export interface ResourceTypeInfo {
+  key: string;
+  title: string;
+  description: string;
+  content_format: string;
+}
+
+export interface ResourceCitation {
+  chunk_id: number;
+  document_id: number;
+  filename: string;
+  chunk_index: number;
+  section_title?: string | null;
+  quote_preview: string;
+}
+
+export interface GeneratedResource {
+  id: number;
+  student_id: number;
+  course_id: number;
+  profile_id?: number | null;
+  path_id?: number | null;
+  step_id: number;
+  resource_type: string;
+  title: string;
+  content_format: string;
+  content: string;
+  citations_json: string;
+  status: string;
+  source: string;
+  llm_log_id?: number | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface GenerateResourceRequest {
+  student_id: number;
+  course_id: number;
+  step_id: number;
+  resource_type: string;
+  profile_id?: number | null;
+  regenerate?: boolean;
+}
+
+export interface GenerateStepResourcesRequest {
+  student_id: number;
+  course_id: number;
+  step_id: number;
+  profile_id?: number | null;
+  resource_types?: string[];
+  regenerate?: boolean;
+}
+
+export interface GenerateResourceResponse {
+  resource: GeneratedResource;
+  agent_run_id?: number | null;
+  llm_log_id?: number | null;
+  citation_count: number;
+  generation_summary: string;
+}
+
+export interface GenerateStepResourcesResponse {
+  resources: GeneratedResource[];
+  agent_run_ids: number[];
+  llm_log_ids: number[];
+  generation_summary: string;
+}

@@ -22,8 +22,15 @@ def test_llm_scenarios_returns_expected_count() -> None:
 
     assert response.status_code == 200
     scenarios = response.json()
-    assert len(scenarios) >= 7
-    assert {scenario["key"] for scenario in scenarios} >= {"profile", "quiz", "tutor"}
+    assert len(scenarios) >= 11
+    assert {scenario["key"] for scenario in scenarios} >= {
+        "profile",
+        "quiz",
+        "tutor",
+        "resource_mindmap",
+        "resource_practice_case",
+        "resource_video_script",
+    }
 
 
 def test_llm_generate_general_returns_content() -> None:
@@ -65,6 +72,7 @@ def test_llm_generate_learning_path_returns_json() -> None:
     assert response.status_code == 200
     data = json.loads(response.json()["content"])
     assert "steps" in data
+    assert "recommended_resource_types" in data
 
 
 def test_llm_generate_resource_note_returns_markdown() -> None:
@@ -76,6 +84,17 @@ def test_llm_generate_resource_note_returns_markdown() -> None:
 
     assert response.status_code == 200
     assert response.json()["content"].startswith("#")
+
+
+def test_llm_generate_resource_mindmap_returns_mermaid() -> None:
+    with TestClient(app) as client:
+        response = client.post(
+            "/api/llm/generate",
+            json={"scenario": "resource_mindmap", "prompt": "生成 B+树思维导图"},
+        )
+
+    assert response.status_code == 200
+    assert "```mermaid" in response.json()["content"]
 
 
 def test_llm_chat_returns_content() -> None:

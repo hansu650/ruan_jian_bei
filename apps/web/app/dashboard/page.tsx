@@ -1,4 +1,4 @@
-import { ArrowRight, Milestone, Route, UserRound } from "lucide-react";
+import { ArrowRight, FileText, Milestone, Route, UserRound } from "lucide-react";
 import Link from "next/link";
 
 import { AppSidebar } from "@/components/app-sidebar";
@@ -19,16 +19,17 @@ export default function DashboardPage() {
         <section className="rounded-lg border bg-card p-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <Badge variant="warning">Phase 7</Badge>
+              <Badge variant="warning">Phase 8</Badge>
               <h1 className="mt-3 text-3xl font-bold">Dashboard 骨架</h1>
               <p className="mt-2 text-sm text-muted-foreground">
-                当前正在建设 A3 核心能力之一：个性化学习路径规划，系统会根据画像和课程知识点生成阶段化学习计划，并推荐资源类型。
+                当前正在建设 A3 核心能力之一：多类型学习资源生成。ResourceAgent 会根据画像、
+                学习路径步骤和知识库引用片段生成讲义、思维导图、练习题、拓展阅读、实操案例和视频脚本。
               </p>
             </div>
             <Button asChild>
-              <Link href="/learning-path">
-                <Route className="h-4 w-4" aria-hidden="true" />
-                进入学习路径
+              <Link href="/resources">
+                <FileText className="h-4 w-4" aria-hidden="true" />
+                进入资源生成
               </Link>
             </Button>
           </div>
@@ -48,7 +49,7 @@ export default function DashboardPage() {
             <CardContent className="space-y-3">
               <Badge variant="success">已完成</Badge>
               <p className="text-sm text-muted-foreground">
-                ProfileAgent 已支持 8 维画像生成和持续更新，是路径规划的主要输入。
+                ProfileAgent 支持 8 维画像生成和持续更新，是路径规划和资源生成的主要输入。
               </p>
               <Button asChild variant="outline" size="sm">
                 <Link href="/profile">
@@ -63,31 +64,46 @@ export default function DashboardPage() {
               <CardTitle className="text-base">学习路径</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Badge variant="warning">进行中</Badge>
+              <Badge variant="success">已完成</Badge>
               <p className="text-sm text-muted-foreground">
                 PlannerAgent 可生成 7 天左右学习路径，并检查 JOIN、事务、索引等薄弱点覆盖情况。
               </p>
               <Button asChild variant="outline" size="sm">
                 <Link href="/learning-path">
-                  生成路径
+                  查看路径
+                  <Route className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">资源生成</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Badge variant="warning">进行中</Badge>
+              <p className="text-sm text-muted-foreground">
+                ResourceAgent 正在生成 6 类个性化学习资源，并记录 citations_json 引用来源。
+              </p>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/resources">
+                  生成资源
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </Button>
             </CardContent>
           </Card>
-          {["资源生成", "智能辅导"].map((title) => (
-            <Card key={title}>
-              <CardHeader>
-                <CardTitle className="text-base">{title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Badge variant="outline">待开始</Badge>
-                <p className="mt-3 text-sm text-muted-foreground">
-                  后续阶段再实现，不在当前阶段提前展开。
-                </p>
-              </CardContent>
-            </Card>
-          ))}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">智能辅导</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Badge variant="outline">待开始</Badge>
+              <p className="mt-3 text-sm text-muted-foreground">
+                TutorAgent、测验批改和学习效果评估将在后续阶段实现。
+              </p>
+            </CardContent>
+          </Card>
         </section>
 
         <section className="space-y-4">
@@ -99,9 +115,10 @@ export default function DashboardPage() {
               </div>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Progress value={70} />
+              <Progress value={80} />
               <p className="text-sm text-muted-foreground">
-                前六阶段已完成，第七阶段正在补齐 PlannerAgent，为第八阶段 ResourceAgent 做准备。
+                前七阶段已完成，第八阶段正在补齐 ResourceAgent，为后续 TutorAgent、PracticeAgent
+                和 EvaluatorAgent 做准备。
               </p>
             </CardContent>
           </Card>

@@ -1,5 +1,3 @@
-import type { StageStatus } from "@/lib/types";
-
 export const APP_NAME = "EduForge 智学工坊";
 export const APP_SUBTITLE = "基于大模型的个性化资源生成与学习多智能体系统";
 export const COMPETITION_NAME = "第十五届中国软件杯";
@@ -19,31 +17,31 @@ export const CORE_LOOP = [
 
 export const CORE_FEATURES = [
   {
-    title: "课程资料与知识库基础",
-    status: "已完成",
-    description: "原创资料、Markdown/TXT 解析、文档分块、入库和关键词检索已经完成。",
-  },
-  {
-    title: "MockLLM 与讯飞接口预留",
-    status: "已完成",
-    description: "Provider 抽象、MockLLM、SparkProvider 预留、调用日志和模型实验室已经完成。",
-  },
-  {
     title: "对话式学习画像",
     status: "已完成",
-    description: "ProfileAgent 已支持自然语言对话抽取并更新 8 维动态画像。",
+    description: "ProfileAgent 支持自然语言对话抽取并更新 8 维动态画像。",
   },
   {
     title: "个性化学习路径",
+    status: "已完成",
+    description: "PlannerAgent 根据画像和课程知识点生成阶段化学习计划。",
+  },
+  {
+    title: "多类型学习资源生成",
     status: "进行中",
-    description: "当前建设 PlannerAgent，根据画像和课程知识点生成阶段化学习计划。",
+    description: "ResourceAgent 生成讲义、思维导图、练习题、阅读、实操案例和视频脚本。",
+  },
+  {
+    title: "智能辅导与评估",
+    status: "待开始",
+    description: "后续接入 TutorAgent、PracticeAgent、EvaluatorAgent 和防幻觉校验。",
   },
 ];
 
 export const PROJECT_STAGES: Array<{
   name: string;
   description: string;
-  status: StageStatus;
+  status: string;
 }> = [
   { name: "第一阶段", description: "环境准备", status: "已完成" },
   { name: "第二阶段", description: "前端骨架与联调", status: "已完成" },
@@ -51,8 +49,8 @@ export const PROJECT_STAGES: Array<{
   { name: "第四阶段", description: "课程资料与知识库基础", status: "已完成" },
   { name: "第五阶段", description: "MockLLM 与讯飞接口预留", status: "已完成" },
   { name: "第六阶段", description: "对话式学习画像 ProfileAgent", status: "已完成" },
-  { name: "第七阶段", description: "个性化学习路径 PlannerAgent", status: "进行中" },
-  { name: "第八阶段", description: "多类型学习资源生成", status: "待开始" },
+  { name: "第七阶段", description: "个性化学习路径 PlannerAgent", status: "已完成" },
+  { name: "第八阶段", description: "多类型学习资源生成 ResourceAgent", status: "进行中" },
   { name: "第九阶段", description: "智能辅导", status: "待开始" },
   { name: "第十阶段", description: "测验评估", status: "待开始" },
 ];

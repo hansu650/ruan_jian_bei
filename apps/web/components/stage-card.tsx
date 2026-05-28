@@ -2,12 +2,11 @@ import { CheckCircle2, CircleDashed, Loader2 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import type { StageStatus } from "@/lib/types";
 
 interface StageCardProps {
   name: string;
   description: string;
-  status: StageStatus;
+  status: string;
 }
 
 export function StageCard({ name, description, status }: StageCardProps) {

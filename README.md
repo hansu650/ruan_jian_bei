@@ -4,7 +4,7 @@ EduForge 智学工坊是面向第十五届中国软件杯 A3 赛题“基于大�
 
 ## 当前阶段
 
-当前处于第七阶段：个性化学习路径 PlannerAgent。
+当前处于第八阶段：多类型学习资源生成 ResourceAgent。
 
 已完成能力包括：
 
@@ -15,12 +15,26 @@ EduForge 智学工坊是面向第十五届中国软件杯 A3 赛题“基于大�
 - MockLLMProvider、SparkProvider 预留、LLMCallLog 和 `/llm-lab`
 - ProfileAgent 对话式学习画像，支持 8 维动态画像
 - PlannerAgent 个性化学习路径，支持 LearningPath / LearningPathStep、薄弱点覆盖检查和资源类型推荐
+- ResourceAgent 多类型学习资源生成，支持 GeneratedResource 和 citations_json
 
-第七阶段仍然只使用 MockLLM，不调用真实外部 API，不需要 API Key，不产生费用。
+第八阶段仍然只使用 MockLLM，不调用真实外部 API，不需要 API Key，不产生费用。
+
+## 资源类型
+
+ResourceAgent 当前支持 6 类资源：
+
+- `lecture_note`：专业课程讲义
+- `mindmap`：知识点思维导图，使用 Markdown fenced code block 保存 mermaid mindmap
+- `quiz`：练习题草稿
+- `reading`：拓展阅读材料
+- `practice_case`：SQL/代码实操案例
+- `video_script`：短视频/动画讲解脚本
+
+每个资源都会保存到 `GeneratedResource`，并通过 `citations_json` 记录来源 chunk。
 
 ## 阶段边界
 
-本阶段只做学习路径规划和资源类型推荐，不生成具体资源内容。项目尚未实现 ResourceAgent、TutorAgent、测验批改、完整多智能体编排、真实 RAG、embedding、ChromaDB 或真实讯飞星火 API 接入。
+本阶段只做资源内容生成，不做智能辅导聊天、答题提交、自动批改、学习效果评估、路径动态调整、完整多智能体编排、真实 RAG、embedding、ChromaDB 或真实讯飞星火 API 接入。
 
 项目不提交教材 PDF、扫描件、出版教材原文或真实 API Key。
 
@@ -73,27 +87,26 @@ macOS/Linux：
 - [http://localhost:3000/dashboard](http://localhost:3000/dashboard)
 - [http://localhost:3000/profile](http://localhost:3000/profile)
 - [http://localhost:3000/learning-path](http://localhost:3000/learning-path)
+- [http://localhost:3000/resources](http://localhost:3000/resources)
 - [http://localhost:3000/knowledge-base](http://localhost:3000/knowledge-base)
-- [http://localhost:3000/llm-lab](http://localhost:3000/llm-lab)
 
 后端：
 
 - [http://localhost:8000/api/health](http://localhost:8000/api/health)
 - [http://localhost:8000/api/meta](http://localhost:8000/api/meta)
-- [http://localhost:8000/api/learner-profiles](http://localhost:8000/api/learner-profiles)
-- [http://localhost:8000/api/learning-paths](http://localhost:8000/api/learning-paths)
-- [http://localhost:8000/api/agent-runs](http://localhost:8000/api/agent-runs)
+- [http://localhost:8000/api/generated-resources](http://localhost:8000/api/generated-resources)
+- [http://localhost:8000/api/generated-resources/types](http://localhost:8000/api/generated-resources/types)
 - [http://localhost:8000/docs](http://localhost:8000/docs)
 
-## PlannerAgent API
+## ResourceAgent API
 
-- `POST /api/learning-paths/generate`
-- `GET /api/learning-paths`
-- `GET /api/learning-paths/{path_id}`
-- `GET /api/learning-paths/{path_id}/steps`
-- `GET /api/learning-paths/{path_id}/plan-check`
+- `GET /api/generated-resources/types`
+- `POST /api/generated-resources/generate`
+- `POST /api/generated-resources/generate-for-step`
+- `GET /api/generated-resources`
+- `GET /api/generated-resources/{resource_id}`
 
-这些接口会基于 LearnerProfile、Student、Course、KnowledgePoint 和少量 DocumentChunk 摘要生成阶段化学习路径。返回内容包含步骤顺序、学习目标、知识点、预计耗时、推荐资源类型和掌握标准。
+这些接口会基于 LearnerProfile、LearningPathStep、Course 和 DocumentChunk 检索结果生成资源正文，并保存 citations。
 
 ## 验收
 
@@ -103,16 +116,16 @@ macOS/Linux：
 python scripts/check-env.py
 ```
 
-第七阶段一键检查：
+第八阶段一键检查：
 
 ```powershell
-.\scripts\check-phase7.ps1
+.\scripts\check-phase8.ps1
 ```
 
 macOS/Linux：
 
 ```bash
-./scripts/check-phase7.sh
+./scripts/check-phase8.sh
 ```
 
 手动检查：
@@ -131,11 +144,11 @@ pnpm typecheck
 ## 演示流程
 
 1. 启动后端和前端。
-2. 打开 `/profile`，使用示例输入生成 8 维学习画像。
-3. 打开 `/learning-path`，确认读取到“示例学生”和“数据库系统”的画像。
-4. 将 `target_days` 设置为 7，点击生成个性化学习路径。
-5. 查看 6-8 个学习步骤，重点确认 JOIN、事务隔离级别、B+ 树索引等薄弱点被覆盖。
-6. 查看每个步骤的推荐资源类型、掌握标准和路径完整性检查。
-7. 在 AgentRun 中确认能看到 PlannerAgent 运行记录。
+2. 打开 `/knowledge-base`，导入《数据库系统》示例资料。
+3. 打开 `/profile`，生成 8 维学习画像。
+4. 打开 `/learning-path`，生成个性化学习路径。
+5. 打开 `/resources`，选择某个学习路径 step。
+6. 选择 6 类资源并点击生成。
+7. 查看资源正文、资源类型、citations_json 引用来源和 ResourceAgent 运行记录。
 
-下一阶段计划：第八阶段，多类型学习资源生成 ResourceAgent。
+下一阶段计划：第九阶段，智能辅导 TutorAgent。

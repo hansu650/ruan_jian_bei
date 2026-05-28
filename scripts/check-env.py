@@ -214,6 +214,7 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/api/app/routers/profiles.py",
         "apps/api/app/routers/agent_runs.py",
         "apps/api/app/routers/learning_paths.py",
+        "apps/api/app/routers/generated_resources.py",
         "apps/api/app/llm/base.py",
         "apps/api/app/llm/mock_provider.py",
         "apps/api/app/llm/spark_provider.py",
@@ -221,6 +222,7 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/api/app/agents/base.py",
         "apps/api/app/agents/profile_agent.py",
         "apps/api/app/agents/planner_agent.py",
+        "apps/api/app/agents/resource_agent.py",
         "apps/api/app/services/document_parser.py",
         "apps/api/app/services/chunking.py",
         "apps/api/app/services/document_indexer.py",
@@ -228,12 +230,15 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/api/app/services/llm_service.py",
         "apps/api/app/services/profile_service.py",
         "apps/api/app/services/learning_path_service.py",
+        "apps/api/app/services/generated_resource_service.py",
         "apps/api/app/schemas/llm.py",
         "apps/api/app/schemas/profiles.py",
         "apps/api/app/schemas/agent_runs.py",
         "apps/api/app/schemas/learning_paths.py",
+        "apps/api/app/schemas/generated_resources.py",
         "apps/api/app/prompts/profile_prompt.md",
         "apps/api/app/prompts/learning_path_prompt.md",
+        "apps/api/app/prompts/resource_generation_prompt.md",
         "data/sample_courses/database_system/01_intro.md",
         "data/sample_courses/database_system/07_transaction.md",
         "data/sample_courses/database_system/08_index_btree.md",
@@ -248,6 +253,7 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/web/app/llm-lab/page.tsx",
         "apps/web/app/profile/page.tsx",
         "apps/web/app/learning-path/page.tsx",
+        "apps/web/app/resources/page.tsx",
         "apps/web/lib/api.ts",
     ]
     for file_path in required_files:
@@ -283,7 +289,7 @@ def check_project_files(reporter: Reporter) -> None:
     if os.environ.get("SPARK_API_KEY"):
         reporter.ok("SPARK_API_KEY 已配置（自检不会读取或输出密钥内容）")
     else:
-        reporter.warn("SPARK_API_KEY 未配置；第七阶段默认使用 MockLLM，Spark 仍然只是预留接口")
+        reporter.warn("SPARK_API_KEY 未配置；第八阶段默认使用 MockLLM，Spark 仍然只是预留接口")
 
 
 def print_next_steps() -> None:
@@ -305,17 +311,18 @@ def print_next_steps() -> None:
     print("5. 启动前端：")
     print("   cd apps/web")
     print("   pnpm dev")
-    print("6. 打开第七阶段页面：")
+    print("6. 打开第八阶段页面：")
     print("   http://localhost:3000/profile")
     print("   http://localhost:3000/learning-path")
-    print("7. 一键检查第七阶段：")
-    print("   .\\scripts\\check-phase7.ps1")
-    print("   ./scripts/check-phase7.sh")
+    print("   http://localhost:3000/resources")
+    print("7. 一键检查第八阶段：")
+    print("   .\\scripts\\check-phase8.ps1")
+    print("   ./scripts/check-phase8.sh")
 
 
 def main() -> int:
     reporter = Reporter()
-    print("EduForge 智学工坊 - 第七阶段环境自检")
+    print("EduForge 智学工坊 - 第八阶段环境自检")
     print()
 
     check_python(reporter)
@@ -351,7 +358,7 @@ def main() -> int:
         return 1
 
     print()
-    print("[OK] 环境自检通过，可以继续启动前后端或运行第七阶段检查。")
+    print("[OK] 环境自检通过，可以继续启动前后端或运行第八阶段检查。")
     return 0
 
 

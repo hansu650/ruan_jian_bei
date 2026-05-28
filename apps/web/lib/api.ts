@@ -6,6 +6,11 @@ import type {
   DocumentChunk,
   DocumentImportResult,
   DocumentSearchResult,
+  GeneratedResource,
+  GenerateResourceRequest,
+  GenerateResourceResponse,
+  GenerateStepResourcesRequest,
+  GenerateStepResourcesResponse,
   HealthResponse,
   KnowledgeBaseStats,
   KnowledgePoint,
@@ -33,6 +38,7 @@ import type {
   ProfileSummaryResponse,
   ResourceItem,
   ResourceItemCreate,
+  ResourceTypeInfo,
   Student,
   StudentCreate,
 } from "@/lib/types";
@@ -344,4 +350,40 @@ export function getLearningPathSteps(pathId: number): Promise<LearningPathStep[]
 
 export function getLearningPathPlanCheck(pathId: number): Promise<LearningPathPlanCheck> {
   return requestJson<LearningPathPlanCheck>(`/api/learning-paths/${pathId}/plan-check`);
+}
+
+export function getGeneratedResourceTypes(): Promise<ResourceTypeInfo[]> {
+  return requestJson<ResourceTypeInfo[]>("/api/generated-resources/types");
+}
+
+export function generateResource(
+  payload: GenerateResourceRequest,
+): Promise<GenerateResourceResponse> {
+  return requestJson<GenerateResourceResponse>("/api/generated-resources/generate", {
+    method: "POST",
+    body: payload,
+  });
+}
+
+export function generateResourcesForStep(
+  payload: GenerateStepResourcesRequest,
+): Promise<GenerateStepResourcesResponse> {
+  return requestJson<GenerateStepResourcesResponse>("/api/generated-resources/generate-for-step", {
+    method: "POST",
+    body: payload,
+  });
+}
+
+export function getGeneratedResources(params?: {
+  student_id?: number;
+  course_id?: number;
+  path_id?: number;
+  step_id?: number;
+  resource_type?: string;
+}): Promise<GeneratedResource[]> {
+  return requestJson<GeneratedResource[]>(`/api/generated-resources${queryString(params ?? {})}`);
+}
+
+export function getGeneratedResource(resourceId: number): Promise<GeneratedResource> {
+  return requestJson<GeneratedResource>(`/api/generated-resources/${resourceId}`);
 }
