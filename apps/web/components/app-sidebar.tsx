@@ -7,6 +7,7 @@ import {
   FileText,
   GraduationCap,
   LibraryBig,
+  ListChecks,
   MessagesSquare,
   MonitorPlay,
   Route,
@@ -18,7 +19,8 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
 const navItems = [
-  { label: "演示工作台", state: "进行中", icon: MonitorPlay, href: "/demo" },
+  { label: "演示工作台", state: "已完成", icon: MonitorPlay, href: "/demo" },
+  { label: "测试清单", state: "进行中", icon: ListChecks, href: "/qa" },
   { label: "数据底座", state: "已完成", icon: Database, href: "/database" },
   { label: "课程知识库", state: "已完成", icon: LibraryBig, href: "/knowledge-base" },
   { label: "模型实验室", state: "已完成", icon: MessagesSquare, href: "/llm-lab" },
@@ -38,7 +40,7 @@ export function AppSidebar() {
       <div>
         <p className="text-sm font-semibold">EduForge 控制台</p>
         <p className="mt-1 text-xs text-muted-foreground">
-          Phase 11 聚焦比赛演示工作台，统一检查知识库、画像、路径、资源、辅导、练习和评估状态。
+          Phase 12 聚焦前端体验打磨与人工测试清单，录屏或答辩前可先检查 /demo 和 /qa。
         </p>
       </div>
       <Separator className="my-4" />

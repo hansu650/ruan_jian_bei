@@ -133,3 +133,16 @@ pnpm typecheck
 - Phase 12：交付材料初稿
 
 是否进入最终交付材料阶段由团队决定。
+
+## 12. Phase 12 衔接说明
+
+团队已选择先进入 Phase 12：前端体验打磨与人工测试清单，而不是直接进入最终交付材料阶段。
+
+Phase 12 新增：
+
+- `GET /api/qa/checklist`
+- `GET /api/qa/smoke-status`
+- `/qa` 人工测试清单页面
+- Spark 模式下高消耗操作确认提示
+
+这些能力用于录屏或答辩前逐项核对系统状态，不会自动调用 LLM 或 Spark。

@@ -152,3 +152,9 @@ Phase 10.1 后先进入 Phase 11：端到端演示工作台与稳定性打磨。
 Phase 11 允许本地继续使用 spark-http + lite，但 `/demo` 不会自动调用模型。只有用户手动进入画像、路径、资源、辅导、练习等页面并点击生成类按钮时，才会触发真实 API 调用。
 
 自动化测试会强制 Mock 或 mock 外部请求，不真实调用讯飞 API，也不要求配置 APIPassword。
+
+# Phase 12 衔接说明
+
+Phase 12 新增 `/qa` 人工测试清单和 Smoke Status。即使本地保持 spark-http + lite，`/api/qa/checklist` 和 `/api/qa/smoke-status` 也只读取配置和数据库，不调用真实讯飞星火 API。
+
+前端在 `/resources` 等高消耗生成操作前会提示真实 Spark 模式可能消耗额度，但不会显示、输入、传输或保存 APIPassword。

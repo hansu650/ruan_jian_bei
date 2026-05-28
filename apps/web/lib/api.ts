@@ -40,6 +40,8 @@ import type {
   PracticeAttemptDetailResponse,
   PracticeQuiz,
   PracticeQuizDetailResponse,
+  QAChecklistResponse,
+  QASmokeStatusResponse,
   QuestionTypeInfo,
   ProfileChatRequest,
   ProfileChatResponse,
@@ -512,4 +514,12 @@ export function getDemoStatus(): Promise<DemoStatusResponse> {
 
 export function bootstrapDemoData(): Promise<DemoBootstrapResponse> {
   return requestJson<DemoBootstrapResponse>("/api/demo/bootstrap", { method: "POST" });
+}
+
+export function getQAChecklist(): Promise<QAChecklistResponse> {
+  return requestJson<QAChecklistResponse>("/api/qa/checklist");
+}
+
+export function getQASmokeStatus(): Promise<QASmokeStatusResponse> {
+  return requestJson<QASmokeStatusResponse>("/api/qa/smoke-status");
 }

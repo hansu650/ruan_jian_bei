@@ -4,6 +4,10 @@ import { BookOpenText, FileText, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
+import { ActionConfirmCard } from "@/components/action-confirm-card";
+import { CitationList } from "@/components/citation-list";
+import { LiveModelWarning } from "@/components/live-model-warning";
+import { MarkdownPreview } from "@/components/markdown-preview";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,6 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   generateResourcesForStep,
+  getDemoStatus,
   getAgentRuns,
   getCourses,
   getGeneratedResources,
@@ -28,7 +33,7 @@ import type {
   LearningPath,
   LearningPathDetailResponse,
   LearningPathStep,
-  ResourceCitation,
+  LLMModeInfo,
   ResourceTypeInfo,
   Student,
 } from "@/lib/types";
@@ -116,7 +121,6 @@ function ResourceContent({ resource }: { resource: GeneratedResource | null }) {
       </Card>
     );
   }
-  const citations = safeJson<ResourceCitation[]>(resource.citations_json, []);
   return (
     <Card>
       <CardHeader>
@@ -132,29 +136,14 @@ function ResourceContent({ resource }: { resource: GeneratedResource | null }) {
         </div>
       </CardHeader>
       <CardContent className="space-y-5">
-        <pre className="max-h-[560px] overflow-auto whitespace-pre-wrap rounded-lg border bg-muted/30 p-4 text-sm leading-6">
-          {resource.content}
-        </pre>
+        <MarkdownPreview content={resource.content} />
         <div>
           <h3 className="font-semibold">引用来源 citations</h3>
-          <div className="mt-3 space-y-2">
-            {citations.length ? (
-              citations.map((item) => (
-                <div key={`${item.filename}-${item.chunk_id}`} className="rounded-lg border p-3 text-sm">
-                  <p className="font-medium">
-                    {item.filename} / chunk {item.chunk_index}
-                  </p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    {item.section_title || "未命名小节"}
-                  </p>
-                  <p className="mt-2 leading-6">{item.quote_preview}</p>
-                </div>
-              ))
-            ) : (
-              <p className="text-sm text-muted-foreground">
-                暂无引用，请先在知识库页面导入示例资料。
-              </p>
-            )}
+          <div className="mt-3">
+            <CitationList
+              citations={resource.citations_json}
+              emptyText="暂无引用，请先在知识库页面导入示例资料。"
+            />
           </div>
         </div>
       </CardContent>
@@ -177,6 +166,8 @@ export default function ResourcesPage() {
   const [resources, setResources] = useState<GeneratedResource[]>([]);
   const [selectedResourceId, setSelectedResourceId] = useState<number | undefined>();
   const [agentRuns, setAgentRuns] = useState<AgentRun[]>([]);
+  const [llmMode, setLlmMode] = useState<LLMModeInfo | null>(null);
+  const [confirmedLiveGenerate, setConfirmedLiveGenerate] = useState(false);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -250,14 +241,16 @@ export default function ResourcesPage() {
     setLoading(true);
     setError(null);
     try {
-      const [studentList, courseList, typeList] = await Promise.all([
+      const [studentList, courseList, typeList, demoStatus] = await Promise.all([
         getStudents(),
         getCourses(),
         getGeneratedResourceTypes(),
+        getDemoStatus(),
       ]);
       setStudents(studentList);
       setCourses(courseList);
       setResourceTypes(typeList);
+      setLlmMode(demoStatus.llm_mode);
       setSelectedTypes(typeList.map((item) => item.key));
       const defaultStudent = studentList.find((item) => item.name === "示例学生") ?? studentList[0];
       const defaultCourse = courseList.find((item) => item.title === "数据库系统") ?? courseList[0];
@@ -315,10 +308,14 @@ export default function ResourcesPage() {
   }
 
   function toggleResourceType(key: string) {
+    setConfirmedLiveGenerate(false);
     setSelectedTypes((current) =>
       current.includes(key) ? current.filter((item) => item !== key) : [...current, key],
     );
   }
+
+  const requiresLiveConfirmation =
+    llmMode?.effective_provider === "spark-http" && selectedTypes.length >= 2;
 
   async function handleGenerate() {
     if (!selectedStudentId || !selectedCourseId || !selectedStepId) {
@@ -337,6 +334,7 @@ export default function ResourcesPage() {
       });
       setResources(response.resources);
       setSelectedResourceId(response.resources[0]?.id);
+      setConfirmedLiveGenerate(false);
       const runs = await getAgentRuns({
         agent_name: "ResourceAgent",
         student_id: selectedStudentId,
@@ -433,6 +431,8 @@ export default function ResourcesPage() {
 
             <ProfileCard profile={profile} />
 
+            <LiveModelWarning mode={llmMode} compact />
+
             <Card>
               <CardHeader>
                 <CardTitle className="text-base">路径与步骤</CardTitle>
@@ -519,9 +519,24 @@ export default function ResourcesPage() {
                     </span>
                   </label>
                 ))}
+                {requiresLiveConfirmation ? (
+                  <ActionConfirmCard
+                    title="真实模型批量生成确认"
+                    description="当前为 spark-http 模式，生成多个资源类型会发起多次真实模型调用，可能受网络、并发或额度策略影响。"
+                    checked={confirmedLiveGenerate}
+                    onCheckedChange={setConfirmedLiveGenerate}
+                    liveMode
+                  />
+                ) : null}
                 <Button
                   className="w-full"
-                  disabled={!profile || !selectedStepId || !selectedTypes.length || generating}
+                  disabled={
+                    !profile ||
+                    !selectedStepId ||
+                    !selectedTypes.length ||
+                    generating ||
+                    (requiresLiveConfirmation && !confirmedLiveGenerate)
+                  }
                   onClick={handleGenerate}
                 >
                   <Sparkles className="h-4 w-4" aria-hidden="true" />

@@ -8,8 +8,10 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { DemoStepCard } from "@/components/demo-step-card";
 import { EmptyState } from "@/components/empty-state";
 import { ErrorState } from "@/components/error-state";
+import { LiveModelWarning } from "@/components/live-model-warning";
 import { LoadingState } from "@/components/loading-state";
 import { ModelModeBadge } from "@/components/model-mode-badge";
+import { PageHeader } from "@/components/page-header";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -80,14 +82,16 @@ export default function DemoPage() {
         <AppSidebar />
 
         <div className="space-y-6">
-          <section className="rounded-lg border bg-card p-6">
-            <Badge variant="warning">Phase 11 进行中</Badge>
-            <h1 className="mt-4 text-3xl font-bold tracking-tight">演示工作台</h1>
-            <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground">
-              这里是比赛现场演示前的检查入口，用来确认知识库、学习画像、学习路径、资源生成、智能辅导、
-              练习测验和学习评估是否已经准备好。工作台只做状态检查和基础资料导入，不会自动调用 LLM。
-            </p>
-          </section>
+          <PageHeader
+            title="演示工作台"
+            description="这里是比赛现场演示前的检查入口，用来确认知识库、学习画像、学习路径、资源生成、智能辅导、练习测验和学习评估是否已经准备好。工作台只做状态检查和基础资料导入，不会自动调用 LLM。"
+            phase="Phase 11 / 12"
+            badges={[
+              <Badge key="status" variant="outline">
+                比赛演示入口
+              </Badge>,
+            ]}
+          />
 
           {loading ? <LoadingState title="正在读取演示状态" rows={5} /> : null}
           {error ? <ErrorState message={error} onRetry={loadStatus} /> : null}
@@ -123,17 +127,7 @@ export default function DemoPage() {
                       </p>
                     </div>
                   </div>
-                  <Alert
-                    className={
-                      status.llm_mode.mode_level === "live"
-                        ? "border-amber-200 bg-amber-50 text-amber-900"
-                        : ""
-                    }
-                    variant={status.llm_mode.mode_level === "safe" ? "success" : "default"}
-                  >
-                    <AlertTitle>{status.llm_mode.mode_label}</AlertTitle>
-                    <AlertDescription>{status.llm_mode.message}</AlertDescription>
-                  </Alert>
+                  <LiveModelWarning mode={status.llm_mode} />
                 </CardContent>
               </Card>
 

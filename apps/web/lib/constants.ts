@@ -20,9 +20,14 @@ export const CORE_LOOP = [
 
 export const CORE_FEATURES = [
   {
-    title: "演示工作台",
+    title: "测试清单",
     status: "进行中",
-    description: "Phase 11 新增端到端演示检查入口，比赛前可快速确认各模块状态。",
+    description: "Phase 12 新增人工测试清单和 Smoke Status，录屏或答辩前可逐项核对完整链路。",
+  },
+  {
+    title: "演示工作台",
+    status: "已完成",
+    description: "端到端演示检查入口，比赛前可快速确认各模块状态。",
   },
   {
     title: "对话式学习画像",
@@ -67,5 +72,6 @@ export const PROJECT_STAGES: Array<{
   { name: "第九阶段", description: "TutorAgent 智能辅导与防幻觉问答", status: "已完成" },
   { name: "第十阶段", description: "PracticeAgent + EvaluatorAgent 学习效果评估", status: "已完成" },
   { name: "Phase 10.1", description: "讯飞星火 HTTP Provider 可选接入", status: "已完成" },
-  { name: "Phase 11", description: "端到端演示工作台与稳定性打磨", status: "进行中" },
+  { name: "Phase 11", description: "端到端演示工作台与稳定性打磨", status: "已完成" },
+  { name: "Phase 12", description: "前端体验打磨与人工测试清单", status: "进行中" },
 ];

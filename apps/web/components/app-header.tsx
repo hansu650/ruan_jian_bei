@@ -9,6 +9,7 @@ import {
   GraduationCap,
   LayoutDashboard,
   LibraryBig,
+  ListChecks,
   MessagesSquare,
   MonitorPlay,
   Route,
@@ -21,6 +22,7 @@ import { Button } from "@/components/ui/button";
 
 const navItems = [
   { href: "/demo", label: "演示工作台", icon: MonitorPlay },
+  { href: "/qa", label: "测试清单", icon: ListChecks },
   { href: "/database", label: "数据底座", icon: Database },
   { href: "/knowledge-base", label: "知识库", icon: LibraryBig },
   { href: "/llm-lab", label: "模型实验室", icon: MessagesSquare },

@@ -4,6 +4,7 @@ import { ClipboardCheck, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
+import { LiveModelWarning } from "@/components/live-model-warning";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {
   generateQuiz,
   getCourses,
+  getDemoStatus,
   getLearningPath,
   getLearningPaths,
   getPracticeQuizzes,
@@ -26,6 +28,7 @@ import type {
   LearnerProfile,
   LearningPath,
   LearningPathDetailResponse,
+  LLMModeInfo,
   PracticeQuestion,
   PracticeQuiz,
   QuestionTypeInfo,
@@ -181,6 +184,7 @@ export default function PracticePage() {
   const [questions, setQuestions] = useState<PracticeQuestion[]>([]);
   const [answers, setAnswers] = useState<AnswerState>({});
   const [result, setResult] = useState<SubmitQuizResponse | null>(null);
+  const [llmMode, setLlmMode] = useState<LLMModeInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -226,9 +230,14 @@ export default function PracticePage() {
     setLoading(true);
     setError(null);
     try {
-      const [studentList, courseList] = await Promise.all([getStudents(), getCourses()]);
+      const [studentList, courseList, demoStatus] = await Promise.all([
+        getStudents(),
+        getCourses(),
+        getDemoStatus(),
+      ]);
       setStudents(studentList);
       setCourses(courseList);
+      setLlmMode(demoStatus.llm_mode);
       const defaultStudent = studentList.find((item) => item.name.includes("示例")) ?? studentList[0];
       const defaultCourse = courseList.find((item) => item.title.includes("数据库")) ?? courseList[0];
       if (defaultStudent && defaultCourse) {
@@ -492,6 +501,8 @@ export default function PracticePage() {
                 ))}
               </div>
             </div>
+
+            <LiveModelWarning mode={llmMode} compact />
 
             <Button
               className="w-full"

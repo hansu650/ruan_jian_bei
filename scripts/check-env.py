@@ -209,6 +209,7 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/api/app/routers/practice.py",
         "apps/api/app/routers/evaluation.py",
         "apps/api/app/routers/demo.py",
+        "apps/api/app/routers/qa.py",
         "apps/api/app/core/errors.py",
         "apps/api/app/agents/profile_agent.py",
         "apps/api/app/agents/planner_agent.py",
@@ -228,6 +229,7 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/api/app/services/practice_service.py",
         "apps/api/app/services/evaluation_service.py",
         "apps/api/app/services/demo_service.py",
+        "apps/api/app/services/qa_service.py",
         "apps/api/app/schemas/llm.py",
         "apps/api/app/schemas/profiles.py",
         "apps/api/app/schemas/learning_paths.py",
@@ -236,6 +238,7 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/api/app/schemas/practice.py",
         "apps/api/app/schemas/evaluation.py",
         "apps/api/app/schemas/demo.py",
+        "apps/api/app/schemas/qa.py",
         "apps/api/app/prompts/profile_prompt.md",
         "apps/api/app/prompts/learning_path_prompt.md",
         "apps/api/app/prompts/resource_generation_prompt.md",
@@ -247,6 +250,7 @@ def check_project_files(reporter: Reporter) -> None:
         "data/sample_courses/database_system/07_transaction.md",
         "data/sample_courses/database_system/08_index_btree.md",
         "docs/11_Phase11_演示工作台与稳定性打磨.md",
+        "docs/12_Phase12_前端体验打磨与人工测试清单.md",
         "apps/web/package.json",
         "apps/web/app/page.tsx",
         "apps/web/app/dashboard/page.tsx",
@@ -258,11 +262,18 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/web/app/practice/page.tsx",
         "apps/web/app/analytics/page.tsx",
         "apps/web/app/demo/page.tsx",
+        "apps/web/app/qa/page.tsx",
         "apps/web/components/empty-state.tsx",
         "apps/web/components/error-state.tsx",
         "apps/web/components/loading-state.tsx",
         "apps/web/components/model-mode-badge.tsx",
         "apps/web/components/demo-step-card.tsx",
+        "apps/web/components/page-header.tsx",
+        "apps/web/components/citation-list.tsx",
+        "apps/web/components/json-preview.tsx",
+        "apps/web/components/markdown-preview.tsx",
+        "apps/web/components/live-model-warning.tsx",
+        "apps/web/components/action-confirm-card.tsx",
         "apps/web/lib/api.ts",
         "apps/web/lib/types.ts",
     ]
@@ -335,24 +346,28 @@ def print_next_steps() -> None:
     print("5. 启动前端：")
     print("   cd apps/web")
     print("   pnpm dev")
-    print("6. 打开 Phase 11 演示工作台：")
+    print("6. 打开 Phase 12 演示和测试页面：")
     print("   http://localhost:3000/demo")
+    print("   http://localhost:3000/qa")
     print("   http://localhost:3000/practice")
     print("   http://localhost:3000/analytics")
-    print("7. 一键检查 Phase 11：")
+    print("7. 一键检查 Phase 12：")
+    print("   .\\scripts\\check-phase12.ps1")
+    print("   ./scripts/check-phase12.sh")
+    print("8. 一键检查 Phase 11：")
     print("   .\\scripts\\check-phase11.ps1")
     print("   ./scripts/check-phase11.sh")
-    print("8. 一键检查第十阶段：")
+    print("9. 一键检查第十阶段：")
     print("   .\\scripts\\check-phase10.ps1")
     print("   ./scripts/check-phase10.sh")
-    print("9. 一键检查 Phase 10.1：")
+    print("10. 一键检查 Phase 10.1：")
     print("   .\\scripts\\check-phase10-1.ps1")
     print("   ./scripts/check-phase10-1.sh")
 
 
 def main() -> int:
     reporter = Reporter()
-    print("EduForge 智学工坊 - Phase 11 演示工作台与稳定性打磨环境自检")
+    print("EduForge 智学工坊 - Phase 12 前端体验打磨与人工测试清单环境自检")
     print()
 
     check_python(reporter)
@@ -388,7 +403,7 @@ def main() -> int:
         return 1
 
     print()
-    print("[OK] 环境自检通过，可以继续启动前后端或运行 Phase 11 检查。")
+    print("[OK] 环境自检通过，可以继续启动前后端或运行 Phase 12 检查。")
     return 0
 
 

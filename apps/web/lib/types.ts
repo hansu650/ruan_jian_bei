@@ -733,3 +733,36 @@ export interface DemoBootstrapResponse {
   chunk_count: number;
   message: string;
 }
+
+export interface QACheckItem {
+  id: string;
+  module: string;
+  title: string;
+  description: string;
+  route: string;
+  expected_result: string;
+  priority: "high" | "medium" | "low" | string;
+  requires_llm: boolean;
+  may_call_spark: boolean;
+  status_hint: string;
+}
+
+export interface QAChecklistResponse {
+  title: string;
+  description: string;
+  items: QACheckItem[];
+}
+
+export interface QASmokeItem {
+  key: string;
+  title: string;
+  status: "ok" | "warning" | "error" | string;
+  message: string;
+  count?: number | null;
+}
+
+export interface QASmokeStatusResponse {
+  status: "ok" | "warning" | "error" | string;
+  items: QASmokeItem[];
+  warning?: string | null;
+}

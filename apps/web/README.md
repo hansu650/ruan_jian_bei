@@ -1,6 +1,6 @@
 # EduForge Web
 
-Next.js + TypeScript + Tailwind CSS 前端。当前新增 Phase 11 演示工作台。
+Next.js + TypeScript + Tailwind CSS 前端。当前新增 Phase 12 人工测试清单页面和体验打磨组件。
 
 ## 安装和启动
 
@@ -19,6 +19,7 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 ## 页面
 
 - `/demo`：演示工作台，检查端到端演示准备状态。
+- `/qa`：人工测试清单，展示 Smoke Status 和本地勾选进度。
 - `/knowledge-base`：课程知识库和关键词检索。
 - `/profile`：对话式学习画像。
 - `/learning-path`：个性化学习路径。
@@ -37,3 +38,14 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 - `components/demo-step-card.tsx`
 
 `/demo` 页面不会自动调用生成类接口，不会自动调用 Spark，也不会接触 APIPassword。真实 Key 只允许放在后端本地 `.env`。
+
+## Phase 12 前端组件
+
+- `components/page-header.tsx`
+- `components/citation-list.tsx`
+- `components/json-preview.tsx`
+- `components/markdown-preview.tsx`
+- `components/live-model-warning.tsx`
+- `components/action-confirm-card.tsx`
+
+`/qa` 页面不会自动调用生成接口，不会调用 Spark。`/resources` 在 spark-http 模式下批量生成多个资源前会显示确认提示，避免比赛联调时误触多次真实模型调用。

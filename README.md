@@ -6,7 +6,7 @@ EduForge 智学工坊是第十五届中国软件杯 A3 赛题项目，赛题为�
 
 ## 当前阶段
 
-当前阶段为 **Phase 11：端到端演示工作台与前端/API 稳定性打磨**。
+当前阶段为 **Phase 12：前端体验打磨与人工测试清单**。
 
 已完成能力：
 
@@ -21,6 +21,7 @@ EduForge 智学工坊是第十五届中国软件杯 A3 赛题项目，赛题为�
 - PracticeAgent 练习生成
 - EvaluatorAgent 自动批改、掌握度更新和学习效果评估
 - `/demo` 演示工作台，用于检查端到端演示准备状态
+- `/qa` 人工测试清单和 Smoke Status，用于录屏、答辩或提交前逐项核对
 
 仍未进入最终交付材料阶段：本阶段不生成 PPT、演示视频脚本、最终系统开发说明书，也不做 Docker 部署。
 
@@ -65,6 +66,7 @@ conda activate cnsoftbei_a3_eduforge
 
 - 前端首页：http://localhost:3000
 - 演示工作台：http://localhost:3000/demo
+- 测试清单：http://localhost:3000/qa
 - Dashboard：http://localhost:3000/dashboard
 - 知识库：http://localhost:3000/knowledge-base
 - 学习画像：http://localhost:3000/profile
@@ -91,6 +93,19 @@ conda activate cnsoftbei_a3_eduforge
 - 下一步建议和推荐演示路线
 
 注意：`/demo` 不会自动生成画像、路径、资源、辅导回答或测验，也不会自动调用 MockLLM 或真实 Spark。真实 Spark 模式下，只有用户手动进入生成类页面并点击生成按钮才会发起真实 API 调用。
+
+## Phase 12 人工测试清单
+
+新增 API：
+
+- `GET /api/qa/checklist`：返回人工测试清单，不执行任何生成类操作。
+- `GET /api/qa/smoke-status`：轻量读取数据库和配置，检查核心演示数据状态。
+
+新增前端页面：
+
+- `/qa`：展示 Smoke Status、按模块分组的人工测试项、本地勾选进度和 Mock/Spark 模式提示。
+
+`/qa` 不会自动调用 LLM，也不会自动调用 Spark。真实 Spark Lite 模式下，页面只提醒“手动点击生成类操作会调用真实 API”，不会显示、输入、保存或传输 APIPassword。
 
 ## 可选讯飞星火 HTTP 接入
 
@@ -124,6 +139,8 @@ SPARK_MODEL=lite
 
 - `GET /api/demo/status`
 - `POST /api/demo/bootstrap`
+- `GET /api/qa/checklist`
+- `GET /api/qa/smoke-status`
 - `GET /api/llm/status`
 - `POST /api/learner-profiles/chat`
 - `POST /api/learning-paths/generate`
@@ -138,6 +155,7 @@ SPARK_MODEL=lite
 ```powershell
 python scripts/check-env.py
 .\scripts\check-phase11.ps1
+.\scripts\check-phase12.ps1
 ```
 
 或手动执行：
@@ -157,13 +175,14 @@ pnpm typecheck
 
 1. 打开 `/demo`，检查当前 LLM 模式和各模块状态。
 2. 点击“准备基础演示数据”，导入原创《数据库系统》示例资料。
-3. 打开 `/knowledge-base`，搜索“幻读”。
-4. 打开 `/profile`，生成 8 维学习画像。
-5. 打开 `/learning-path`，生成 7 天学习路径。
-6. 打开 `/resources`，生成 6 类学习资源。
-7. 打开 `/tutor`，提问“幻读和不可重复读有什么区别？”。
-8. 打开 `/practice`，生成测验并提交答案。
-9. 打开 `/analytics`，查看掌握度变化和评估报告。
+3. 打开 `/qa`，查看 Smoke Status 和人工测试清单。
+4. 打开 `/knowledge-base`，搜索“幻读”。
+5. 打开 `/profile`，生成 8 维学习画像。
+6. 打开 `/learning-path`，生成 7 天学习路径。
+7. 打开 `/resources`，生成 6 类学习资源。
+8. 打开 `/tutor`，提问“幻读和不可重复读有什么区别？”。
+9. 打开 `/practice`，生成测验并提交答案。
+10. 打开 `/analytics`，查看掌握度变化和评估报告。
 
 ## 版权边界
 

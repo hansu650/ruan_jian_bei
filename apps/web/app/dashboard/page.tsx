@@ -3,6 +3,7 @@ import {
   ClipboardCheck,
   FileQuestion,
   FileText,
+  ListChecks,
   MonitorPlay,
   Route,
   UserRound,
@@ -23,6 +24,13 @@ const entryCards = [
     description: "比赛演示前先进入 /demo，检查基础数据、知识库、画像、路径、资源、辅导、测验和评估状态。",
     href: "/demo",
     icon: MonitorPlay,
+    primary: true,
+  },
+  {
+    title: "测试清单",
+    description: "录屏或答辩前进入 /qa，查看 Smoke Status，并按模块勾选人工测试项。",
+    href: "/qa",
+    icon: ListChecks,
     primary: true,
   },
   {
@@ -65,11 +73,11 @@ export default function DashboardPage() {
 
         <div className="space-y-6">
           <section className="rounded-lg border bg-card p-6">
-            <Badge variant="warning">Phase 11 进行中</Badge>
+            <Badge variant="warning">Phase 12 进行中</Badge>
             <h1 className="mt-4 text-3xl font-bold tracking-tight">EduForge Dashboard</h1>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground">
-              当前进入端到端演示工作台与稳定性打磨阶段。前十阶段和 Phase 10.1 已形成完整学习闭环，
-              本阶段重点是让比赛演示更可控：先检查状态，再按步骤人工触发关键能力。
+              当前进入前端体验打磨与人工测试清单阶段。前十一阶段已经形成可演示的完整学习闭环，
+              录屏或答辩前建议先进入 /demo 和 /qa 检查系统状态，再按步骤人工触发关键能力。
             </p>
           </section>
 

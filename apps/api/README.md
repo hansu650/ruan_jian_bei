@@ -1,6 +1,6 @@
 # EduForge API
 
-FastAPI 后端，当前进入 Phase 11：端到端演示工作台与稳定性打磨。
+FastAPI 后端，当前进入 Phase 12：前端体验打磨与人工测试清单。
 
 ## 技术栈
 
@@ -43,6 +43,19 @@ mypy app tests
 - `POST /api/demo/bootstrap`
 
 `/api/demo/bootstrap` 只会执行默认 seed 和示例课程资料导入，不会生成画像、路径、资源、辅导消息、测验或评估报告，也不会调用 MockLLM 或 SparkHTTPProvider。
+
+## Phase 12 QA 模块
+
+- `app/routers/qa.py`：人工测试清单和 Smoke Status API。
+- `app/services/qa_service.py`：只读数据库和配置，不调用 LLM，不调用 Spark。
+- `app/schemas/qa.py`：QAChecklistResponse、QASmokeStatusResponse。
+
+新增 API：
+
+- `GET /api/qa/checklist`
+- `GET /api/qa/smoke-status`
+
+`/api/qa/checklist` 只返回人工测试项。`/api/qa/smoke-status` 只检查 Student、Course、KnowledgePoint、DocumentChunk、LearnerProfile、LearningPath、GeneratedResource、Tutor、Practice 和 EvaluationReport 等状态，不修改数据库，不调用任何 Agent 或 LLM Provider。
 
 ## LLM 模式
 
