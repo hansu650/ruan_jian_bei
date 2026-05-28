@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   LibraryBig,
   MessagesSquare,
+  Route,
   Sparkles,
   UserRound,
 } from "lucide-react";
@@ -18,6 +19,7 @@ const navItems = [
   { href: "/knowledge-base", label: "知识库", icon: LibraryBig },
   { href: "/llm-lab", label: "模型实验室", icon: MessagesSquare },
   { href: "/profile", label: "学习画像", icon: UserRound },
+  { href: "/learning-path", label: "学习路径", icon: Route },
   { href: "/courses", label: "课程管理", icon: BookOpen },
   { href: "/students", label: "学生管理", icon: GraduationCap },
   { href: "/health", label: "Health", icon: Activity },

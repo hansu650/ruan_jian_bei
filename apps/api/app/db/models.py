@@ -180,3 +180,43 @@ class AgentRun(SQLModel, table=True):
     latency_ms: int | None = None
     llm_log_id: int | None = Field(default=None, foreign_key="llm_call_log.id", index=True)
     created_at: datetime = Field(default_factory=utc_now)
+
+
+class LearningPath(SQLModel, table=True):
+    __tablename__ = "learning_path"
+
+    id: int | None = Field(default=None, primary_key=True)
+    student_id: int = Field(foreign_key="student.id", index=True)
+    course_id: int = Field(foreign_key="course.id", index=True)
+    profile_id: int | None = Field(default=None, foreign_key="learner_profile.id", index=True)
+    title: str
+    goal: str
+    target_days: int = 7
+    status: str = "active"
+    strategy_summary: str = ""
+    weak_points_json: str = "[]"
+    recommended_resource_types_json: str = "[]"
+    version: int = 1
+    source: str = "planner_agent"
+    created_at: datetime = Field(default_factory=utc_now)
+    updated_at: datetime = Field(default_factory=utc_now)
+
+
+class LearningPathStep(SQLModel, table=True):
+    __tablename__ = "learning_path_step"
+
+    id: int | None = Field(default=None, primary_key=True)
+    path_id: int = Field(foreign_key="learning_path.id", index=True)
+    course_id: int = Field(foreign_key="course.id", index=True)
+    order_index: int
+    title: str
+    objective: str
+    knowledge_points_json: str = "[]"
+    prerequisite: str = ""
+    estimated_minutes: int = 60
+    recommended_resource_types_json: str = "[]"
+    recommended_activity: str = ""
+    mastery_threshold: int = 80
+    status: str = "pending"
+    created_at: datetime = Field(default_factory=utc_now)
+    updated_at: datetime = Field(default_factory=utc_now)

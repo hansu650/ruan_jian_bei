@@ -18,6 +18,12 @@ import type {
   LLMScenario,
   LLMStatusResponse,
   LearnerProfile,
+  GenerateLearningPathRequest,
+  GenerateLearningPathResponse,
+  LearningPath,
+  LearningPathDetailResponse,
+  LearningPathPlanCheck,
+  LearningPathStep,
   MetaResponse,
   ProfileChatRequest,
   ProfileChatResponse,
@@ -310,4 +316,32 @@ export function getAgentRuns(params?: {
   limit?: number;
 }): Promise<AgentRun[]> {
   return requestJson<AgentRun[]>(`/api/agent-runs${queryString(params ?? {})}`);
+}
+
+export function generateLearningPath(
+  payload: GenerateLearningPathRequest,
+): Promise<GenerateLearningPathResponse> {
+  return requestJson<GenerateLearningPathResponse>("/api/learning-paths/generate", {
+    method: "POST",
+    body: payload,
+  });
+}
+
+export function getLearningPaths(params?: {
+  student_id?: number;
+  course_id?: number;
+}): Promise<LearningPath[]> {
+  return requestJson<LearningPath[]>(`/api/learning-paths${queryString(params ?? {})}`);
+}
+
+export function getLearningPath(pathId: number): Promise<LearningPathDetailResponse> {
+  return requestJson<LearningPathDetailResponse>(`/api/learning-paths/${pathId}`);
+}
+
+export function getLearningPathSteps(pathId: number): Promise<LearningPathStep[]> {
+  return requestJson<LearningPathStep[]>(`/api/learning-paths/${pathId}/steps`);
+}
+
+export function getLearningPathPlanCheck(pathId: number): Promise<LearningPathPlanCheck> {
+  return requestJson<LearningPathPlanCheck>(`/api/learning-paths/${pathId}/plan-check`);
 }

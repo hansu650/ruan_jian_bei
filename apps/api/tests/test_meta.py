@@ -15,5 +15,8 @@ def test_project_meta() -> None:
     assert "MockLLMProvider" in data["implemented_features"]
     assert "ProfileAgent" in data["implemented_features"]
     assert "8 维学习画像" in data["implemented_features"]
+    assert "PlannerAgent" in data["implemented_features"]
+    assert "薄弱点覆盖检查" in data["implemented_features"]
     assert "多智能体编排" in data["planned_features"]
+    assert "ResourceAgent" in data["planned_features"]
     assert "真实讯飞星火接入" in data["planned_features"]

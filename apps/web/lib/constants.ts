@@ -30,13 +30,13 @@ export const CORE_FEATURES = [
   },
   {
     title: "对话式学习画像",
-    status: "进行中",
-    description: "当前建设 ProfileAgent，通过自然语言对话抽取并更新 8 维动态画像。",
+    status: "已完成",
+    description: "ProfileAgent 已支持自然语言对话抽取并更新 8 维动态画像。",
   },
   {
-    title: "学习路径与资源生成",
-    status: "待开始",
-    description: "后续阶段再接入 PlannerAgent、ResourceAgent 和多类型学习资源生成能力。",
+    title: "个性化学习路径",
+    status: "进行中",
+    description: "当前建设 PlannerAgent，根据画像和课程知识点生成阶段化学习计划。",
   },
 ];
 
@@ -50,8 +50,8 @@ export const PROJECT_STAGES: Array<{
   { name: "第三阶段", description: "数据库模型与基础 CRUD", status: "已完成" },
   { name: "第四阶段", description: "课程资料与知识库基础", status: "已完成" },
   { name: "第五阶段", description: "MockLLM 与讯飞接口预留", status: "已完成" },
-  { name: "第六阶段", description: "对话式学习画像 ProfileAgent", status: "进行中" },
-  { name: "第七阶段", description: "个性化学习路径", status: "待开始" },
+  { name: "第六阶段", description: "对话式学习画像 ProfileAgent", status: "已完成" },
+  { name: "第七阶段", description: "个性化学习路径 PlannerAgent", status: "进行中" },
   { name: "第八阶段", description: "多类型学习资源生成", status: "待开始" },
   { name: "第九阶段", description: "智能辅导", status: "待开始" },
   { name: "第十阶段", description: "测验评估", status: "待开始" },

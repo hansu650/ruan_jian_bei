@@ -1,6 +1,6 @@
 # EduForge Web
 
-Next.js 前端应用，当前处于第六阶段：对话式学习画像 ProfileAgent。
+Next.js 前端应用，当前处于第七阶段：个性化学习路径 PlannerAgent。
 
 ## 技术栈
 
@@ -22,7 +22,7 @@ pnpm dev
 ## 页面
 
 - `/`：项目首页
-- `/dashboard`：阶段进度与入口
+- `/dashboard`：阶段进度与功能入口
 - `/health`：前后端联调状态
 - `/database`：SQLite 数据底座
 - `/courses`：课程与知识点管理
@@ -30,12 +30,21 @@ pnpm dev
 - `/knowledge-base`：课程资料导入、上传、分块和检索
 - `/llm-lab`：MockLLM、场景提示词和调用日志测试
 - `/profile`：ProfileAgent 对话式学习画像
+- `/learning-path`：PlannerAgent 个性化学习路径
 
-## /profile 页面
+## /learning-path 页面
 
-页面支持选择学生和课程、发送自然语言画像描述、展示画像对话、8 维画像卡片、掌握度进度条、画像完成度和最近 ProfileAgent 运行记录。
+页面支持选择学生和课程，读取已有 LearnerProfile，输入目标学习天数，并调用 `POST /api/learning-paths/generate` 生成阶段化学习路径。页面会展示：
 
-当前页面只使用 MockLLM，不调用真实外部 API，不需要 API Key，不产生费用。
+- 学习画像摘要
+- 历史学习路径列表
+- LearningPath 策略摘要
+- LearningPathStep 时间线
+- 推荐资源类型
+- 薄弱点覆盖检查
+- 总预计学习时长
+
+本阶段只推荐资源类型，不生成讲义、思维导图、练习题、实操案例或视频脚本正文。
 
 ## 检查
 

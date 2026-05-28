@@ -1,36 +1,28 @@
 # EduForge 智学工坊
 
-基于大模型的个性化资源生成与学习多智能体系统。项目面向第十五届中国软件杯 A3 赛题，由科大讯飞股份有限公司出题，定位为面向高校课程学习场景的 AI 个性化学习资源工厂。
+EduForge 智学工坊是面向第十五届中国软件杯 A3 赛题“基于大模型的个性化资源生成与学习多智能体系统开发”的比赛项目，出题企业为科大讯飞股份有限公司。项目定位为面向高校课程学习场景的 AI 个性化学习资源工厂。
 
 ## 当前阶段
 
-当前处于第六阶段：对话式学习画像 ProfileAgent。
+当前处于第七阶段：个性化学习路径 PlannerAgent。
 
-已完成内容：
+已完成能力包括：
 
-- Conda + Python 3.11 后端环境与 FastAPI 基础服务
-- Next.js + TypeScript + Tailwind CSS 前端骨架
+- FastAPI + Conda + Python 3.11 后端工程环境
+- Next.js + TypeScript + Tailwind CSS + shadcn/ui 前端骨架
 - SQLite + SQLModel 数据底座
-- 原创《数据库系统》示例课程资料、Markdown/TXT 解析、分块、入库和关键词检索
+- 原创《数据库系统》示例课程资料、Markdown/TXT 解析、分块入库和关键词检索
 - MockLLMProvider、SparkProvider 预留、LLMCallLog 和 `/llm-lab`
-- ProfileAgent 对话式学习画像
-- LearnerProfile、ProfileChatMessage、AgentRun
-- `/profile` 页面，可通过自然语言生成并更新 8 维画像
+- ProfileAgent 对话式学习画像，支持 8 维动态画像
+- PlannerAgent 个性化学习路径，支持 LearningPath / LearningPathStep、薄弱点覆盖检查和资源类型推荐
 
-第六阶段仍然只使用 MockLLM，不调用真实外部 API，不需要 API Key，不产生费用。
+第七阶段仍然只使用 MockLLM，不调用真实外部 API，不需要 API Key，不产生费用。
 
-## 8 维学习画像
+## 阶段边界
 
-ProfileAgent 当前生成并更新以下 8 个维度：
+本阶段只做学习路径规划和资源类型推荐，不生成具体资源内容。项目尚未实现 ResourceAgent、TutorAgent、测验批改、完整多智能体编排、真实 RAG、embedding、ChromaDB 或真实讯飞星火 API 接入。
 
-- 专业背景
-- 学习目标
-- 知识基础
-- 学习偏好
-- 认知风格
-- 易错点
-- 时间约束
-- 知识点掌握度
+项目不提交教材 PDF、扫描件、出版教材原文或真实 API Key。
 
 ## 安装
 
@@ -79,26 +71,29 @@ macOS/Linux：
 
 - [http://localhost:3000](http://localhost:3000)
 - [http://localhost:3000/dashboard](http://localhost:3000/dashboard)
+- [http://localhost:3000/profile](http://localhost:3000/profile)
+- [http://localhost:3000/learning-path](http://localhost:3000/learning-path)
 - [http://localhost:3000/knowledge-base](http://localhost:3000/knowledge-base)
 - [http://localhost:3000/llm-lab](http://localhost:3000/llm-lab)
-- [http://localhost:3000/profile](http://localhost:3000/profile)
 
 后端：
 
 - [http://localhost:8000/api/health](http://localhost:8000/api/health)
 - [http://localhost:8000/api/meta](http://localhost:8000/api/meta)
 - [http://localhost:8000/api/learner-profiles](http://localhost:8000/api/learner-profiles)
+- [http://localhost:8000/api/learning-paths](http://localhost:8000/api/learning-paths)
 - [http://localhost:8000/api/agent-runs](http://localhost:8000/api/agent-runs)
 - [http://localhost:8000/docs](http://localhost:8000/docs)
 
-ProfileAgent API：
+## PlannerAgent API
 
-- `GET /api/learner-profiles`
-- `GET /api/learner-profiles/{profile_id}`
-- `POST /api/learner-profiles/chat`
-- `GET /api/learner-profiles/summary/by-student-course`
-- `GET /api/learner-profiles/dimension-check/by-student-course`
-- `GET /api/agent-runs`
+- `POST /api/learning-paths/generate`
+- `GET /api/learning-paths`
+- `GET /api/learning-paths/{path_id}`
+- `GET /api/learning-paths/{path_id}/steps`
+- `GET /api/learning-paths/{path_id}/plan-check`
+
+这些接口会基于 LearnerProfile、Student、Course、KnowledgePoint 和少量 DocumentChunk 摘要生成阶段化学习路径。返回内容包含步骤顺序、学习目标、知识点、预计耗时、推荐资源类型和掌握标准。
 
 ## 验收
 
@@ -108,16 +103,16 @@ ProfileAgent API：
 python scripts/check-env.py
 ```
 
-第六阶段一键检查：
+第七阶段一键检查：
 
 ```powershell
-.\scripts\check-phase6.ps1
+.\scripts\check-phase7.ps1
 ```
 
 macOS/Linux：
 
 ```bash
-./scripts/check-phase6.sh
+./scripts/check-phase7.sh
 ```
 
 手动检查：
@@ -136,14 +131,11 @@ pnpm typecheck
 ## 演示流程
 
 1. 启动后端和前端。
-2. 打开 `/profile`。
-3. 默认选择“示例学生”和“数据库系统”。
-4. 点击“填入示例输入”，发送给 ProfileAgent。
-5. 查看 8 维画像、掌握度进度条、画像完成度和 AgentRun 运行记录。
-6. 再发送“我这周每天只有 1 小时，想优先补事务隔离级别。”，确认画像更新而不是清空。
+2. 打开 `/profile`，使用示例输入生成 8 维学习画像。
+3. 打开 `/learning-path`，确认读取到“示例学生”和“数据库系统”的画像。
+4. 将 `target_days` 设置为 7，点击生成个性化学习路径。
+5. 查看 6-8 个学习步骤，重点确认 JOIN、事务隔离级别、B+ 树索引等薄弱点被覆盖。
+6. 查看每个步骤的推荐资源类型、掌握标准和路径完整性检查。
+7. 在 AgentRun 中确认能看到 PlannerAgent 运行记录。
 
-## 阶段边界
-
-第六阶段没有实现完整多智能体、学习路径规划、资源生成、智能辅导、测验批改、RAG、embedding 或真实讯飞星火接入。项目不提交真实 API Key，不使用出版教材 PDF、扫描件或出版教材原文。
-
-下一阶段计划：第七阶段，个性化学习路径 PlannerAgent。
+下一阶段计划：第八阶段，多类型学习资源生成 ResourceAgent。

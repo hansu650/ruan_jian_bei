@@ -321,3 +321,68 @@ export interface AgentRun {
   llm_log_id?: number | null;
   created_at: string;
 }
+
+export interface LearningPath {
+  id: number;
+  student_id: number;
+  course_id: number;
+  profile_id?: number | null;
+  title: string;
+  goal: string;
+  target_days: number;
+  status: string;
+  strategy_summary: string;
+  weak_points_json: string;
+  recommended_resource_types_json: string;
+  version: number;
+  source: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface LearningPathStep {
+  id: number;
+  path_id: number;
+  course_id: number;
+  order_index: number;
+  title: string;
+  objective: string;
+  knowledge_points_json: string;
+  prerequisite: string;
+  estimated_minutes: number;
+  recommended_resource_types_json: string;
+  recommended_activity: string;
+  mastery_threshold: number;
+  status: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface GenerateLearningPathRequest {
+  student_id: number;
+  course_id: number;
+  profile_id?: number | null;
+  target_days?: number;
+  regenerate?: boolean;
+}
+
+export interface LearningPathDetailResponse {
+  path: LearningPath;
+  steps: LearningPathStep[];
+}
+
+export interface GenerateLearningPathResponse extends LearningPathDetailResponse {
+  agent_run_id?: number | null;
+  llm_log_id?: number | null;
+  generation_summary: string;
+}
+
+export interface LearningPathPlanCheck {
+  required_step_count: number;
+  actual_step_count: number;
+  has_weak_point_coverage: boolean;
+  covered_weak_points: string[];
+  missing_weak_points: string[];
+  total_estimated_minutes: number;
+  recommended_resource_types: string[];
+}
