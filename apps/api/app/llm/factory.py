@@ -21,7 +21,7 @@ def get_llm_provider(settings: Settings) -> LLMProvider:
             )
         return MockLLMProvider(
             settings.llm_model,
-            fallback_reason="SPARK_HTTP_API_PASSWORD 未配置，已回退 MockLLMProvider",
+            fallback_reason="Spark HTTP 密钥未配置，已回退 MockLLMProvider",
         )
     if provider_name == "spark":
         return SparkProvider(settings.spark_model or settings.llm_model)

@@ -48,7 +48,7 @@ class SparkHTTPProvider(LLMProvider):
         if not self.api_url:
             raise RuntimeError("Spark HTTP API URL 未配置")
         if not self.api_password:
-            raise RuntimeError("Spark HTTP APIPassword 未配置")
+            raise RuntimeError("Spark HTTP 密钥未配置")
 
         payload: dict[str, Any] = {
             "model": self.model_name,

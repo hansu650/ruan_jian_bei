@@ -6,7 +6,7 @@ EduForge 智学工坊是第十五届中国软件杯 A3 赛题项目，赛题为�
 
 ## 当前阶段
 
-当前阶段为 **Phase 12：前端体验打磨与人工测试清单**。
+当前阶段为 **Phase 13：端到端彩排与缺陷修复**。
 
 已完成能力：
 
@@ -22,6 +22,7 @@ EduForge 智学工坊是第十五届中国软件杯 A3 赛题项目，赛题为�
 - EvaluatorAgent 自动批改、掌握度更新和学习效果评估
 - `/demo` 演示工作台，用于检查端到端演示准备状态
 - `/qa` 人工测试清单和 Smoke Status，用于录屏、答辩或提交前逐项核对
+- Phase 13 彩排修复：统一 generated-resources API 命名、模型模式提示和密钥外显风险
 
 仍未进入最终交付材料阶段：本阶段不生成 PPT、演示视频脚本、最终系统开发说明书，也不做 Docker 部署。
 
@@ -107,6 +108,17 @@ conda activate cnsoftbei_a3_eduforge
 
 `/qa` 不会自动调用 LLM，也不会自动调用 Spark。真实 Spark Lite 模式下，页面只提醒“手动点击生成类操作会调用真实 API”，不会显示、输入、保存或传输 APIPassword。
 
+## Phase 13 端到端彩排
+
+Phase 13 不新增业务功能，重点检查：
+
+- `/demo` 和 `/qa` 是否能指导完整人工彩排。
+- 前后端和文档中的 API 路径是否一致，资源生成接口统一使用 `/api/generated-resources/*`。
+- Mock 和 Spark Lite 两种模式下的提示是否清晰。
+- 高消耗操作在真实 Spark 模式下是否有提示或确认。
+- 自动化测试是否仍然强制 Mock 或 mock 外部请求。
+- 页面、接口响应和日志是否避免暴露真实密钥。
+
 ## 可选讯飞星火 HTTP 接入
 
 默认配置仍为 Mock：
@@ -156,6 +168,7 @@ SPARK_MODEL=lite
 python scripts/check-env.py
 .\scripts\check-phase11.ps1
 .\scripts\check-phase12.ps1
+.\scripts\check-phase13.ps1
 ```
 
 或手动执行：

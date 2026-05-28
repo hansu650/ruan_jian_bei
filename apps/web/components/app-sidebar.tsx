@@ -20,7 +20,7 @@ import { Separator } from "@/components/ui/separator";
 
 const navItems = [
   { label: "演示工作台", state: "已完成", icon: MonitorPlay, href: "/demo" },
-  { label: "测试清单", state: "进行中", icon: ListChecks, href: "/qa" },
+  { label: "测试清单", state: "彩排中", icon: ListChecks, href: "/qa" },
   { label: "数据底座", state: "已完成", icon: Database, href: "/database" },
   { label: "课程知识库", state: "已完成", icon: LibraryBig, href: "/knowledge-base" },
   { label: "模型实验室", state: "已完成", icon: MessagesSquare, href: "/llm-lab" },
@@ -40,7 +40,7 @@ export function AppSidebar() {
       <div>
         <p className="text-sm font-semibold">EduForge 控制台</p>
         <p className="mt-1 text-xs text-muted-foreground">
-          Phase 12 聚焦前端体验打磨与人工测试清单，录屏或答辩前可先检查 /demo 和 /qa。
+          Phase 13 聚焦端到端彩排与低风险缺陷修复，录屏或答辩前可先检查 /demo 和 /qa。
         </p>
       </div>
       <Separator className="my-4" />
@@ -57,7 +57,10 @@ export function AppSidebar() {
                 <Icon className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
                 <span className="truncate text-sm">{item.label}</span>
               </div>
-              <Badge variant={item.state === "进行中" ? "warning" : "outline"} className="shrink-0">
+              <Badge
+                variant={item.state === "进行中" || item.state === "彩排中" ? "warning" : "outline"}
+                className="shrink-0"
+              >
                 {item.state}
               </Badge>
             </Link>

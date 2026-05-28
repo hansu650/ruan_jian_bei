@@ -152,7 +152,7 @@ def get_qa_checklist() -> QAChecklistResponse:
             "high",
             True,
             True,
-            "Spark 模式下建议先单类型小流量测试。",
+            "Spark 模式下建议先单类型小流量测试；后端接口为 /api/generated-resources/generate。",
         ),
         _item(
             "resource-mindmap",
@@ -176,7 +176,8 @@ def get_qa_checklist() -> QAChecklistResponse:
             "medium",
             True,
             True,
-            "高消耗操作，Spark 模式下必须确认后再执行。",
+            "高消耗操作，Spark 模式下必须确认后再执行；"
+            "后端接口为 /api/generated-resources/generate-for-step。",
         ),
         _item(
             "tutor-question",
@@ -265,7 +266,7 @@ def get_qa_checklist() -> QAChecklistResponse:
         ),
     ]
     return QAChecklistResponse(
-        title="EduForge Phase 12 人工测试清单",
+        title="EduForge Phase 13 人工彩排测试清单",
         description=(
             "用于录屏、答辩或提交前逐项检查端到端链路。清单接口只返回测试项，"
             "不会自动调用 LLM，也不会消耗 Spark 额度。"

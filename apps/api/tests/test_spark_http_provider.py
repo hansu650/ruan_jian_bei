@@ -46,7 +46,7 @@ def test_factory_falls_back_to_mock_without_spark_http_password() -> None:
 
     assert isinstance(provider, MockLLMProvider)
     assert provider.provider_name == "mock"
-    assert provider.status()["warning"] == "SPARK_HTTP_API_PASSWORD 未配置，已回退 MockLLMProvider"
+    assert provider.status()["warning"] == "Spark HTTP 密钥未配置，已回退 MockLLMProvider"
 
 
 def test_spark_http_provider_chat_parses_content(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -192,4 +192,5 @@ def test_llm_status_missing_spark_http_password_returns_warning(
     data = response.json()
     assert data["effective_provider"] == "mock"
     assert data["spark_http_configured"] is False
-    assert data["warning"] == "SPARK_HTTP_API_PASSWORD 未配置，已回退 MockLLMProvider"
+    assert data["warning"] == "Spark HTTP 密钥未配置，已回退 MockLLMProvider"
+    assert "SPARK_HTTP_API_PASSWORD" not in response.text

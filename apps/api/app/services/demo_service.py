@@ -55,7 +55,7 @@ def _llm_mode(session: Session) -> LLMModeInfo:
     ):
         mode_label = "Spark 配置不完整，已回退 Mock"
         mode_level = "warning"
-        message = "SPARK_HTTP_API_PASSWORD 未配置，系统已回退 MockLLMProvider。"
+        message = "Spark HTTP 密钥未配置，系统已回退 MockLLMProvider。"
     elif status.effective_provider == "spark-http":
         mode_label = "讯飞星火真实模式"
         mode_level = "live"

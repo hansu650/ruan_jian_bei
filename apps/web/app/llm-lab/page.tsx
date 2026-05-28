@@ -141,7 +141,7 @@ export default function LLMLabPage() {
         </p>
         <p className="mt-2 text-sm text-muted-foreground">
           默认使用 MockLLM，不产生费用。若需要演示讯飞星火，可在本地 .env 中配置
-          LLM_PROVIDER=spark-http 和 SPARK_HTTP_API_PASSWORD；密钥不会进入前端页面。
+          LLM_PROVIDER=spark-http，并在后端本地配置 Spark HTTP 密钥；密钥不会进入前端页面。
         </p>
       </div>
 

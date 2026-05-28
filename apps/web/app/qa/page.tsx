@@ -100,7 +100,7 @@ export default function QAPage() {
       <PageHeader
         title="人工测试清单"
         description="这个页面用于团队在录屏、答辩或提交前逐项检查功能链路，不会自动调用大模型，也不会自动消耗 Spark 额度。"
-        phase="Phase 12"
+        phase="Phase 13"
         badges={[
           <Badge key="manual" variant="outline">
             手动检查

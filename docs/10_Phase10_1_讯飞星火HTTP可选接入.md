@@ -138,7 +138,7 @@ http://localhost:8000/api/llm/status
 
 - `effective_provider=mock`
 - `spark_http_configured=false`
-- `warning=SPARK_HTTP_API_PASSWORD 未配置，已回退 MockLLMProvider`
+- `warning=Spark HTTP 密钥未配置，已回退 MockLLMProvider`
 
 真实讯飞验证只允许本地手动执行，不写入自动化测试。
 

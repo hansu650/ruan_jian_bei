@@ -73,11 +73,11 @@ export default function DashboardPage() {
 
         <div className="space-y-6">
           <section className="rounded-lg border bg-card p-6">
-            <Badge variant="warning">Phase 12 进行中</Badge>
+            <Badge variant="warning">Phase 13 进行中</Badge>
             <h1 className="mt-4 text-3xl font-bold tracking-tight">EduForge Dashboard</h1>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground">
-              当前进入前端体验打磨与人工测试清单阶段。前十一阶段已经形成可演示的完整学习闭环，
-              录屏或答辩前建议先进入 /demo 和 /qa 检查系统状态，再按步骤人工触发关键能力。
+              当前进入端到端彩排与缺陷修复阶段。前十二阶段已经形成可演示的完整学习闭环，
+              录屏或答辩前建议先进入 /demo 和 /qa 检查系统状态，再按步骤人工触发关键能力并修复发现的小问题。
             </p>
           </section>
 

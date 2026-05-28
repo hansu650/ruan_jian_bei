@@ -169,3 +169,4 @@ def test_demo_status_falls_back_to_mock_when_spark_http_password_missing(
     mode = response.json()["llm_mode"]
     assert mode["effective_provider"] == "mock"
     assert mode["mode_level"] == "warning"
+    assert "SPARK_HTTP_API_PASSWORD" not in response.text

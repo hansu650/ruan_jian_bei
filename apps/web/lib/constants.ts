@@ -20,8 +20,13 @@ export const CORE_LOOP = [
 
 export const CORE_FEATURES = [
   {
-    title: "测试清单",
+    title: "端到端彩排",
     status: "进行中",
+    description: "Phase 13 聚焦完整演示链路、API 命名一致性、Mock/Spark 安全提示和低风险缺陷修复。",
+  },
+  {
+    title: "测试清单",
+    status: "已完成",
     description: "Phase 12 新增人工测试清单和 Smoke Status，录屏或答辩前可逐项核对完整链路。",
   },
   {
@@ -73,5 +78,6 @@ export const PROJECT_STAGES: Array<{
   { name: "第十阶段", description: "PracticeAgent + EvaluatorAgent 学习效果评估", status: "已完成" },
   { name: "Phase 10.1", description: "讯飞星火 HTTP Provider 可选接入", status: "已完成" },
   { name: "Phase 11", description: "端到端演示工作台与稳定性打磨", status: "已完成" },
-  { name: "Phase 12", description: "前端体验打磨与人工测试清单", status: "进行中" },
+  { name: "Phase 12", description: "前端体验打磨与人工测试清单", status: "已完成" },
+  { name: "Phase 13", description: "端到端彩排与缺陷修复", status: "进行中" },
 ];

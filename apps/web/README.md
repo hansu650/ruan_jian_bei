@@ -1,6 +1,6 @@
 # EduForge Web
 
-Next.js + TypeScript + Tailwind CSS 前端。当前新增 Phase 12 人工测试清单页面和体验打磨组件。
+Next.js + TypeScript + Tailwind CSS 前端。当前进入 Phase 13 端到端彩排与缺陷修复。
 
 ## 安装和启动
 
@@ -49,3 +49,11 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 - `components/action-confirm-card.tsx`
 
 `/qa` 页面不会自动调用生成接口，不会调用 Spark。`/resources` 在 spark-http 模式下批量生成多个资源前会显示确认提示，避免比赛联调时误触多次真实模型调用。
+
+## Phase 13 前端检查点
+
+- Dashboard 当前阶段显示 Phase 13。
+- `/qa` 继续用于人工测试清单和 Smoke Status。
+- `/llm-lab`、`/demo` 和 `/qa` 不显示或传输后端密钥。
+- `/resources` 在 spark-http 模式下保留高消耗操作确认。
+- 资源相关 API 文案统一为 `/api/generated-resources/*`。

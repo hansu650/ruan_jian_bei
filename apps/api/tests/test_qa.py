@@ -66,6 +66,8 @@ def test_qa_checklist_returns_manual_items() -> None:
     }
     assert expected_routes <= routes
     assert any(item["may_call_spark"] for item in items)
+    assert "/api/generated-resources/generate" in response.text
+    assert "/api/resources" not in response.text
     assert "password" not in response.text.lower()
 
 

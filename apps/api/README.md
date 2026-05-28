@@ -1,6 +1,6 @@
 # EduForge API
 
-FastAPI 后端，当前进入 Phase 12：前端体验打磨与人工测试清单。
+FastAPI 后端，当前进入 Phase 13：端到端彩排与缺陷修复。
 
 ## 技术栈
 
@@ -56,6 +56,13 @@ mypy app tests
 - `GET /api/qa/smoke-status`
 
 `/api/qa/checklist` 只返回人工测试项。`/api/qa/smoke-status` 只检查 Student、Course、KnowledgePoint、DocumentChunk、LearnerProfile、LearningPath、GeneratedResource、Tutor、Practice 和 EvaluationReport 等状态，不修改数据库，不调用任何 Agent 或 LLM Provider。
+
+## Phase 13 彩排修复
+
+- 保持 `/api/generated-resources/*` 为资源生成唯一公开 API 命名。
+- `/api/demo/status`、`/api/qa/smoke-status` 和 `/api/demo/bootstrap` 不调用 LLM，不调用 Spark。
+- Spark HTTP 缺少本地密钥时，接口只返回泛化配置提醒，不返回真实密钥或密钥字段名。
+- 自动化测试继续通过 `tests/conftest.py` 强制 Mock。
 
 ## LLM 模式
 

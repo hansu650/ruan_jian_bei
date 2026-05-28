@@ -19,7 +19,7 @@ export function LiveModelWarning({ mode, compact = false }: LiveModelWarningProp
       ? "模型配置提醒"
       : "Mock 安全模式";
   const description = isLive
-    ? "当前为真实讯飞星火模式。手动点击生成类操作会调用真实 API；页面不会显示、输入或传输 APIPassword。"
+    ? "当前为真实讯飞星火模式。手动点击生成类操作会调用真实 API；页面不会显示、输入或传输密钥。"
     : mode.mode_level === "warning"
       ? mode.message
       : "当前使用 MockLLM，不调用外部 API，适合离线演示和自动化测试。";
