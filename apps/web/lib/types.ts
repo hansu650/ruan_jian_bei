@@ -454,3 +454,80 @@ export interface GenerateStepResourcesResponse {
   llm_log_ids: number[];
   generation_summary: string;
 }
+
+export interface TutorSession {
+  id: number;
+  student_id: number;
+  course_id: number;
+  profile_id?: number | null;
+  path_id?: number | null;
+  step_id?: number | null;
+  title: string;
+  topic: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface TutorMessage {
+  id: number;
+  session_id: number;
+  student_id: number;
+  course_id: number;
+  role: "user" | "assistant" | "system" | string;
+  content: string;
+  citations_json: string;
+  source_chunk_ids_json: string;
+  related_resource_ids_json: string;
+  safety_status: "grounded" | "needs_review" | "unsafe" | string;
+  verifier_summary: string;
+  confidence_score: number;
+  agent_run_id?: number | null;
+  llm_log_id?: number | null;
+  created_at: string;
+}
+
+export interface TutorChatRequest {
+  student_id: number;
+  course_id: number;
+  question: string;
+  session_id?: number | null;
+  profile_id?: number | null;
+  path_id?: number | null;
+  step_id?: number | null;
+  resource_id?: number | null;
+}
+
+export interface TutorChatResponse {
+  session: TutorSession;
+  user_message: TutorMessage;
+  assistant_message: TutorMessage;
+  answer: string;
+  citations: Array<Record<string, unknown>>;
+  safety_status: string;
+  verifier_summary: string;
+  agent_run_id?: number | null;
+  llm_log_id?: number | null;
+}
+
+export interface TutorSessionDetailResponse {
+  session: TutorSession;
+  messages: TutorMessage[];
+}
+
+export interface TutorQualityCheck {
+  message_id: number;
+  has_citations: boolean;
+  citation_count: number;
+  source_chunk_count: number;
+  safety_status: string;
+  confidence_score: number;
+  issues: string[];
+  suggestion: string;
+}
+
+export interface TutorScenarioInfo {
+  key: string;
+  label: string;
+  sample_question: string;
+}

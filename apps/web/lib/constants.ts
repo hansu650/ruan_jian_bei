@@ -11,6 +11,7 @@ export const CORE_LOOP = [
   "多智能体协作",
   "学习路径",
   "资源生成",
+  "智能辅导",
   "测验反馈",
   "动态推荐",
 ];
@@ -28,13 +29,13 @@ export const CORE_FEATURES = [
   },
   {
     title: "多类型学习资源生成",
-    status: "进行中",
+    status: "已完成",
     description: "ResourceAgent 生成讲义、思维导图、练习题、阅读、实操案例和视频脚本。",
   },
   {
-    title: "智能辅导与评估",
-    status: "待开始",
-    description: "后续接入 TutorAgent、PracticeAgent、EvaluatorAgent 和防幻觉校验。",
+    title: "智能辅导与防幻觉",
+    status: "进行中",
+    description: "TutorAgent 基于课程知识库引用回答，并通过 CitationVerifier 降低幻觉风险。",
   },
 ];
 
@@ -50,7 +51,7 @@ export const PROJECT_STAGES: Array<{
   { name: "第五阶段", description: "MockLLM 与讯飞接口预留", status: "已完成" },
   { name: "第六阶段", description: "对话式学习画像 ProfileAgent", status: "已完成" },
   { name: "第七阶段", description: "个性化学习路径 PlannerAgent", status: "已完成" },
-  { name: "第八阶段", description: "多类型学习资源生成 ResourceAgent", status: "进行中" },
-  { name: "第九阶段", description: "智能辅导", status: "待开始" },
-  { name: "第十阶段", description: "测验评估", status: "待开始" },
+  { name: "第八阶段", description: "多类型学习资源生成 ResourceAgent", status: "已完成" },
+  { name: "第九阶段", description: "智能辅导与防幻觉问答 TutorAgent", status: "进行中" },
+  { name: "第十阶段", description: "练习批改与学习效果评估", status: "待开始" },
 ];

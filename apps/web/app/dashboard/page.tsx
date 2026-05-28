@@ -1,4 +1,4 @@
-import { ArrowRight, FileText, Milestone, Route, UserRound } from "lucide-react";
+import { ArrowRight, FileQuestion, FileText, Milestone, Route, UserRound } from "lucide-react";
 import Link from "next/link";
 
 import { AppSidebar } from "@/components/app-sidebar";
@@ -19,17 +19,17 @@ export default function DashboardPage() {
         <section className="rounded-lg border bg-card p-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <Badge variant="warning">Phase 8</Badge>
+              <Badge variant="warning">Phase 9</Badge>
               <h1 className="mt-3 text-3xl font-bold">Dashboard 骨架</h1>
-              <p className="mt-2 text-sm text-muted-foreground">
-                当前正在建设 A3 核心能力之一：多类型学习资源生成。ResourceAgent 会根据画像、
-                学习路径步骤和知识库引用片段生成讲义、思维导图、练习题、拓展阅读、实操案例和视频脚本。
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                当前正在建设 A3 可选加分能力：TutorAgent 智能辅导。系统会基于课程知识库 chunk
+                回答学生问题，并通过 citations 和 CitationVerifier 降低幻觉风险。
               </p>
             </div>
             <Button asChild>
-              <Link href="/resources">
-                <FileText className="h-4 w-4" aria-hidden="true" />
-                进入资源生成
+              <Link href="/tutor">
+                <FileQuestion className="h-4 w-4" aria-hidden="true" />
+                进入智能辅导
               </Link>
             </Button>
           </div>
@@ -49,7 +49,7 @@ export default function DashboardPage() {
             <CardContent className="space-y-3">
               <Badge variant="success">已完成</Badge>
               <p className="text-sm text-muted-foreground">
-                ProfileAgent 支持 8 维画像生成和持续更新，是路径规划和资源生成的主要输入。
+                ProfileAgent 支持 8 维画像生成和持续更新，是路径规划、资源生成和辅导个性化的输入。
               </p>
               <Button asChild variant="outline" size="sm">
                 <Link href="/profile">
@@ -81,14 +81,14 @@ export default function DashboardPage() {
               <CardTitle className="text-base">资源生成</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Badge variant="warning">进行中</Badge>
+              <Badge variant="success">已完成</Badge>
               <p className="text-sm text-muted-foreground">
-                ResourceAgent 正在生成 6 类个性化学习资源，并记录 citations_json 引用来源。
+                ResourceAgent 能生成 6 类个性化学习资源，并记录 citations_json 引用来源。
               </p>
               <Button asChild variant="outline" size="sm">
                 <Link href="/resources">
-                  生成资源
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  查看资源
+                  <FileText className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </Button>
             </CardContent>
@@ -97,11 +97,17 @@ export default function DashboardPage() {
             <CardHeader>
               <CardTitle className="text-base">智能辅导</CardTitle>
             </CardHeader>
-            <CardContent>
-              <Badge variant="outline">待开始</Badge>
-              <p className="mt-3 text-sm text-muted-foreground">
-                TutorAgent、测验批改和学习效果评估将在后续阶段实现。
+            <CardContent className="space-y-3">
+              <Badge variant="warning">进行中</Badge>
+              <p className="text-sm text-muted-foreground">
+                TutorAgent 正在支持带引用来源的课程问答，并展示安全状态与质量检查。
               </p>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/tutor">
+                  开始提问
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Button>
             </CardContent>
           </Card>
         </section>
@@ -115,10 +121,10 @@ export default function DashboardPage() {
               </div>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Progress value={80} />
+              <Progress value={90} />
               <p className="text-sm text-muted-foreground">
-                前七阶段已完成，第八阶段正在补齐 ResourceAgent，为后续 TutorAgent、PracticeAgent
-                和 EvaluatorAgent 做准备。
+                前八阶段已完成，第九阶段聚焦 TutorAgent、CitationVerifier、TutorSession 和 TutorMessage。
+                自动批改、学习效果评估和掌握度动态更新仍留到第十阶段。
               </p>
             </CardContent>
           </Card>

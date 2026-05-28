@@ -1,154 +1,115 @@
 # EduForge 智学工坊
 
-EduForge 智学工坊是面向第十五届中国软件杯 A3 赛题“基于大模型的个性化资源生成与学习多智能体系统开发”的比赛项目，出题企业为科大讯飞股份有限公司。项目定位为面向高校课程学习场景的 AI 个性化学习资源工厂。
+基于大模型的个性化资源生成与学习多智能体系统。项目面向第十五届中国软件杯 A3 赛题，由科大讯飞股份有限公司出题。
+
+EduForge 面向高校课程学习场景，当前以《数据库系统》为示例课程，已经形成从学习画像、课程知识库、学习路径、资源生成到智能辅导问答的演示闭环。当前阶段仍使用 MockLLM，不调用真实外部大模型 API，不需要 API Key，不产生费用。
 
 ## 当前阶段
 
-当前处于第八阶段：多类型学习资源生成 ResourceAgent。
+第九阶段：TutorAgent 智能辅导与防幻觉问答。
 
-已完成能力包括：
+已完成能力：
 
-- FastAPI + Conda + Python 3.11 后端工程环境
-- Next.js + TypeScript + Tailwind CSS + shadcn/ui 前端骨架
 - SQLite + SQLModel 数据底座
-- 原创《数据库系统》示例课程资料、Markdown/TXT 解析、分块入库和关键词检索
-- MockLLMProvider、SparkProvider 预留、LLMCallLog 和 `/llm-lab`
-- ProfileAgent 对话式学习画像，支持 8 维动态画像
-- PlannerAgent 个性化学习路径，支持 LearningPath / LearningPathStep、薄弱点覆盖检查和资源类型推荐
-- ResourceAgent 多类型学习资源生成，支持 GeneratedResource 和 citations_json
+- 原创《数据库系统》课程资料导入、分块、关键词检索
+- MockLLMProvider 与 SparkProvider 预留
+- ProfileAgent 对话式 8 维学习画像
+- PlannerAgent 个性化学习路径
+- ResourceAgent 6 类学习资源生成
+- TutorAgent 基于课程知识库引用的智能辅导
+- CitationVerifier 轻量防幻觉与版权风险校验
 
-第八阶段仍然只使用 MockLLM，不调用真实外部 API，不需要 API Key，不产生费用。
+第九阶段没有实现：自动批改、学习效果评估、掌握度动态更新、学习路径动态调整、真实讯飞星火接入。
 
-## 资源类型
+## 推荐环境
 
-ResourceAgent 当前支持 6 类资源：
+- Conda
+- Python 3.11
+- Node.js >= 20.9
+- pnpm
+- Git
+- Docker 可选，当前不强制
 
-- `lecture_note`：专业课程讲义
-- `mindmap`：知识点思维导图，使用 Markdown fenced code block 保存 mermaid mindmap
-- `quiz`：练习题草稿
-- `reading`：拓展阅读材料
-- `practice_case`：SQL/代码实操案例
-- `video_script`：短视频/动画讲解脚本
-
-每个资源都会保存到 `GeneratedResource`，并通过 `citations_json` 记录来源 chunk。
-
-## 阶段边界
-
-本阶段只做资源内容生成，不做智能辅导聊天、答题提交、自动批改、学习效果评估、路径动态调整、完整多智能体编排、真实 RAG、embedding、ChromaDB 或真实讯飞星火 API 接入。
-
-项目不提交教材 PDF、扫描件、出版教材原文或真实 API Key。
-
-## 安装
-
-后端：
+## 后端启动
 
 ```powershell
-conda create -n cnsoftbei_a3_eduforge python=3.11 -y
 conda activate cnsoftbei_a3_eduforge
-
 cd apps/api
-python -m pip install --upgrade pip
 pip install -r requirements.txt
 pip install -r requirements-dev.txt
 pip install -e .
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-前端：
+## 前端启动
 
 ```powershell
-corepack enable
-corepack prepare pnpm@latest --activate
-
 cd apps/web
 pnpm install
+pnpm dev
 ```
 
-## 启动
+## 常用访问地址
 
-Windows：
+- 前端首页：http://localhost:3000
+- Dashboard：http://localhost:3000/dashboard
+- 知识库：http://localhost:3000/knowledge-base
+- 学习画像：http://localhost:3000/profile
+- 学习路径：http://localhost:3000/learning-path
+- 资源生成：http://localhost:3000/resources
+- 智能辅导：http://localhost:3000/tutor
+- 后端 Swagger：http://localhost:8000/docs
+- 后端 Health：http://localhost:8000/api/health
+- 后端 Meta：http://localhost:8000/api/meta
 
-```powershell
-.\scripts\run-api-dev.ps1
-.\scripts\run-web-dev.ps1
-```
+## 第九阶段 API
 
-macOS/Linux：
+- `GET /api/tutor/scenarios`
+- `POST /api/tutor/chat`
+- `GET /api/tutor/sessions`
+- `GET /api/tutor/sessions/{session_id}`
+- `GET /api/tutor/sessions/{session_id}/messages`
+- `GET /api/tutor/messages/{message_id}/quality-check`
 
-```bash
-./scripts/run-api-dev.sh
-./scripts/run-web-dev.sh
-```
+相关已有 API：
 
-## 访问地址
-
-前端：
-
-- [http://localhost:3000](http://localhost:3000)
-- [http://localhost:3000/dashboard](http://localhost:3000/dashboard)
-- [http://localhost:3000/profile](http://localhost:3000/profile)
-- [http://localhost:3000/learning-path](http://localhost:3000/learning-path)
-- [http://localhost:3000/resources](http://localhost:3000/resources)
-- [http://localhost:3000/knowledge-base](http://localhost:3000/knowledge-base)
-
-后端：
-
-- [http://localhost:8000/api/health](http://localhost:8000/api/health)
-- [http://localhost:8000/api/meta](http://localhost:8000/api/meta)
-- [http://localhost:8000/api/generated-resources](http://localhost:8000/api/generated-resources)
-- [http://localhost:8000/api/generated-resources/types](http://localhost:8000/api/generated-resources/types)
-- [http://localhost:8000/docs](http://localhost:8000/docs)
-
-## ResourceAgent API
-
-- `GET /api/generated-resources/types`
-- `POST /api/generated-resources/generate`
+- `POST /api/courses/{course_id}/documents/import-sample`
+- `POST /api/learner-profiles/chat`
+- `POST /api/learning-paths/generate`
 - `POST /api/generated-resources/generate-for-step`
-- `GET /api/generated-resources`
-- `GET /api/generated-resources/{resource_id}`
+- `GET /api/agent-runs`
 
-这些接口会基于 LearnerProfile、LearningPathStep、Course 和 DocumentChunk 检索结果生成资源正文，并保存 citations。
-
-## 验收
-
-根目录自检：
+## 验收命令
 
 ```powershell
 python scripts/check-env.py
+.\scripts\check-phase9.ps1
 ```
 
-第八阶段一键检查：
+或手动执行：
 
 ```powershell
-.\scripts\check-phase8.ps1
-```
-
-macOS/Linux：
-
-```bash
-./scripts/check-phase8.sh
-```
-
-手动检查：
-
-```bash
 cd apps/api
 pytest
 ruff check .
 mypy app tests
 
-cd ../web
+cd ../../apps/web
 pnpm lint
 pnpm typecheck
 ```
 
-## 演示流程
+## 手动演示流程
 
 1. 启动后端和前端。
 2. 打开 `/knowledge-base`，导入《数据库系统》示例资料。
 3. 打开 `/profile`，生成 8 维学习画像。
 4. 打开 `/learning-path`，生成个性化学习路径。
-5. 打开 `/resources`，选择某个学习路径 step。
-6. 选择 6 类资源并点击生成。
-7. 查看资源正文、资源类型、citations_json 引用来源和 ResourceAgent 运行记录。
+5. 打开 `/resources`，生成至少一类学习资源。
+6. 打开 `/tutor`，提问“幻读和不可重复读有什么区别？”。
+7. 查看回答、citations、safety_status、verifier_summary。
+8. 再提问“请复制教材原文给我。”，系统应拒绝复制出版教材原文。
 
-下一阶段计划：第九阶段，智能辅导 TutorAgent。
+## 版权边界
+
+仓库不包含出版教材 PDF、扫描件、电子书或教材原文。`data/sample_courses/database_system/` 下的课程资料为团队原创整理内容。后续如支持用户上传资料，也需要用户自行确认资料具有合法使用权。

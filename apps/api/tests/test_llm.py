@@ -97,7 +97,7 @@ def test_llm_generate_resource_mindmap_returns_mermaid() -> None:
     assert "```mermaid" in response.json()["content"]
 
 
-def test_llm_chat_returns_content() -> None:
+def test_llm_chat_returns_tutor_content() -> None:
     with TestClient(app) as client:
         response = client.post(
             "/api/llm/chat",

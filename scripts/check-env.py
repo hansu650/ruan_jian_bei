@@ -8,7 +8,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 TARGET_CONDA_ENV = "cnsoftbei_a3_eduforge"
 MIN_PYTHON = (3, 11)
 MIN_NODE = (20, 9)
@@ -35,7 +34,6 @@ def run_command(command: list[str]) -> tuple[int, str]:
         resolved = shutil.which(command[0])
         if resolved and Path(resolved).suffix.lower() in {".cmd", ".bat"}:
             command_to_run = ["cmd", "/c", *command]
-
     try:
         completed = subprocess.run(
             command_to_run,
@@ -172,7 +170,6 @@ def check_directory(
     if path.exists() and path.is_dir():
         reporter.ok(f"目录存在：{relative_path}")
         return
-
     message = f"目录缺失：{relative_path}"
     if hint:
         message = f"{message}，{hint}"
@@ -215,6 +212,7 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/api/app/routers/agent_runs.py",
         "apps/api/app/routers/learning_paths.py",
         "apps/api/app/routers/generated_resources.py",
+        "apps/api/app/routers/tutor.py",
         "apps/api/app/llm/base.py",
         "apps/api/app/llm/mock_provider.py",
         "apps/api/app/llm/spark_provider.py",
@@ -223,6 +221,8 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/api/app/agents/profile_agent.py",
         "apps/api/app/agents/planner_agent.py",
         "apps/api/app/agents/resource_agent.py",
+        "apps/api/app/agents/tutor_agent.py",
+        "apps/api/app/agents/citation_verifier.py",
         "apps/api/app/services/document_parser.py",
         "apps/api/app/services/chunking.py",
         "apps/api/app/services/document_indexer.py",
@@ -231,14 +231,18 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/api/app/services/profile_service.py",
         "apps/api/app/services/learning_path_service.py",
         "apps/api/app/services/generated_resource_service.py",
+        "apps/api/app/services/tutor_service.py",
         "apps/api/app/schemas/llm.py",
         "apps/api/app/schemas/profiles.py",
         "apps/api/app/schemas/agent_runs.py",
         "apps/api/app/schemas/learning_paths.py",
         "apps/api/app/schemas/generated_resources.py",
+        "apps/api/app/schemas/tutor.py",
         "apps/api/app/prompts/profile_prompt.md",
         "apps/api/app/prompts/learning_path_prompt.md",
         "apps/api/app/prompts/resource_generation_prompt.md",
+        "apps/api/app/prompts/tutor_agent_prompt.md",
+        "apps/api/app/prompts/citation_verifier_prompt.md",
         "data/sample_courses/database_system/01_intro.md",
         "data/sample_courses/database_system/07_transaction.md",
         "data/sample_courses/database_system/08_index_btree.md",
@@ -254,6 +258,7 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/web/app/profile/page.tsx",
         "apps/web/app/learning-path/page.tsx",
         "apps/web/app/resources/page.tsx",
+        "apps/web/app/tutor/page.tsx",
         "apps/web/lib/api.ts",
     ]
     for file_path in required_files:
@@ -289,7 +294,7 @@ def check_project_files(reporter: Reporter) -> None:
     if os.environ.get("SPARK_API_KEY"):
         reporter.ok("SPARK_API_KEY 已配置（自检不会读取或输出密钥内容）")
     else:
-        reporter.warn("SPARK_API_KEY 未配置；第八阶段默认使用 MockLLM，Spark 仍然只是预留接口")
+        reporter.warn("SPARK_API_KEY 未配置；第九阶段默认使用 MockLLM，Spark 仍然只是预留接口")
 
 
 def print_next_steps() -> None:
@@ -311,18 +316,19 @@ def print_next_steps() -> None:
     print("5. 启动前端：")
     print("   cd apps/web")
     print("   pnpm dev")
-    print("6. 打开第八阶段页面：")
+    print("6. 打开第九阶段页面：")
     print("   http://localhost:3000/profile")
     print("   http://localhost:3000/learning-path")
     print("   http://localhost:3000/resources")
-    print("7. 一键检查第八阶段：")
-    print("   .\\scripts\\check-phase8.ps1")
-    print("   ./scripts/check-phase8.sh")
+    print("   http://localhost:3000/tutor")
+    print("7. 一键检查第九阶段：")
+    print("   .\\scripts\\check-phase9.ps1")
+    print("   ./scripts/check-phase9.sh")
 
 
 def main() -> int:
     reporter = Reporter()
-    print("EduForge 智学工坊 - 第八阶段环境自检")
+    print("EduForge 智学工坊 - 第九阶段环境自检")
     print()
 
     check_python(reporter)
@@ -358,7 +364,7 @@ def main() -> int:
         return 1
 
     print()
-    print("[OK] 环境自检通过，可以继续启动前后端或运行第八阶段检查。")
+    print("[OK] 环境自检通过，可以继续启动前后端或运行第九阶段检查。")
     return 0
 
 

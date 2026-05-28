@@ -1,3 +1,5 @@
+# ruff: noqa: E501
+
 import json
 
 from app.llm.base import LLMProvider
@@ -63,7 +65,7 @@ class MockLLMProvider(LLMProvider):
             "safety_check",
         ]
         for scenario in scenarios:
-            if f"scenario:{scenario}" in lowered or f"场景：{scenario}" in text:
+            if f"scenario:{scenario}" in lowered:
                 return scenario
 
         if self._contains_copyright_request(text):
@@ -134,7 +136,11 @@ class MockLLMProvider(LLMProvider):
                             "knowledge_points": ["SQL 基础", "JOIN 与子查询"],
                             "prerequisite": "了解 SELECT 基本语法",
                             "estimated_minutes": 120,
-                            "recommended_resource_types": ["lecture_note", "quiz", "practice_case"],
+                            "recommended_resource_types": [
+                                "lecture_note",
+                                "quiz",
+                                "practice_case",
+                            ],
                             "recommended_activity": "先看案例，再总结 JOIN 规则，并完成练习题。",
                             "mastery_threshold": 80,
                         },
@@ -235,24 +241,65 @@ class MockLLMProvider(LLMProvider):
                 "- 区分脏读、不可重复读和幻读。\n"
                 "- 理解读已提交、可重复读和串行化的取舍。\n\n"
                 "## 核心解释\n"
-                "事务隔离级别决定并发事务彼此可见的程度。隔离越强，一致性风险越低，但并发性能通常越受影响。\n\n"
+                "事务隔离级别决定并发事务彼此可见的程度。隔离越强，一致性风险越低，"
+                "但并发性能通常越受影响。\n\n"
                 "## 例题提示\n"
                 "如果同一范围查询第二次多出一行，应优先判断为幻读。"
             )
         if scenario == "tutor":
-            return (
-                "可以把幻读理解为“同一个条件查两次，行集合变了”。\n\n"
-                "引用来源：示例知识库 chunk：07_transaction.md / 事务与并发控制。"
-            )
+            return self._tutor_response(prompt)
         if scenario == "safety_check":
-            return json.dumps(
-                {"safe": True, "issues": [], "suggestion": "通过"},
-                ensure_ascii=False,
-            )
+            return json.dumps({"safe": True, "issues": [], "suggestion": "通过"}, ensure_ascii=False)
 
         return (
             "这是 EduForge MockLLM 的离线演示回复。当前阶段只验证 Provider 抽象、Prompt "
             "模板和调用日志，不调用真实外部 API，也不代表最终大模型效果。"
+        )
+
+    def _tutor_response(self, prompt: str) -> str:
+        if self._contains_copyright_request(prompt):
+            return COPYRIGHT_WARNING
+        upper = prompt.upper()
+        if "幻读" in prompt:
+            return (
+                "## 直接回答\n"
+                "幻读是同一事务内按相同范围条件查询时，结果行集合发生变化；不可重复读更关注同一行的值发生变化。\n\n"
+                "## 通俗解释\n"
+                "不可重复读像一条记录变了，幻读像满足条件的记录多了或少了。\n\n"
+                "## 示例\n"
+                "事务 A 查询分数大于 60 的记录，事务 B 插入一条满足条件的记录并提交，事务 A 再查时多出一行，就是幻读。\n\n"
+                "## 易错提醒\n"
+                "不要把行值变化和范围结果集变化混在一起。\n\n"
+                "## 推荐下一步\n"
+                "建议复习事务隔离级别比较表，并完成并发异常判断题。\n\n"
+                "引用来源：示例知识库 chunk"
+            )
+        if "B+树" in prompt or "B+ 树" in prompt:
+            return (
+                "## 直接回答\n"
+                "B+树适合范围查询，因为叶子节点有序并通过链表相连，树高较低，定位起点后可以顺序扫描。\n\n"
+                "## 示例\n"
+                "查询 id BETWEEN 100 AND 200 时，先定位到 100 附近叶子节点，再沿叶子链表读取。\n\n"
+                "## 易错提醒\n"
+                "索引并不让所有查询变快，不符合最左前缀或选择性太低时效果会下降。\n\n"
+                "引用来源：示例知识库 chunk"
+            )
+        if "JOIN" in upper:
+            return (
+                "## 直接回答\n"
+                "JOIN 用来组合多张表。INNER JOIN 只保留两边匹配记录，LEFT JOIN 保留左表全部记录。\n\n"
+                "## 示例\n"
+                "学生表 LEFT JOIN 成绩表时，没有成绩的学生仍会出现；INNER JOIN 只显示有匹配成绩的学生。\n\n"
+                "## 易错提醒\n"
+                "漏写连接条件会产生笛卡尔积。\n\n"
+                "引用来源：示例知识库 chunk"
+            )
+        return (
+            "## 直接回答\n"
+            "可以先回到课程知识库中的定义，再结合具体查询、事务或索引场景理解。\n\n"
+            "## 推荐下一步\n"
+            "建议生成一份讲义或练习题资源继续巩固。\n\n"
+            "引用来源：示例知识库 chunk"
         )
 
     def _contains_copyright_request(self, text: str) -> bool:
@@ -262,8 +309,12 @@ class MockLLMProvider(LLMProvider):
                 "复制教材原文",
                 "教材 PDF",
                 "教材PDF",
+                "上传教材 PDF",
+                "上传教材PDF",
                 "扫描版教材",
                 "整本书原文",
                 "出版教材原文",
+                "提取整本书原文",
+                "输出扫描件内容",
             ]
         )

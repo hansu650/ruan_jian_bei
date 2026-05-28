@@ -41,6 +41,13 @@ import type {
   ResourceTypeInfo,
   Student,
   StudentCreate,
+  TutorChatRequest,
+  TutorChatResponse,
+  TutorMessage,
+  TutorQualityCheck,
+  TutorScenarioInfo,
+  TutorSession,
+  TutorSessionDetailResponse,
 } from "@/lib/types";
 
 export const API_BASE_URL =
@@ -386,4 +393,35 @@ export function getGeneratedResources(params?: {
 
 export function getGeneratedResource(resourceId: number): Promise<GeneratedResource> {
   return requestJson<GeneratedResource>(`/api/generated-resources/${resourceId}`);
+}
+
+export function getTutorScenarios(): Promise<TutorScenarioInfo[]> {
+  return requestJson<TutorScenarioInfo[]>("/api/tutor/scenarios");
+}
+
+export function chatWithTutor(payload: TutorChatRequest): Promise<TutorChatResponse> {
+  return requestJson<TutorChatResponse>("/api/tutor/chat", {
+    method: "POST",
+    body: payload,
+  });
+}
+
+export function getTutorSessions(params?: {
+  student_id?: number;
+  course_id?: number;
+  limit?: number;
+}): Promise<TutorSession[]> {
+  return requestJson<TutorSession[]>(`/api/tutor/sessions${queryString(params ?? {})}`);
+}
+
+export function getTutorSession(sessionId: number): Promise<TutorSessionDetailResponse> {
+  return requestJson<TutorSessionDetailResponse>(`/api/tutor/sessions/${sessionId}`);
+}
+
+export function getTutorMessages(sessionId: number): Promise<TutorMessage[]> {
+  return requestJson<TutorMessage[]>(`/api/tutor/sessions/${sessionId}/messages`);
+}
+
+export function getTutorQualityCheck(messageId: number): Promise<TutorQualityCheck> {
+  return requestJson<TutorQualityCheck>(`/api/tutor/messages/${messageId}/quality-check`);
 }

@@ -75,8 +75,8 @@ SCENARIOS = [
     LLMScenario(
         key="tutor",
         title="智能答疑草稿",
-        description="返回带模拟引用来源的解释，当前不是真正 RAG。",
-        sample_prompt="为什么可重复读下还要讨论幻读？请结合数据库系统课程解释。",
+        description="返回带模拟引用来源的解释，当前用于 TutorAgent 演示。",
+        sample_prompt="幻读和不可重复读有什么区别？",
     ),
     LLMScenario(
         key="safety_check",

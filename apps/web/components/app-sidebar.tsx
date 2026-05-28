@@ -1,12 +1,12 @@
 import {
   BookOpen,
   Database,
+  FileQuestion,
   FileText,
   GraduationCap,
   LibraryBig,
   MessagesSquare,
   Route,
-  ShieldCheck,
   UserRound,
 } from "lucide-react";
 import Link from "next/link";
@@ -20,10 +20,10 @@ const navItems = [
   { label: "模型实验室", state: "已完成", icon: MessagesSquare, href: "/llm-lab" },
   { label: "学习画像", state: "已完成", icon: UserRound, href: "/profile" },
   { label: "学习路径", state: "已完成", icon: Route, href: "/learning-path" },
-  { label: "资源生成", state: "进行中", icon: FileText, href: "/resources" },
+  { label: "资源生成", state: "已完成", icon: FileText, href: "/resources" },
+  { label: "智能辅导", state: "进行中", icon: FileQuestion, href: "/tutor" },
   { label: "课程管理", state: "可查看", icon: BookOpen, href: "/courses" },
   { label: "学生管理", state: "可查看", icon: GraduationCap, href: "/students" },
-  { label: "防幻觉校验", state: "待开始", icon: ShieldCheck, href: "/dashboard" },
 ];
 
 export function AppSidebar() {
@@ -32,7 +32,7 @@ export function AppSidebar() {
       <div>
         <p className="text-sm font-semibold">EduForge 控制台</p>
         <p className="mt-1 text-xs text-muted-foreground">
-          第八阶段建设 A3 核心能力：多类型学习资源生成。
+          第九阶段建设 A3 可选加分能力：TutorAgent 智能辅导与轻量防幻觉校验。
         </p>
       </div>
       <Separator className="my-4" />

@@ -241,3 +241,39 @@ class GeneratedResource(SQLModel, table=True):
     llm_log_id: int | None = Field(default=None, foreign_key="llm_call_log.id", index=True)
     created_at: datetime = Field(default_factory=utc_now)
     updated_at: datetime = Field(default_factory=utc_now)
+
+
+class TutorSession(SQLModel, table=True):
+    __tablename__ = "tutor_session"
+
+    id: int | None = Field(default=None, primary_key=True)
+    student_id: int = Field(foreign_key="student.id", index=True)
+    course_id: int = Field(foreign_key="course.id", index=True)
+    profile_id: int | None = Field(default=None, foreign_key="learner_profile.id", index=True)
+    path_id: int | None = Field(default=None, foreign_key="learning_path.id", index=True)
+    step_id: int | None = Field(default=None, foreign_key="learning_path_step.id", index=True)
+    title: str = "智能辅导会话"
+    topic: str = ""
+    status: str = "active"
+    created_at: datetime = Field(default_factory=utc_now)
+    updated_at: datetime = Field(default_factory=utc_now)
+
+
+class TutorMessage(SQLModel, table=True):
+    __tablename__ = "tutor_message"
+
+    id: int | None = Field(default=None, primary_key=True)
+    session_id: int = Field(foreign_key="tutor_session.id", index=True)
+    student_id: int = Field(foreign_key="student.id", index=True)
+    course_id: int = Field(foreign_key="course.id", index=True)
+    role: str
+    content: str
+    citations_json: str = "[]"
+    source_chunk_ids_json: str = "[]"
+    related_resource_ids_json: str = "[]"
+    safety_status: str = "grounded"
+    verifier_summary: str = ""
+    confidence_score: float = 0.0
+    agent_run_id: int | None = Field(default=None, foreign_key="agent_run.id", index=True)
+    llm_log_id: int | None = Field(default=None, foreign_key="llm_call_log.id", index=True)
+    created_at: datetime = Field(default_factory=utc_now)
