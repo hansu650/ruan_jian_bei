@@ -133,11 +133,15 @@ export default function LLMLabPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-6">
-        <Badge variant="warning">第五阶段：MockLLM 与讯飞接口预留</Badge>
+        <Badge variant="warning">Phase 10.1：MockLLM 与讯飞星火 HTTP 可选接入</Badge>
         <h1 className="mt-3 text-3xl font-bold">模型实验室</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           当前页面只测试 Mock 模型和讯飞接口预留，不代表已经实现学习画像、智能体或资源生成。
           本阶段不调用真实外部 API，不需要 API Key，不产生费用。
+        </p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          默认使用 MockLLM，不产生费用。若需要演示讯飞星火，可在本地 .env 中配置
+          LLM_PROVIDER=spark-http 和 SPARK_HTTP_API_PASSWORD；密钥不会进入前端页面。
         </p>
       </div>
 
@@ -162,6 +166,10 @@ export default function LLMLabPage() {
             <StatusCard label="model" value={status?.model ?? "-"} />
             <StatusCard label="use_mock_llm" value={String(status?.use_mock_llm ?? false)} />
             <StatusCard label="spark_configured" value={String(status?.spark_configured ?? false)} />
+            <StatusCard
+              label="spark_http_configured"
+              value={String(status?.spark_http_configured ?? false)}
+            />
             <StatusCard label="status" value={status?.status ?? "-"} />
             <Card>
               <CardHeader className="pb-2">

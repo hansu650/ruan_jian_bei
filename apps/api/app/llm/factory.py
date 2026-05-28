@@ -1,6 +1,7 @@
 from app.core.config import Settings
 from app.llm.base import LLMProvider
 from app.llm.mock_provider import MockLLMProvider
+from app.llm.spark_http_provider import SparkHTTPProvider
 from app.llm.spark_provider import SparkProvider
 
 
@@ -10,6 +11,18 @@ def get_llm_provider(settings: Settings) -> LLMProvider:
         return MockLLMProvider(settings.llm_model)
     if provider_name == "mock":
         return MockLLMProvider(settings.llm_model)
+    if provider_name == "spark-http":
+        if settings.spark_http_api_password:
+            return SparkHTTPProvider(
+                model_name=settings.spark_model,
+                api_url=settings.spark_http_api_url,
+                api_password=settings.spark_http_api_password,
+                timeout_seconds=settings.llm_timeout_seconds,
+            )
+        return MockLLMProvider(
+            settings.llm_model,
+            fallback_reason="SPARK_HTTP_API_PASSWORD 未配置，已回退 MockLLMProvider",
+        )
     if provider_name == "spark":
         return SparkProvider(settings.spark_model or settings.llm_model)
     return MockLLMProvider(

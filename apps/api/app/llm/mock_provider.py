@@ -27,14 +27,20 @@ class MockLLMProvider(LLMProvider):
         prompt: str,
         system_prompt: str | None = None,
         temperature: float = 0.2,
+        response_format: str | None = None,
     ) -> str:
-        del temperature
+        del temperature, response_format
         merged = f"{system_prompt or ''}\n{prompt}"
         scenario = self._detect_scenario(merged)
         return self._response_for_scenario(scenario, merged)
 
-    def chat(self, messages: list[dict[str, str]], temperature: float = 0.2) -> str:
-        del temperature
+    def chat(
+        self,
+        messages: list[dict[str, str]],
+        temperature: float = 0.2,
+        response_format: str | None = None,
+    ) -> str:
+        del temperature, response_format
         merged = "\n".join(
             f"{message.get('role', 'user')}: {message.get('content', '')}" for message in messages
         )

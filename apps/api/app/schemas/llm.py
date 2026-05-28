@@ -9,6 +9,7 @@ class LLMStatusResponse(BaseModel):
     use_mock_llm: bool
     effective_provider: str
     spark_configured: bool
+    spark_http_configured: bool
     status: str
     warning: str | None = None
 

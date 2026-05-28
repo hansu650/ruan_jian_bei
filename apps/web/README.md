@@ -27,5 +27,21 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 - `/tutor`：智能辅导与引用校验
 - `/practice`：练习测验
 - `/analytics`：学习效果评估
+- `/llm-lab`：模型实验室，可查看 MockLLM 和可选 spark-http Provider 状态
 
 前端不使用 axios、react-query、复杂状态管理或图表库；表单和答题状态使用 React `useState`。
+
+## Phase 10.1 说明
+
+`/llm-lab` 会展示 `spark_http_configured`，用于确认后端是否配置了讯飞星火 HTTP APIPassword。
+
+前端不会提供 API Key 输入框，也不会保存或发送密钥。真实 APIPassword 只允许放在本地后端 `.env` 中：
+
+```env
+USE_MOCK_LLM=false
+LLM_PROVIDER=spark-http
+SPARK_HTTP_API_PASSWORD=你的 APIPassword
+SPARK_MODEL=lite
+```
+
+默认不配置时继续使用 MockLLM，不产生费用。

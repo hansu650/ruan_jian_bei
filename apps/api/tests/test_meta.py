@@ -24,5 +24,6 @@ def test_project_meta() -> None:
     assert "学习效果评估" in data["implemented_features"]
     assert "掌握度动态更新" in data["implemented_features"]
     assert "Analytics 学习分析" in data["implemented_features"]
+    assert "SparkHTTPProvider 可选接入" in data["implemented_features"]
     assert "路径动态调整" in data["planned_features"]
-    assert "真实讯飞星火接入" in data["planned_features"]
+    assert "真实讯飞星火效果联调" in data["planned_features"]

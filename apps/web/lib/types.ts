@@ -190,6 +190,7 @@ export interface LLMStatusResponse {
   use_mock_llm: boolean;
   effective_provider: string;
   spark_configured: boolean;
+  spark_http_configured: boolean;
   status: string;
   warning?: string | null;
 }

@@ -6,14 +6,14 @@ EduForge 定位为面向高校课程学习场景的 AI 个性化学习资源工�
 
 ## 当前阶段
 
-当前为第十阶段：PracticeAgent + EvaluatorAgent 学习效果评估。
+当前已完成第十阶段，并补充 Phase 10.1：讯飞星火 HTTP Provider 可选接入。
 
 已完成能力：
 
 - Conda + FastAPI + Next.js 工程骨架
 - SQLite + SQLModel 数据底座
 - 原创《数据库系统》示例知识库
-- MockLLMProvider 和 SparkProvider 预留
+- MockLLMProvider、SparkProvider 预留和可选 SparkHTTPProvider
 - ProfileAgent 对话式学习画像
 - PlannerAgent 个性化学习路径
 - ResourceAgent 六类资源生成
@@ -21,12 +21,13 @@ EduForge 定位为面向高校课程学习场景的 AI 个性化学习资源工�
 - PracticeAgent 多题型练习生成
 - EvaluatorAgent 自动批改、错因分析、掌握度更新
 - LearningEvaluationReport 和 Analytics 学习分析
+- 可选讯飞星火 HTTP Chat Completions 接入，默认不启用
 
 仍未实现：
 
-- 未接入真实讯飞星火 API
-- 未配置真实 API Key
-- 未调用任何外部大模型 API
+- 默认未接入真实讯飞星火 API
+- 仓库未配置真实 API Key
+- 默认未调用任何外部大模型 API
 - 未实现复杂考试系统、防作弊、班级管理、登录、Docker
 - 不使用出版教材 PDF、扫描件或教材原文
 
@@ -79,6 +80,38 @@ conda activate cnsoftbei_a3_eduforge
 - 学习评估：http://localhost:3000/analytics
 - Swagger：http://localhost:8000/docs
 
+## 可选讯飞星火 HTTP 接入
+
+A3 出题企业为科大讯飞，因此 Phase 10.1 增加 `spark-http` Provider。默认仍使用 MockLLM，不需要购买 API，不配置密钥也能完整演示。
+
+默认配置：
+
+```env
+USE_MOCK_LLM=true
+LLM_PROVIDER=mock
+LLM_MODEL=mock-edu-model
+```
+
+本地可选切换到讯飞星火 HTTP APIPassword 方式：
+
+```env
+USE_MOCK_LLM=false
+LLM_PROVIDER=spark-http
+SPARK_HTTP_API_URL=https://spark-api-open.xf-yun.com/v1/chat/completions
+SPARK_HTTP_API_PASSWORD=你的 APIPassword
+SPARK_MODEL=lite
+```
+
+安全要求：
+
+- 不提交 `.env`。
+- 不提交真实 APIPassword。
+- 不在前端页面输入或保存 API Key。
+- 不把 Key 写进 README、截图、Issue、日志或聊天记录。
+- 自动化测试只 mock `httpx`，不会真实调用讯飞 API。
+
+如果设置 `LLM_PROVIDER=spark-http` 但未配置 `SPARK_HTTP_API_PASSWORD`，系统会自动回退 MockLLMProvider，并在 `/api/llm/status` 返回 warning。
+
 ## 第十阶段 API
 
 - `GET /api/practice/question-types`
@@ -97,6 +130,7 @@ conda activate cnsoftbei_a3_eduforge
 ```powershell
 python scripts/check-env.py
 .\scripts\check-phase10.ps1
+.\scripts\check-phase10-1.ps1
 ```
 
 或手动执行：

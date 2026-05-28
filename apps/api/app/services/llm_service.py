@@ -98,6 +98,15 @@ SCENARIOS = [
     ),
 ]
 
+JSON_SCENARIOS = {
+    "profile",
+    "learning_path",
+    "quiz",
+    "practice_quiz",
+    "evaluation",
+    "safety_check",
+}
+
 
 def _preview(text: str, limit: int = 500) -> str:
     cleaned = " ".join(text.split())
@@ -144,6 +153,14 @@ def _call_status(provider_type: object) -> str:
     return "placeholder" if isinstance(provider_type, SparkProvider) else "success"
 
 
+def _provider_status_label(provider_type: object) -> str:
+    return "placeholder" if isinstance(provider_type, SparkProvider) else "ready"
+
+
+def _response_format_for_scenario(scenario: str) -> str | None:
+    return "json_object" if scenario in JSON_SCENARIOS else None
+
+
 def get_provider_status(session: Session) -> LLMStatusResponse:
     del session
     settings = get_settings()
@@ -152,6 +169,7 @@ def get_provider_status(session: Session) -> LLMStatusResponse:
     spark_configured = bool(
         settings.spark_app_id and settings.spark_api_key and settings.spark_api_secret
     )
+    spark_http_configured = bool(settings.spark_http_api_password)
     warning = provider_status.get("warning")
     return LLMStatusResponse(
         provider=settings.llm_provider,
@@ -159,7 +177,8 @@ def get_provider_status(session: Session) -> LLMStatusResponse:
         use_mock_llm=settings.use_mock_llm,
         effective_provider=provider.provider_name,
         spark_configured=spark_configured,
-        status="ready" if provider.uses_mock else "placeholder",
+        spark_http_configured=spark_http_configured,
+        status=_provider_status_label(provider),
         warning=str(warning) if warning else None,
     )
 
@@ -174,6 +193,7 @@ def generate_text(request: LLMGenerateRequest, session: Session) -> LLMGenerateR
             prompt=prompt,
             system_prompt=request.system_prompt,
             temperature=request.temperature,
+            response_format=_response_format_for_scenario(request.scenario),
         )
         latency = _latency_ms(start)
         log = _save_log(
@@ -220,7 +240,11 @@ def chat_text(request: LLMChatRequest, session: Session) -> LLMChatResponse:
     ]
     start = perf_counter()
     try:
-        content = provider.chat(messages=messages, temperature=request.temperature)
+        content = provider.chat(
+            messages=messages,
+            temperature=request.temperature,
+            response_format=_response_format_for_scenario(request.scenario),
+        )
         latency = _latency_ms(start)
         log = _save_log(
             session,

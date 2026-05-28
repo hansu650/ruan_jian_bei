@@ -18,12 +18,18 @@ class SparkProvider(LLMProvider):
         prompt: str,
         system_prompt: str | None = None,
         temperature: float = 0.2,
+        response_format: str | None = None,
     ) -> str:
-        del prompt, system_prompt, temperature
+        del prompt, system_prompt, temperature, response_format
         return PLACEHOLDER_MESSAGE
 
-    def chat(self, messages: list[dict[str, str]], temperature: float = 0.2) -> str:
-        del messages, temperature
+    def chat(
+        self,
+        messages: list[dict[str, str]],
+        temperature: float = 0.2,
+        response_format: str | None = None,
+    ) -> str:
+        del messages, temperature, response_format
         return PLACEHOLDER_MESSAGE
 
     def status(self) -> dict[str, str | bool | None]:

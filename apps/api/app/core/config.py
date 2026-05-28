@@ -21,7 +21,9 @@ class Settings(BaseSettings):
     spark_app_id: str = ""
     spark_api_key: str = ""
     spark_api_secret: str = ""
-    spark_model: str = ""
+    spark_http_api_url: str = "https://spark-api-open.xf-yun.com/v1/chat/completions"
+    spark_http_api_password: str = ""
+    spark_model: str = "lite"
 
     model_config = SettingsConfigDict(
         env_file=(".env", "../../.env"),

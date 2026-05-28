@@ -215,6 +215,7 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/api/app/agents/citation_verifier.py",
         "apps/api/app/agents/practice_agent.py",
         "apps/api/app/agents/evaluator_agent.py",
+        "apps/api/app/llm/spark_http_provider.py",
         "apps/api/app/services/document_indexer.py",
         "apps/api/app/services/search_service.py",
         "apps/api/app/services/llm_service.py",
@@ -289,6 +290,20 @@ def check_project_files(reporter: Reporter) -> None:
     else:
         reporter.warn("SPARK_API_KEY 未配置；第十阶段默认使用 MockLLM，Spark 仍然只是预留接口")
 
+    env_example = root / ".env.example"
+    if env_example.exists():
+        env_text = env_example.read_text(encoding="utf-8")
+        for key in ["SPARK_HTTP_API_PASSWORD", "SPARK_HTTP_API_URL", "SPARK_MODEL"]:
+            if key in env_text:
+                reporter.ok(f".env.example 包含 {key}")
+            else:
+                reporter.error(f".env.example 缺少 {key}")
+
+    if os.environ.get("SPARK_HTTP_API_PASSWORD"):
+        reporter.ok("SPARK_HTTP_API_PASSWORD 已配置（自检不会读取或输出密钥内容）")
+    else:
+        reporter.warn("SPARK_HTTP_API_PASSWORD 未配置；USE_MOCK_LLM=true 时这是正常状态")
+
 
 def print_next_steps() -> None:
     print()
@@ -315,11 +330,14 @@ def print_next_steps() -> None:
     print("7. 一键检查第十阶段：")
     print("   .\\scripts\\check-phase10.ps1")
     print("   ./scripts/check-phase10.sh")
+    print("8. 一键检查 Phase 10.1：")
+    print("   .\\scripts\\check-phase10-1.ps1")
+    print("   ./scripts/check-phase10-1.sh")
 
 
 def main() -> int:
     reporter = Reporter()
-    print("EduForge 智学工坊 - 第十阶段环境自检")
+    print("EduForge 智学工坊 - Phase 10.1 讯飞星火 HTTP Provider 环境自检")
     print()
 
     check_python(reporter)
@@ -355,7 +373,7 @@ def main() -> int:
         return 1
 
     print()
-    print("[OK] 环境自检通过，可以继续启动前后端或运行第十阶段检查。")
+    print("[OK] 环境自检通过，可以继续启动前后端或运行 Phase 10.1 检查。")
     return 0
 
 
