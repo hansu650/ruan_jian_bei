@@ -79,6 +79,18 @@ SCENARIOS = [
         sample_prompt="幻读和不可重复读有什么区别？",
     ),
     LLMScenario(
+        key="practice_quiz",
+        title="练习测验草稿",
+        description="返回可解析 JSON，用于 PracticeAgent 生成多题型原创练习。",
+        sample_prompt="围绕 JOIN、事务隔离级别和 B+树索引生成 6 道练习题。",
+    ),
+    LLMScenario(
+        key="evaluation",
+        title="学习效果评估草稿",
+        description="返回可解析 JSON，用于 EvaluatorAgent 演示错因分析和补救建议。",
+        sample_prompt="根据一次测验结果总结薄弱点、优势点和补救建议。",
+    ),
+    LLMScenario(
         key="safety_check",
         title="安全检查",
         description="返回 JSON，演示后续版权和防幻觉检查输出形态。",

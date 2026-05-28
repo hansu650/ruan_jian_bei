@@ -243,6 +243,105 @@ class GeneratedResource(SQLModel, table=True):
     updated_at: datetime = Field(default_factory=utc_now)
 
 
+class PracticeQuiz(SQLModel, table=True):
+    __tablename__ = "practice_quiz"
+
+    id: int | None = Field(default=None, primary_key=True)
+    student_id: int = Field(foreign_key="student.id", index=True)
+    course_id: int = Field(foreign_key="course.id", index=True)
+    profile_id: int | None = Field(default=None, foreign_key="learner_profile.id", index=True)
+    path_id: int | None = Field(default=None, foreign_key="learning_path.id", index=True)
+    step_id: int | None = Field(default=None, foreign_key="learning_path_step.id", index=True)
+    title: str
+    description: str = ""
+    difficulty: str = "medium"
+    status: str = "ready"
+    question_count: int = 0
+    knowledge_points_json: str = "[]"
+    source_resource_ids_json: str = "[]"
+    source_chunk_ids_json: str = "[]"
+    created_at: datetime = Field(default_factory=utc_now)
+    updated_at: datetime = Field(default_factory=utc_now)
+
+
+class PracticeQuestion(SQLModel, table=True):
+    __tablename__ = "practice_question"
+
+    id: int | None = Field(default=None, primary_key=True)
+    quiz_id: int = Field(foreign_key="practice_quiz.id", index=True)
+    course_id: int = Field(foreign_key="course.id", index=True)
+    step_id: int | None = Field(default=None, foreign_key="learning_path_step.id", index=True)
+    order_index: int
+    question_type: str
+    stem: str
+    options_json: str = "[]"
+    correct_answer_json: str = "{}"
+    explanation: str = ""
+    knowledge_point: str = ""
+    difficulty: str = "medium"
+    score: int = 10
+    citations_json: str = "[]"
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class PracticeAttempt(SQLModel, table=True):
+    __tablename__ = "practice_attempt"
+
+    id: int | None = Field(default=None, primary_key=True)
+    quiz_id: int = Field(foreign_key="practice_quiz.id", index=True)
+    student_id: int = Field(foreign_key="student.id", index=True)
+    course_id: int = Field(foreign_key="course.id", index=True)
+    profile_id: int | None = Field(default=None, foreign_key="learner_profile.id", index=True)
+    status: str = "submitted"
+    total_score: int = 0
+    max_score: int = 0
+    accuracy: float = 0.0
+    weak_points_json: str = "[]"
+    mastery_before_json: str = "{}"
+    mastery_after_json: str = "{}"
+    feedback_summary: str = ""
+    recommended_actions_json: str = "[]"
+    agent_run_id: int | None = Field(default=None, foreign_key="agent_run.id", index=True)
+    llm_log_id: int | None = Field(default=None, foreign_key="llm_call_log.id", index=True)
+    created_at: datetime = Field(default_factory=utc_now)
+    graded_at: datetime | None = None
+
+
+class PracticeAnswer(SQLModel, table=True):
+    __tablename__ = "practice_answer"
+
+    id: int | None = Field(default=None, primary_key=True)
+    attempt_id: int = Field(foreign_key="practice_attempt.id", index=True)
+    question_id: int = Field(foreign_key="practice_question.id", index=True)
+    answer_json: str = "{}"
+    is_correct: bool = False
+    score_awarded: int = 0
+    max_score: int = 0
+    feedback: str = ""
+    mistake_reason: str = ""
+    related_knowledge_point: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
+class LearningEvaluationReport(SQLModel, table=True):
+    __tablename__ = "learning_evaluation_report"
+
+    id: int | None = Field(default=None, primary_key=True)
+    student_id: int = Field(foreign_key="student.id", index=True)
+    course_id: int = Field(foreign_key="course.id", index=True)
+    profile_id: int | None = Field(default=None, foreign_key="learner_profile.id", index=True)
+    attempt_id: int | None = Field(default=None, foreign_key="practice_attempt.id", index=True)
+    title: str
+    overall_score: float = 0.0
+    summary: str = ""
+    weak_points_json: str = "[]"
+    strengths_json: str = "[]"
+    mastery_delta_json: str = "{}"
+    recommended_resources_json: str = "[]"
+    next_plan_suggestion: str = ""
+    created_at: datetime = Field(default_factory=utc_now)
+
+
 class TutorSession(SQLModel, table=True):
     __tablename__ = "tutor_session"
 

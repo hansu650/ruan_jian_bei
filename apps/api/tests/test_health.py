@@ -12,4 +12,4 @@ def test_health_check() -> None:
     assert data["status"] == "ok"
     assert data["service"] == "eduforge-api"
     assert data["competition"] == "中国软件杯 A3"
-    assert data["stage"] == "phase-9"
+    assert data["stage"] == "phase-10"

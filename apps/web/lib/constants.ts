@@ -12,7 +12,9 @@ export const CORE_LOOP = [
   "学习路径",
   "资源生成",
   "智能辅导",
-  "测验反馈",
+  "练习测验",
+  "自动批改",
+  "掌握度更新",
   "动态推荐",
 ];
 
@@ -34,8 +36,13 @@ export const CORE_FEATURES = [
   },
   {
     title: "智能辅导与防幻觉",
-    status: "进行中",
+    status: "已完成",
     description: "TutorAgent 基于课程知识库引用回答，并通过 CitationVerifier 降低幻觉风险。",
+  },
+  {
+    title: "学习效果评估",
+    status: "进行中",
+    description: "PracticeAgent 与 EvaluatorAgent 支持练习生成、自动批改、掌握度更新和补救建议。",
   },
 ];
 
@@ -52,6 +59,6 @@ export const PROJECT_STAGES: Array<{
   { name: "第六阶段", description: "对话式学习画像 ProfileAgent", status: "已完成" },
   { name: "第七阶段", description: "个性化学习路径 PlannerAgent", status: "已完成" },
   { name: "第八阶段", description: "多类型学习资源生成 ResourceAgent", status: "已完成" },
-  { name: "第九阶段", description: "智能辅导与防幻觉问答 TutorAgent", status: "进行中" },
-  { name: "第十阶段", description: "练习批改与学习效果评估", status: "待开始" },
+  { name: "第九阶段", description: "智能辅导与防幻觉问答 TutorAgent", status: "已完成" },
+  { name: "第十阶段", description: "PracticeAgent + EvaluatorAgent 学习效果评估", status: "进行中" },
 ];

@@ -12,12 +12,14 @@ from app.routers import (
     agent_runs,
     courses,
     documents,
+    evaluation,
     generated_resources,
     health,
     knowledge_points,
     learning_paths,
     llm,
     meta,
+    practice,
     profile_drafts,
     profiles,
     resource_items,
@@ -40,7 +42,7 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title=f"{settings.app_display_name} API",
         description="EduForge 智学工坊后端基础服务",
-        version="0.9.0",
+        version="0.10.0",
         lifespan=lifespan,
     )
 
@@ -66,6 +68,8 @@ def create_app() -> FastAPI:
     app.include_router(learning_paths.router)
     app.include_router(generated_resources.router)
     app.include_router(tutor.router)
+    app.include_router(practice.router)
+    app.include_router(evaluation.router)
     app.include_router(agent_runs.router)
     app.include_router(knowledge_points.router)
     app.include_router(profile_drafts.router)

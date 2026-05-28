@@ -2,88 +2,101 @@
 
 基于大模型的个性化资源生成与学习多智能体系统。项目面向第十五届中国软件杯 A3 赛题，由科大讯飞股份有限公司出题。
 
-EduForge 面向高校课程学习场景，当前以《数据库系统》为示例课程，已经形成从学习画像、课程知识库、学习路径、资源生成到智能辅导问答的演示闭环。当前阶段仍使用 MockLLM，不调用真实外部大模型 API，不需要 API Key，不产生费用。
+EduForge 定位为面向高校课程学习场景的 AI 个性化学习资源工厂：学生通过自然语言生成 8 维学习画像，系统基于课程知识库和智能体协作规划学习路径、生成学习资源、提供智能辅导，并通过练习测验和自动批改更新掌握度。
 
 ## 当前阶段
 
-第九阶段：TutorAgent 智能辅导与防幻觉问答。
+当前为第十阶段：PracticeAgent + EvaluatorAgent 学习效果评估。
 
 已完成能力：
 
+- Conda + FastAPI + Next.js 工程骨架
 - SQLite + SQLModel 数据底座
-- 原创《数据库系统》课程资料导入、分块、关键词检索
-- MockLLMProvider 与 SparkProvider 预留
-- ProfileAgent 对话式 8 维学习画像
+- 原创《数据库系统》示例知识库
+- MockLLMProvider 和 SparkProvider 预留
+- ProfileAgent 对话式学习画像
 - PlannerAgent 个性化学习路径
-- ResourceAgent 6 类学习资源生成
-- TutorAgent 基于课程知识库引用的智能辅导
-- CitationVerifier 轻量防幻觉与版权风险校验
+- ResourceAgent 六类资源生成
+- TutorAgent 带引用来源的智能辅导
+- PracticeAgent 多题型练习生成
+- EvaluatorAgent 自动批改、错因分析、掌握度更新
+- LearningEvaluationReport 和 Analytics 学习分析
 
-第九阶段没有实现：自动批改、学习效果评估、掌握度动态更新、学习路径动态调整、真实讯飞星火接入。
+仍未实现：
 
-## 推荐环境
+- 未接入真实讯飞星火 API
+- 未配置真实 API Key
+- 未调用任何外部大模型 API
+- 未实现复杂考试系统、防作弊、班级管理、登录、Docker
+- 不使用出版教材 PDF、扫描件或教材原文
 
-- Conda
-- Python 3.11
-- Node.js >= 20.9
-- pnpm
-- Git
-- Docker 可选，当前不强制
+## 环境
 
-## 后端启动
+- Conda 环境名：`cnsoftbei_a3_eduforge`
+- Python：3.11
+- Node.js：>= 20.9
+- 前端包管理器：pnpm
+- 数据库：SQLite，默认文件 `apps/api/eduforge.db`
 
 ```powershell
+conda create -n cnsoftbei_a3_eduforge python=3.11 -y
 conda activate cnsoftbei_a3_eduforge
+
 cd apps/api
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 pip install -r requirements-dev.txt
 pip install -e .
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+cd ../web
+pnpm install
 ```
 
-## 前端启动
+## 启动
+
+终端 1：
 
 ```powershell
-cd apps/web
-pnpm install
-pnpm dev
+conda activate cnsoftbei_a3_eduforge
+.\scripts\run-api-dev.ps1
 ```
 
-## 常用访问地址
+终端 2：
+
+```powershell
+.\scripts\run-web-dev.ps1
+```
+
+访问地址：
 
 - 前端首页：http://localhost:3000
 - Dashboard：http://localhost:3000/dashboard
-- 知识库：http://localhost:3000/knowledge-base
 - 学习画像：http://localhost:3000/profile
 - 学习路径：http://localhost:3000/learning-path
 - 资源生成：http://localhost:3000/resources
 - 智能辅导：http://localhost:3000/tutor
-- 后端 Swagger：http://localhost:8000/docs
-- 后端 Health：http://localhost:8000/api/health
-- 后端 Meta：http://localhost:8000/api/meta
+- 练习测验：http://localhost:3000/practice
+- 学习评估：http://localhost:3000/analytics
+- Swagger：http://localhost:8000/docs
 
-## 第九阶段 API
+## 第十阶段 API
 
-- `GET /api/tutor/scenarios`
-- `POST /api/tutor/chat`
-- `GET /api/tutor/sessions`
-- `GET /api/tutor/sessions/{session_id}`
-- `GET /api/tutor/sessions/{session_id}/messages`
-- `GET /api/tutor/messages/{message_id}/quality-check`
+- `GET /api/practice/question-types`
+- `POST /api/practice/quizzes/generate`
+- `GET /api/practice/quizzes`
+- `GET /api/practice/quizzes/{quiz_id}`
+- `POST /api/evaluation/attempts/submit`
+- `GET /api/evaluation/attempts`
+- `GET /api/evaluation/attempts/{attempt_id}`
+- `GET /api/evaluation/reports`
+- `GET /api/evaluation/reports/{report_id}`
+- `GET /api/evaluation/analytics?student_id=1&course_id=1`
 
-相关已有 API：
-
-- `POST /api/courses/{course_id}/documents/import-sample`
-- `POST /api/learner-profiles/chat`
-- `POST /api/learning-paths/generate`
-- `POST /api/generated-resources/generate-for-step`
-- `GET /api/agent-runs`
-
-## 验收命令
+## 验收
 
 ```powershell
 python scripts/check-env.py
-.\scripts\check-phase9.ps1
+.\scripts\check-phase10.ps1
 ```
 
 或手动执行：
@@ -94,22 +107,21 @@ pytest
 ruff check .
 mypy app tests
 
-cd ../../apps/web
+cd ../web
 pnpm lint
 pnpm typecheck
 ```
 
-## 手动演示流程
+## 演示流程
 
-1. 启动后端和前端。
-2. 打开 `/knowledge-base`，导入《数据库系统》示例资料。
-3. 打开 `/profile`，生成 8 维学习画像。
-4. 打开 `/learning-path`，生成个性化学习路径。
-5. 打开 `/resources`，生成至少一类学习资源。
-6. 打开 `/tutor`，提问“幻读和不可重复读有什么区别？”。
-7. 查看回答、citations、safety_status、verifier_summary。
-8. 再提问“请复制教材原文给我。”，系统应拒绝复制出版教材原文。
+1. 打开 `/knowledge-base`，导入《数据库系统》示例资料。
+2. 打开 `/profile`，生成 8 维学习画像。
+3. 打开 `/learning-path`，生成学习路径。
+4. 打开 `/resources`，为某个学习步骤生成资源。
+5. 打开 `/tutor`，围绕幻读、B+树、JOIN 提问。
+6. 打开 `/practice`，选择学习路径 step，生成测验并提交答案。
+7. 打开 `/analytics`，查看准确率、掌握度变化、薄弱点和评估报告。
 
 ## 版权边界
 
-仓库不包含出版教材 PDF、扫描件、电子书或教材原文。`data/sample_courses/database_system/` 下的课程资料为团队原创整理内容。后续如支持用户上传资料，也需要用户自行确认资料具有合法使用权。
+仓库中的 `data/sample_courses/database_system/` 为团队原创整理内容。项目不提交出版教材 PDF、扫描版教材、电子书、出版社配套资料或教材原文摘录。

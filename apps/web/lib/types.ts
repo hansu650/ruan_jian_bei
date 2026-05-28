@@ -531,3 +531,163 @@ export interface TutorScenarioInfo {
   label: string;
   sample_question: string;
 }
+
+export interface PracticeQuiz {
+  id: number;
+  student_id: number;
+  course_id: number;
+  profile_id?: number | null;
+  path_id?: number | null;
+  step_id?: number | null;
+  title: string;
+  description: string;
+  difficulty: string;
+  status: string;
+  question_count: number;
+  knowledge_points_json: string;
+  source_resource_ids_json: string;
+  source_chunk_ids_json: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PracticeQuestion {
+  id: number;
+  quiz_id: number;
+  course_id: number;
+  step_id?: number | null;
+  order_index: number;
+  question_type: string;
+  stem: string;
+  options_json: string;
+  explanation: string;
+  knowledge_point: string;
+  difficulty: string;
+  score: number;
+  citations_json: string;
+  created_at: string;
+}
+
+export interface PracticeQuestionWithAnswer extends PracticeQuestion {
+  correct_answer_json: string;
+}
+
+export interface GenerateQuizRequest {
+  student_id: number;
+  course_id: number;
+  step_id: number;
+  profile_id?: number | null;
+  path_id?: number | null;
+  difficulty?: string;
+  question_count?: number;
+  question_types?: string[] | null;
+}
+
+export interface GenerateQuizResponse {
+  quiz: PracticeQuiz;
+  questions: PracticeQuestion[];
+  agent_run_id?: number | null;
+  llm_log_id?: number | null;
+  generation_summary: string;
+}
+
+export interface QuestionTypeInfo {
+  key: string;
+  label: string;
+  description: string;
+}
+
+export interface SubmitAnswerItem {
+  question_id: number;
+  answer: Record<string, unknown>;
+}
+
+export interface SubmitQuizRequest {
+  student_id: number;
+  quiz_id: number;
+  answers: SubmitAnswerItem[];
+}
+
+export interface PracticeAnswer {
+  id: number;
+  attempt_id: number;
+  question_id: number;
+  answer_json: string;
+  is_correct: boolean;
+  score_awarded: number;
+  max_score: number;
+  feedback: string;
+  mistake_reason: string;
+  related_knowledge_point: string;
+  created_at: string;
+}
+
+export interface PracticeAttempt {
+  id: number;
+  quiz_id: number;
+  student_id: number;
+  course_id: number;
+  profile_id?: number | null;
+  status: string;
+  total_score: number;
+  max_score: number;
+  accuracy: number;
+  weak_points_json: string;
+  mastery_before_json: string;
+  mastery_after_json: string;
+  feedback_summary: string;
+  recommended_actions_json: string;
+  agent_run_id?: number | null;
+  llm_log_id?: number | null;
+  created_at: string;
+  graded_at?: string | null;
+}
+
+export interface SubmitQuizResponse {
+  attempt: PracticeAttempt;
+  answers: PracticeAnswer[];
+  evaluation_report_id?: number | null;
+  updated_profile_id?: number | null;
+}
+
+export interface PracticeQuizDetailResponse {
+  quiz: PracticeQuiz;
+  questions: PracticeQuestion[];
+}
+
+export interface PracticeAttemptDetailResponse {
+  attempt: PracticeAttempt;
+  quiz: PracticeQuiz;
+  questions: PracticeQuestionWithAnswer[];
+  answers: PracticeAnswer[];
+}
+
+export interface LearningEvaluationReport {
+  id: number;
+  student_id: number;
+  course_id: number;
+  profile_id?: number | null;
+  attempt_id?: number | null;
+  title: string;
+  overall_score: number;
+  summary: string;
+  weak_points_json: string;
+  strengths_json: string;
+  mastery_delta_json: string;
+  recommended_resources_json: string;
+  next_plan_suggestion: string;
+  created_at: string;
+}
+
+export interface LearningAnalyticsSummary {
+  student_id: number;
+  course_id: number;
+  profile_id?: number | null;
+  latest_mastery_json: string;
+  quiz_count: number;
+  attempt_count: number;
+  average_accuracy: number;
+  latest_weak_points: string[];
+  latest_recommended_actions: string[];
+  latest_report?: LearningEvaluationReport | null;
+}

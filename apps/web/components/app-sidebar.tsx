@@ -1,5 +1,7 @@
 import {
+  BarChart3,
   BookOpen,
+  ClipboardCheck,
   Database,
   FileQuestion,
   FileText,
@@ -21,7 +23,9 @@ const navItems = [
   { label: "学习画像", state: "已完成", icon: UserRound, href: "/profile" },
   { label: "学习路径", state: "已完成", icon: Route, href: "/learning-path" },
   { label: "资源生成", state: "已完成", icon: FileText, href: "/resources" },
-  { label: "智能辅导", state: "进行中", icon: FileQuestion, href: "/tutor" },
+  { label: "智能辅导", state: "已完成", icon: FileQuestion, href: "/tutor" },
+  { label: "练习测验", state: "进行中", icon: ClipboardCheck, href: "/practice" },
+  { label: "学习评估", state: "进行中", icon: BarChart3, href: "/analytics" },
   { label: "课程管理", state: "可查看", icon: BookOpen, href: "/courses" },
   { label: "学生管理", state: "可查看", icon: GraduationCap, href: "/students" },
 ];
@@ -32,7 +36,7 @@ export function AppSidebar() {
       <div>
         <p className="text-sm font-semibold">EduForge 控制台</p>
         <p className="mt-1 text-xs text-muted-foreground">
-          第九阶段建设 A3 可选加分能力：TutorAgent 智能辅导与轻量防幻觉校验。
+          第十阶段建设 A3 加分能力：PracticeAgent + EvaluatorAgent，形成测验、批改、评估与掌握度更新闭环。
         </p>
       </div>
       <Separator className="my-4" />

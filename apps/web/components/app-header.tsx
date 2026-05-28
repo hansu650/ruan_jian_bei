@@ -1,6 +1,8 @@
 import {
   Activity,
+  BarChart3,
   BookOpen,
+  ClipboardCheck,
   Database,
   FileQuestion,
   FileText,
@@ -24,6 +26,8 @@ const navItems = [
   { href: "/learning-path", label: "学习路径", icon: Route },
   { href: "/resources", label: "资源生成", icon: FileText },
   { href: "/tutor", label: "智能辅导", icon: FileQuestion },
+  { href: "/practice", label: "练习测验", icon: ClipboardCheck },
+  { href: "/analytics", label: "学习评估", icon: BarChart3 },
   { href: "/courses", label: "课程管理", icon: BookOpen },
   { href: "/students", label: "学生管理", icon: GraduationCap },
   { href: "/health", label: "Health", icon: Activity },

@@ -43,8 +43,7 @@ def run_command(command: list[str]) -> tuple[int, str]:
         )
     except FileNotFoundError:
         return 127, ""
-    output = (completed.stdout or completed.stderr or "").strip()
-    return completed.returncode, output
+    return completed.returncode, (completed.stdout or completed.stderr or "").strip()
 
 
 def parse_version(text: str) -> tuple[int, int, int] | None:
@@ -181,10 +180,10 @@ def check_directory(
 
 def check_project_files(reporter: Reporter) -> None:
     root = Path.cwd()
-    root_markers = ["apps", "scripts", "README.md"]
-    missing_markers = [marker for marker in root_markers if not (root / marker).exists()]
-    if missing_markers:
-        reporter.error("当前目录不像项目根目录，缺少：" + "、".join(missing_markers))
+    markers = ["apps", "scripts", "README.md"]
+    missing = [marker for marker in markers if not (root / marker).exists()]
+    if missing:
+        reporter.error("当前目录不像项目根目录，缺少：" + "、".join(missing))
     else:
         reporter.ok(f"当前目录像项目根目录：{root}")
 
@@ -201,30 +200,21 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/api/app/db/seed.py",
         "apps/api/app/routers/health.py",
         "apps/api/app/routers/meta.py",
-        "apps/api/app/routers/students.py",
-        "apps/api/app/routers/courses.py",
-        "apps/api/app/routers/knowledge_points.py",
-        "apps/api/app/routers/profile_drafts.py",
-        "apps/api/app/routers/resource_items.py",
         "apps/api/app/routers/documents.py",
         "apps/api/app/routers/llm.py",
         "apps/api/app/routers/profiles.py",
-        "apps/api/app/routers/agent_runs.py",
         "apps/api/app/routers/learning_paths.py",
         "apps/api/app/routers/generated_resources.py",
         "apps/api/app/routers/tutor.py",
-        "apps/api/app/llm/base.py",
-        "apps/api/app/llm/mock_provider.py",
-        "apps/api/app/llm/spark_provider.py",
-        "apps/api/app/llm/factory.py",
-        "apps/api/app/agents/base.py",
+        "apps/api/app/routers/practice.py",
+        "apps/api/app/routers/evaluation.py",
         "apps/api/app/agents/profile_agent.py",
         "apps/api/app/agents/planner_agent.py",
         "apps/api/app/agents/resource_agent.py",
         "apps/api/app/agents/tutor_agent.py",
         "apps/api/app/agents/citation_verifier.py",
-        "apps/api/app/services/document_parser.py",
-        "apps/api/app/services/chunking.py",
+        "apps/api/app/agents/practice_agent.py",
+        "apps/api/app/agents/evaluator_agent.py",
         "apps/api/app/services/document_indexer.py",
         "apps/api/app/services/search_service.py",
         "apps/api/app/services/llm_service.py",
@@ -232,34 +222,37 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/api/app/services/learning_path_service.py",
         "apps/api/app/services/generated_resource_service.py",
         "apps/api/app/services/tutor_service.py",
+        "apps/api/app/services/practice_service.py",
+        "apps/api/app/services/evaluation_service.py",
         "apps/api/app/schemas/llm.py",
         "apps/api/app/schemas/profiles.py",
-        "apps/api/app/schemas/agent_runs.py",
         "apps/api/app/schemas/learning_paths.py",
         "apps/api/app/schemas/generated_resources.py",
         "apps/api/app/schemas/tutor.py",
+        "apps/api/app/schemas/practice.py",
+        "apps/api/app/schemas/evaluation.py",
         "apps/api/app/prompts/profile_prompt.md",
         "apps/api/app/prompts/learning_path_prompt.md",
         "apps/api/app/prompts/resource_generation_prompt.md",
         "apps/api/app/prompts/tutor_agent_prompt.md",
         "apps/api/app/prompts/citation_verifier_prompt.md",
+        "apps/api/app/prompts/practice_agent_prompt.md",
+        "apps/api/app/prompts/evaluator_agent_prompt.md",
         "data/sample_courses/database_system/01_intro.md",
         "data/sample_courses/database_system/07_transaction.md",
         "data/sample_courses/database_system/08_index_btree.md",
         "apps/web/package.json",
         "apps/web/app/page.tsx",
-        "apps/web/app/health/page.tsx",
         "apps/web/app/dashboard/page.tsx",
-        "apps/web/app/database/page.tsx",
-        "apps/web/app/courses/page.tsx",
-        "apps/web/app/students/page.tsx",
         "apps/web/app/knowledge-base/page.tsx",
-        "apps/web/app/llm-lab/page.tsx",
         "apps/web/app/profile/page.tsx",
         "apps/web/app/learning-path/page.tsx",
         "apps/web/app/resources/page.tsx",
         "apps/web/app/tutor/page.tsx",
+        "apps/web/app/practice/page.tsx",
+        "apps/web/app/analytics/page.tsx",
         "apps/web/lib/api.ts",
+        "apps/web/lib/types.ts",
     ]
     for file_path in required_files:
         check_file(root, file_path, reporter)
@@ -294,7 +287,7 @@ def check_project_files(reporter: Reporter) -> None:
     if os.environ.get("SPARK_API_KEY"):
         reporter.ok("SPARK_API_KEY 已配置（自检不会读取或输出密钥内容）")
     else:
-        reporter.warn("SPARK_API_KEY 未配置；第九阶段默认使用 MockLLM，Spark 仍然只是预留接口")
+        reporter.warn("SPARK_API_KEY 未配置；第十阶段默认使用 MockLLM，Spark 仍然只是预留接口")
 
 
 def print_next_steps() -> None:
@@ -316,19 +309,17 @@ def print_next_steps() -> None:
     print("5. 启动前端：")
     print("   cd apps/web")
     print("   pnpm dev")
-    print("6. 打开第九阶段页面：")
-    print("   http://localhost:3000/profile")
-    print("   http://localhost:3000/learning-path")
-    print("   http://localhost:3000/resources")
-    print("   http://localhost:3000/tutor")
-    print("7. 一键检查第九阶段：")
-    print("   .\\scripts\\check-phase9.ps1")
-    print("   ./scripts/check-phase9.sh")
+    print("6. 打开第十阶段页面：")
+    print("   http://localhost:3000/practice")
+    print("   http://localhost:3000/analytics")
+    print("7. 一键检查第十阶段：")
+    print("   .\\scripts\\check-phase10.ps1")
+    print("   ./scripts/check-phase10.sh")
 
 
 def main() -> int:
     reporter = Reporter()
-    print("EduForge 智学工坊 - 第九阶段环境自检")
+    print("EduForge 智学工坊 - 第十阶段环境自检")
     print()
 
     check_python(reporter)
@@ -364,7 +355,7 @@ def main() -> int:
         return 1
 
     print()
-    print("[OK] 环境自检通过，可以继续启动前后端或运行第九阶段检查。")
+    print("[OK] 环境自检通过，可以继续启动前后端或运行第十阶段检查。")
     return 0
 
 

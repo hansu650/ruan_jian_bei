@@ -11,6 +11,8 @@ import type {
   GenerateResourceResponse,
   GenerateStepResourcesRequest,
   GenerateStepResourcesResponse,
+  GenerateQuizRequest,
+  GenerateQuizResponse,
   HealthResponse,
   KnowledgeBaseStats,
   KnowledgePoint,
@@ -29,7 +31,14 @@ import type {
   LearningPathDetailResponse,
   LearningPathPlanCheck,
   LearningPathStep,
+  LearningAnalyticsSummary,
+  LearningEvaluationReport,
   MetaResponse,
+  PracticeAttempt,
+  PracticeAttemptDetailResponse,
+  PracticeQuiz,
+  PracticeQuizDetailResponse,
+  QuestionTypeInfo,
   ProfileChatRequest,
   ProfileChatResponse,
   ProfileDimensionCheck,
@@ -48,6 +57,8 @@ import type {
   TutorScenarioInfo,
   TutorSession,
   TutorSessionDetailResponse,
+  SubmitQuizRequest,
+  SubmitQuizResponse,
 } from "@/lib/types";
 
 export const API_BASE_URL =
@@ -424,4 +435,71 @@ export function getTutorMessages(sessionId: number): Promise<TutorMessage[]> {
 
 export function getTutorQualityCheck(messageId: number): Promise<TutorQualityCheck> {
   return requestJson<TutorQualityCheck>(`/api/tutor/messages/${messageId}/quality-check`);
+}
+
+export function getQuestionTypes(): Promise<QuestionTypeInfo[]> {
+  return requestJson<QuestionTypeInfo[]>("/api/practice/question-types");
+}
+
+export function generateQuiz(payload: GenerateQuizRequest): Promise<GenerateQuizResponse> {
+  return requestJson<GenerateQuizResponse>("/api/practice/quizzes/generate", {
+    method: "POST",
+    body: payload,
+  });
+}
+
+export function getPracticeQuizzes(params?: {
+  student_id?: number;
+  course_id?: number;
+  step_id?: number;
+}): Promise<PracticeQuiz[]> {
+  return requestJson<PracticeQuiz[]>(`/api/practice/quizzes${queryString(params ?? {})}`);
+}
+
+export function getPracticeQuiz(quizId: number): Promise<PracticeQuizDetailResponse> {
+  return requestJson<PracticeQuizDetailResponse>(`/api/practice/quizzes/${quizId}`);
+}
+
+export function submitQuiz(payload: SubmitQuizRequest): Promise<SubmitQuizResponse> {
+  return requestJson<SubmitQuizResponse>("/api/evaluation/attempts/submit", {
+    method: "POST",
+    body: payload,
+  });
+}
+
+export function getPracticeAttempts(params?: {
+  student_id?: number;
+  course_id?: number;
+  quiz_id?: number;
+}): Promise<PracticeAttempt[]> {
+  return requestJson<PracticeAttempt[]>(`/api/evaluation/attempts${queryString(params ?? {})}`);
+}
+
+export function getPracticeAttempt(attemptId: number): Promise<PracticeAttemptDetailResponse> {
+  return requestJson<PracticeAttemptDetailResponse>(`/api/evaluation/attempts/${attemptId}`);
+}
+
+export function getEvaluationReports(params?: {
+  student_id?: number;
+  course_id?: number;
+}): Promise<LearningEvaluationReport[]> {
+  return requestJson<LearningEvaluationReport[]>(
+    `/api/evaluation/reports${queryString(params ?? {})}`,
+  );
+}
+
+export function getEvaluationReport(reportId: number): Promise<LearningEvaluationReport> {
+  return requestJson<LearningEvaluationReport>(`/api/evaluation/reports/${reportId}`);
+}
+
+export function getLearningAnalytics(
+  studentId: number,
+  courseId: number,
+): Promise<LearningAnalyticsSummary> {
+  return requestJson<LearningAnalyticsSummary>(
+    `/api/evaluation/analytics${queryString({
+      student_id: studentId,
+      course_id: courseId,
+    })}`,
+  );
 }
