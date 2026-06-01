@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { AlertCircle, Bot, History, MessageSquareText, Send, Sparkles } from "lucide-react";
 
+import { MarkdownPreview } from "@/components/markdown-preview";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -348,9 +349,9 @@ function ResultBlock({
           mock={String(result.used_mock)} / {result.latency_ms} ms / log #{result.log_id ?? "-"}
         </span>
       </div>
-      <pre className="mt-3 max-h-96 overflow-auto whitespace-pre-wrap rounded-md bg-muted p-3 text-sm leading-6">
-        {result.content}
-      </pre>
+      <div className="mt-3">
+        <MarkdownPreview content={result.content} />
+      </div>
     </div>
   );
 }

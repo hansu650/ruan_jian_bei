@@ -1,6 +1,6 @@
 # EduForge Web
 
-Next.js + TypeScript + Tailwind CSS 前端。当前进入 Phase 13 端到端彩排与缺陷修复。
+Next.js + TypeScript + Tailwind CSS 前端。当前进入 Phase 14A 学生端 UI 修复与内容渲染。
 
 ## 安装和启动
 
@@ -18,8 +18,8 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 
 ## 页面
 
-- `/demo`：演示工作台，检查端到端演示准备状态。
-- `/qa`：人工测试清单，展示 Smoke Status 和本地勾选进度。
+- `/`：简洁产品首页，引导进入学习工作台。
+- `/learn`：学生端学习工作台，展示今日任务、学习进度、薄弱点和下一步行动。
 - `/knowledge-base`：课程知识库和关键词检索。
 - `/profile`：对话式学习画像。
 - `/learning-path`：个性化学习路径。
@@ -27,6 +27,8 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 - `/tutor`：智能辅导与引用校验。
 - `/practice`：练习测验。
 - `/analytics`：学习效果评估。
+- `/demo`：演示工作台，检查端到端演示准备状态。
+- `/qa`：人工测试清单，展示 Smoke Status 和本地勾选进度。
 - `/llm-lab`：模型实验室，可查看 MockLLM 和可选 spark-http Provider 状态。
 
 ## Phase 11 前端组件
@@ -57,3 +59,12 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 - `/llm-lab`、`/demo` 和 `/qa` 不显示或传输后端密钥。
 - `/resources` 在 spark-http 模式下保留高消耗操作确认。
 - 资源相关 API 文案统一为 `/api/generated-resources/*`。
+
+## Phase 14A 前端检查点
+
+- `/learn` 是学生端主入口，学习数据来自后端 API，刷新后可继续学习。
+- 顶部导航使用当前路径高亮，学习中心入口优先，演示和测试入口降级。
+- `components/markdown-preview.tsx` 使用 Markdown 渲染，不再直接展示原始 Markdown。
+- `components/mermaid-diagram.tsx` 渲染 `mermaid` 代码块，思维导图不再以源码为主展示。
+- `components/citation-list.tsx` 统一展示 filename、section title、chunk 和引用片段。
+- 不在前端输入、显示、传输或保存真实密钥。

@@ -56,13 +56,22 @@ export function CitationList({
         const sectionTitle = text(item.section_title) || "未命名小节";
         const quote = text(item.quote) || text(item.quote_preview) || "未提供片段";
         return (
-          <div key={`${filename}-${chunkIndex}-${index}`} className="rounded-lg border bg-background p-3 text-sm">
-            <p className="font-medium">
-              {filename}
-              {chunkIndex ? ` / chunk ${chunkIndex}` : ""}
-            </p>
+          <div
+            key={`${filename}-${chunkIndex}-${index}`}
+            className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm"
+          >
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="font-medium text-slate-900">{filename}</p>
+              {chunkIndex ? (
+                <span className="rounded-md bg-white px-2 py-0.5 text-xs text-slate-500">
+                  chunk {chunkIndex}
+                </span>
+              ) : null}
+            </div>
             <p className="mt-1 text-xs text-muted-foreground">{sectionTitle}</p>
-            <p className="mt-2 leading-6">{quote}</p>
+            <blockquote className="mt-2 border-l-2 border-sky-200 pl-3 leading-6 text-slate-700">
+              {quote}
+            </blockquote>
           </div>
         );
       })}

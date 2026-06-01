@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 interface StudentHeroCardProps {
   studentName?: string | null;
+  studentMeta?: string | null;
   courseTitle?: string | null;
   learningGoal?: string | null;
   nextHref: string;
@@ -14,6 +15,7 @@ interface StudentHeroCardProps {
 
 export function StudentHeroCard({
   studentName,
+  studentMeta,
   courseTitle,
   learningGoal,
   nextHref,
@@ -52,6 +54,7 @@ export function StudentHeroCard({
             <div>
               <p className="text-sm text-slate-500">当前学习者</p>
               <p className="font-semibold text-slate-950">{studentName || "示例学生"}</p>
+              {studentMeta ? <p className="mt-0.5 text-xs text-slate-500">{studentMeta}</p> : null}
             </div>
           </div>
           <div className="mt-5 space-y-3 text-sm">

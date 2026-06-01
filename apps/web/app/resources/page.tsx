@@ -47,6 +47,14 @@ const RESOURCE_LABELS: Record<string, string> = {
   video_script: "视频脚本",
 };
 
+const RESOURCE_STATUS_LABELS: Record<string, string> = {
+  ready: "已生成",
+  generated: "已生成",
+  checked: "已检查",
+  needs_review: "需教师确认",
+  failed: "生成失败",
+};
+
 function safeJson<T>(value: string | undefined, fallback: T): T {
   if (!value) {
     return fallback;
@@ -132,13 +140,15 @@ function ResourceContent({ resource }: { resource: GeneratedResource | null }) {
               {resource.content_format}
             </p>
           </div>
-          <Badge variant="success">{resource.status}</Badge>
+          <Badge variant={resource.status === "needs_review" ? "warning" : "success"}>
+            {RESOURCE_STATUS_LABELS[resource.status] ?? resource.status}
+          </Badge>
         </div>
       </CardHeader>
       <CardContent className="space-y-5">
         <MarkdownPreview content={resource.content} />
         <div>
-          <h3 className="font-semibold">引用来源 citations</h3>
+          <h3 className="font-semibold">引用来源</h3>
           <div className="mt-3">
             <CitationList
               citations={resource.citations_json}

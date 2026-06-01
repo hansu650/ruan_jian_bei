@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Activity,
   BarChart3,
@@ -17,9 +19,11 @@ import {
   UserRound,
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 
 const sections = [
   {
@@ -59,6 +63,8 @@ const sections = [
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
+
   return (
     <aside className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
       <div>
@@ -75,25 +81,30 @@ export function AppSidebar() {
             <div className="space-y-1.5">
               {section.items.map((item) => {
                 const Icon = item.icon;
+                const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
                 const primary = item.href === "/learn";
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={
-                      primary
-                        ? "flex items-center justify-between gap-3 rounded-md border border-sky-200 bg-sky-50 px-3 py-2 text-sky-900 hover:border-sky-300"
-                        : "flex items-center justify-between gap-3 rounded-md border border-transparent bg-background px-3 py-2 hover:border-slate-200 hover:bg-slate-50"
-                    }
+                    className={cn(
+                      "flex items-center justify-between gap-3 rounded-md border px-3 py-2 transition",
+                      active
+                        ? "border-sky-200 bg-sky-50 text-sky-900 hover:border-sky-300"
+                        : "border-transparent bg-background hover:border-slate-200 hover:bg-slate-50",
+                    )}
                   >
                     <div className="flex min-w-0 items-center gap-2">
                       <Icon
-                        className={primary ? "h-4 w-4 shrink-0 text-sky-700" : "h-4 w-4 shrink-0 text-slate-500"}
+                        className={cn(
+                          "h-4 w-4 shrink-0",
+                          active || primary ? "text-sky-700" : "text-slate-500",
+                        )}
                         aria-hidden="true"
                       />
                       <span className="truncate text-sm">{item.label}</span>
                     </div>
-                    <Badge variant={primary ? "default" : "outline"} className="shrink-0">
+                    <Badge variant={active || primary ? "default" : "outline"} className="shrink-0">
                       {item.state}
                     </Badge>
                   </Link>

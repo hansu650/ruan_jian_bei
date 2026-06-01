@@ -4,6 +4,8 @@ import { FileQuestion, MessageSquareText, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
+import { CitationList } from "@/components/citation-list";
+import { MarkdownPreview } from "@/components/markdown-preview";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -36,15 +38,6 @@ import type {
   TutorSession,
 } from "@/lib/types";
 
-type Citation = {
-  chunk_id?: number;
-  document_id?: number;
-  filename?: string;
-  chunk_index?: number;
-  section_title?: string | null;
-  quote?: string;
-};
-
 function safeJson<T>(value: string | undefined, fallback: T): T {
   if (!value) {
     return fallback;
@@ -72,9 +65,9 @@ function safetyVariant(status: string): "success" | "warning" | "outline" {
 
 function safetyLabel(status: string): string {
   const labels: Record<string, string> = {
-    grounded: "有来源支撑",
-    needs_review: "需要教师确认",
-    unsafe: "版权/安全风险",
+    grounded: "有来源",
+    needs_review: "需教师确认",
+    unsafe: "不适合处理",
   };
   return labels[status] ?? status;
 }
@@ -134,7 +127,6 @@ function MessageBubble({
   quality?: TutorQualityCheck;
 }) {
   const isUser = message.role === "user";
-  const citations = safeJson<Citation[]>(message.citations_json, []);
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
       <div
@@ -142,7 +134,11 @@ function MessageBubble({
           isUser ? "bg-primary text-primary-foreground" : "bg-background"
         }`}
       >
-        <div className="whitespace-pre-wrap">{message.content}</div>
+        {isUser ? (
+          <div className="whitespace-pre-wrap">{message.content}</div>
+        ) : (
+          <MarkdownPreview content={message.content} />
+        )}
 
         {!isUser ? (
           <div className="mt-4 space-y-3 border-t pt-3">
@@ -173,23 +169,9 @@ function MessageBubble({
             ) : null}
 
             <div>
-              <p className="font-medium">引用来源</p>
-              <div className="mt-2 space-y-2">
-                {citations.length ? (
-                  citations.map((citation, index) => (
-                    <div key={`${citation.chunk_id}-${index}`} className="rounded-md border p-3">
-                      <p className="font-medium">
-                        {citation.filename ?? "unknown"} / chunk {citation.chunk_index ?? "-"}
-                      </p>
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        {citation.section_title || "未命名小节"}
-                      </p>
-                      <p className="mt-2">{citation.quote}</p>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-muted-foreground">暂无课程知识库引用。</p>
-                )}
+              <p className="mb-2 font-medium">引用来源</p>
+              <div>
+                <CitationList citations={message.citations_json} emptyText="暂无课程知识库引用。" />
               </div>
             </div>
 

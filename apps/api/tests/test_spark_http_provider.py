@@ -180,7 +180,7 @@ def test_llm_status_missing_spark_http_password_returns_warning(
 ) -> None:
     monkeypatch.setenv("USE_MOCK_LLM", "false")
     monkeypatch.setenv("LLM_PROVIDER", "spark-http")
-    monkeypatch.delenv("SPARK_HTTP_API_PASSWORD", raising=False)
+    monkeypatch.setenv("SPARK_HTTP_API_PASSWORD", "")
     get_settings.cache_clear()
     try:
         with TestClient(app) as client:

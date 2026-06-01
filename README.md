@@ -6,7 +6,7 @@ EduForge 智学工坊是第十五届中国软件杯 A3 赛题项目，赛题为�
 
 ## 当前阶段
 
-当前阶段为 **Phase 13：端到端彩排与缺陷修复**。
+当前阶段为 **Phase 14A：学生端 UI 修复与内容渲染**。
 
 已完成能力：
 
@@ -23,6 +23,7 @@ EduForge 智学工坊是第十五届中国软件杯 A3 赛题项目，赛题为�
 - `/demo` 演示工作台，用于检查端到端演示准备状态
 - `/qa` 人工测试清单和 Smoke Status，用于录屏、答辩或提交前逐项核对
 - Phase 13 彩排修复：统一 generated-resources API 命名、模型模式提示和密钥外显风险
+- Phase 14A 学生端体验修复：`/learn` 学习工作台、导航高亮、Markdown/Mermaid 渲染和资源内容阅读体验
 
 仍未进入最终交付材料阶段：本阶段不生成 PPT、演示视频脚本、最终系统开发说明书，也不做 Docker 部署。
 
@@ -66,6 +67,7 @@ conda activate cnsoftbei_a3_eduforge
 访问地址：
 
 - 前端首页：http://localhost:3000
+- 学习工作台：http://localhost:3000/learn
 - 演示工作台：http://localhost:3000/demo
 - 测试清单：http://localhost:3000/qa
 - Dashboard：http://localhost:3000/dashboard
@@ -119,6 +121,16 @@ Phase 13 不新增业务功能，重点检查：
 - 自动化测试是否仍然强制 Mock 或 mock 外部请求。
 - 页面、接口响应和日志是否避免暴露真实密钥。
 
+## Phase 14A 学生端 UI 与内容渲染
+
+Phase 14A 不新增 Agent、不新增数据模型、不接入新的真实 API，重点修复学生端体验：
+
+- `/learn` 作为学生端主入口，展示课程、画像、今日任务、学习进度、薄弱点和下一步行动。
+- 顶部导航按当前路径高亮，学习中心入口优先，演示、测试和管理入口降级。
+- `MarkdownPreview` 使用 `react-markdown` 和 `remark-gfm` 渲染讲义、练习、实操案例和模型输出。
+- `MermaidDiagram` 支持思维导图代码块渲染，渲染失败时回退显示源码。
+- `/resources`、`/tutor`、`/practice`、`/analytics` 优先展示中文状态、引用来源、进度条和学习诊断，不把 JSON 或工程字段作为主视觉。
+
 ## 可选讯飞星火 HTTP 接入
 
 默认配置仍为 Mock：
@@ -129,20 +141,12 @@ LLM_PROVIDER=mock
 LLM_MODEL=mock-edu-model
 ```
 
-本地可以可选切换到讯飞星火 HTTP APIPassword 方式：
-
-```env
-USE_MOCK_LLM=false
-LLM_PROVIDER=spark-http
-SPARK_HTTP_API_URL=https://spark-api-open.xf-yun.com/v1/chat/completions
-SPARK_HTTP_API_PASSWORD=自己的 APIPassword
-SPARK_MODEL=lite
-```
+本地可以可选切换到讯飞星火 HTTP 方式，具体配置放在本机 `.env`，不要写入仓库或文档截图。
 
 安全要求：
 
 - 不提交 `.env`
-- 不提交 APIPassword
+- 不提交真实密钥
 - 不在前端输入、传输或保存 API Key
 - 不把 Key 写进 README、测试、日志、截图、Issue 或聊天记录
 - 自动化测试强制 Mock 或 mock 掉 httpx，不真实调用讯飞 API
@@ -169,6 +173,7 @@ python scripts/check-env.py
 .\scripts\check-phase11.ps1
 .\scripts\check-phase12.ps1
 .\scripts\check-phase13.ps1
+.\scripts\check-phase14a.ps1
 ```
 
 或手动执行：

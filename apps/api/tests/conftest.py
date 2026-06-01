@@ -9,7 +9,7 @@ from app.core.config import get_settings
 def force_mock_llm_for_tests(monkeypatch: pytest.MonkeyPatch) -> Generator[None, None, None]:
     monkeypatch.setenv("USE_MOCK_LLM", "true")
     monkeypatch.setenv("LLM_PROVIDER", "mock")
-    monkeypatch.delenv("SPARK_HTTP_API_PASSWORD", raising=False)
+    monkeypatch.setenv("SPARK_HTTP_API_PASSWORD", "")
     get_settings.cache_clear()
     yield
     get_settings.cache_clear()

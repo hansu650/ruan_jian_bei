@@ -1,25 +1,22 @@
+"use client";
+
 import {
-  Activity,
   BarChart3,
-  BookOpen,
   ClipboardCheck,
-  Database,
   FileQuestion,
   FileText,
-  GraduationCap,
   Home,
   LayoutDashboard,
   LibraryBig,
-  ListChecks,
-  MessagesSquare,
-  MonitorPlay,
   Route,
   Sparkles,
   UserRound,
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/learn", label: "学习工作台", icon: Home },
@@ -30,16 +27,18 @@ const navItems = [
   { href: "/practice", label: "练习", icon: ClipboardCheck },
   { href: "/analytics", label: "学习评估", icon: BarChart3 },
   { href: "/knowledge-base", label: "知识库", icon: LibraryBig },
-  { href: "/demo", label: "演示", icon: MonitorPlay },
-  { href: "/qa", label: "测试", icon: ListChecks },
-  { href: "/database", label: "数据", icon: Database },
-  { href: "/llm-lab", label: "模型", icon: MessagesSquare },
-  { href: "/courses", label: "课程管理", icon: BookOpen },
-  { href: "/students", label: "学生管理", icon: GraduationCap },
-  { href: "/health", label: "Health", icon: Activity },
 ];
 
+function isActive(pathname: string, href: string) {
+  if (href === "/learn") {
+    return pathname === "/learn";
+  }
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export function AppHeader() {
+  const pathname = usePathname();
+
   return (
     <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
@@ -53,25 +52,41 @@ export function AppHeader() {
           </span>
         </Link>
 
-        <nav className="flex items-center gap-1 overflow-x-auto">
+        <nav className="hidden items-center gap-1 lg:flex">
           {navItems.map((item) => {
             const Icon = item.icon;
+            const active = isActive(pathname, item.href);
             return (
-              <Button key={item.href} asChild variant="ghost" size="sm">
+              <Button
+                key={item.href}
+                asChild
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  "border border-transparent text-slate-600",
+                  active && "border-sky-200 bg-sky-50 text-sky-700 hover:bg-sky-50",
+                )}
+              >
                 <Link href={item.href}>
-                  <Icon className="h-4 w-4" aria-hidden="true" />
-                  <span className="hidden md:inline">{item.label}</span>
+                  <Icon className={cn("h-4 w-4", active ? "text-sky-700" : "text-slate-500")} aria-hidden="true" />
+                  <span>{item.label}</span>
                 </Link>
               </Button>
             );
           })}
-          <Button asChild size="sm">
-            <Link href="/dashboard">
-              <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
-              <span>总览</span>
-            </Link>
-          </Button>
         </nav>
+
+        <Button
+          asChild
+          size="sm"
+          variant={pathname === "/dashboard" ? "default" : "outline"}
+          className="shrink-0"
+        >
+          <Link href="/dashboard">
+            <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
+            <span>总览</span>
+          </Link>
+        </Button>
       </div>
     </header>
   );

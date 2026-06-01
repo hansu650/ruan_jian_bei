@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { LiveModelWarning } from "@/components/live-model-warning";
+import { MarkdownPreview } from "@/components/markdown-preview";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -584,9 +585,10 @@ export default function PracticePage() {
                 </div>
 
                 <Alert variant="success">
-                  <AlertTitle>EvaluatorAgent 反馈</AlertTitle>
-                  <AlertDescription>{result.attempt.feedback_summary}</AlertDescription>
+                  <AlertTitle>学习诊断反馈</AlertTitle>
+                  <AlertDescription>系统已根据本次小测整理出薄弱点和补救建议。</AlertDescription>
                 </Alert>
+                <MarkdownPreview content={result.attempt.feedback_summary} />
 
                 <div>
                   <h3 className="mb-3 font-semibold">掌握度变化</h3>
@@ -605,7 +607,9 @@ export default function PracticePage() {
                         </Badge>
                         <span>{answer.related_knowledge_point}</span>
                       </div>
-                      <p className="mt-2 text-muted-foreground">{answer.feedback}</p>
+                      <div className="mt-2">
+                        <MarkdownPreview content={answer.feedback} emptyDescription="暂无本题反馈。" />
+                      </div>
                       {answer.mistake_reason ? (
                         <p className="mt-1 text-amber-700">{answer.mistake_reason}</p>
                       ) : null}

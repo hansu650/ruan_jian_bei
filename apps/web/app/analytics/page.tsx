@@ -3,6 +3,7 @@
 import { BarChart3, FileText } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
+import { MarkdownPreview } from "@/components/markdown-preview";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -85,7 +86,7 @@ function ReportCard({ report }: { report: LearningEvaluationReport }) {
         </div>
       </CardHeader>
       <CardContent className="space-y-4 text-sm">
-        <p className="leading-6 text-muted-foreground">{report.summary}</p>
+        <MarkdownPreview content={report.summary} emptyDescription="暂无评估摘要。" />
         <div>
           <p className="mb-2 font-medium">薄弱点</p>
           <JsonBadges values={weakPoints} />
@@ -100,7 +101,9 @@ function ReportCard({ report }: { report: LearningEvaluationReport }) {
         </div>
         <Alert>
           <AlertTitle>下一步建议</AlertTitle>
-          <AlertDescription>{report.next_plan_suggestion || "继续完成下一次针对性练习。"}</AlertDescription>
+          <AlertDescription>
+            {report.next_plan_suggestion || "继续完成下一次针对性练习。"}
+          </AlertDescription>
         </Alert>
       </CardContent>
     </Card>

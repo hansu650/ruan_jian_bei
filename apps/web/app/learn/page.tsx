@@ -22,13 +22,16 @@ import { WeakPointCard } from "@/components/weak-point-card";
 import {
   getDemoStatus,
   getGeneratedResources,
+  getCourses,
   getLearningAnalytics,
   getLearningPath,
   getLearningPaths,
   getPracticeAttempts,
   getProfileSummary,
+  getStudents,
 } from "@/lib/api";
 import type {
+  Course,
   DemoStatusResponse,
   GeneratedResource,
   LearningAnalyticsSummary,
@@ -37,6 +40,7 @@ import type {
   LearnerProfile,
   PracticeAttempt,
   ProfileSummaryResponse,
+  Student,
 } from "@/lib/types";
 
 interface LearnSnapshot {
@@ -47,6 +51,8 @@ interface LearnSnapshot {
   resources: GeneratedResource[];
   attempts: PracticeAttempt[];
   analytics: LearningAnalyticsSummary | null;
+  student: Student | null;
+  course: Course | null;
 }
 
 function parseJsonArray(value?: string | null): string[] {
@@ -130,10 +136,14 @@ export default function LearnPage() {
       let resources: GeneratedResource[] = [];
       let attempts: PracticeAttempt[] = [];
       let analytics: LearningAnalyticsSummary | null = null;
+      let student: Student | null = null;
+      let course: Course | null = null;
 
       if (studentId && courseId) {
-        const [profileResult, pathsResult, resourcesResult, attemptsResult, analyticsResult] =
+        const [studentResult, courseResult, profileResult, pathsResult, resourcesResult, attemptsResult, analyticsResult] =
           await Promise.allSettled([
+            getStudents(),
+            getCourses(),
             getProfileSummary(studentId, courseId),
             getLearningPaths({ student_id: studentId, course_id: courseId }),
             getGeneratedResources({ student_id: studentId, course_id: courseId }),
@@ -141,6 +151,14 @@ export default function LearnPage() {
             getLearningAnalytics(studentId, courseId),
           ]);
 
+        student =
+          studentResult.status === "fulfilled"
+            ? studentResult.value.find((item) => item.id === studentId) ?? null
+            : null;
+        course =
+          courseResult.status === "fulfilled"
+            ? courseResult.value.find((item) => item.id === courseId) ?? null
+            : null;
         profileSummary = profileResult.status === "fulfilled" ? profileResult.value : null;
         paths = pathsResult.status === "fulfilled" ? pathsResult.value : [];
         resources = resourcesResult.status === "fulfilled" ? resourcesResult.value : [];
@@ -154,7 +172,7 @@ export default function LearnPage() {
         }
       }
 
-      setSnapshot({ demo, profileSummary, paths, steps, resources, attempts, analytics });
+      setSnapshot({ demo, profileSummary, paths, steps, resources, attempts, analytics, student, course });
     } catch (err) {
       setError(err instanceof Error ? err.message : "学习工作台暂时无法加载。");
     } finally {
@@ -288,6 +306,11 @@ export default function LearnPage() {
     <main className="mx-auto max-w-7xl space-y-8 px-4 py-8 sm:px-6 lg:px-8">
       <StudentHeroCard
         studentName={snapshot.demo.student_name}
+        studentMeta={
+          snapshot.student
+            ? `${snapshot.student.major || "专业待补充"} · ${snapshot.student.grade_level || "年级待补充"}`
+            : null
+        }
         courseTitle={snapshot.demo.course_title}
         learningGoal={derived.profile?.learning_goal}
         nextHref={derived.nextAction.href}
