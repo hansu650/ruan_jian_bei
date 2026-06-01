@@ -3,6 +3,7 @@ import {
   ClipboardCheck,
   FileQuestion,
   FileText,
+  Home,
   ListChecks,
   MonitorPlay,
   Route,
@@ -20,18 +21,23 @@ import { CORE_FEATURES, PROJECT_STAGES } from "@/lib/constants";
 
 const entryCards = [
   {
-    title: "演示工作台",
-    description: "比赛演示前先进入 /demo，检查基础数据、知识库、画像、路径、资源、辅导、测验和评估状态。",
-    href: "/demo",
-    icon: MonitorPlay,
+    title: "学习工作台",
+    description: "学生端主入口，汇总课程、今日任务、学习进度和下一步建议。",
+    href: "/learn",
+    icon: Home,
     primary: true,
   },
   {
+    title: "演示工作台",
+    description: "比赛演示前检查基础数据、知识库、画像、路径、资源、辅导、测验和评估状态。",
+    href: "/demo",
+    icon: MonitorPlay,
+  },
+  {
     title: "测试清单",
-    description: "录屏或答辩前进入 /qa，查看 Smoke Status，并按模块勾选人工测试项。",
+    description: "录屏或答辩前查看 Smoke Status，并按模块勾选人工测试项。",
     href: "/qa",
     icon: ListChecks,
-    primary: true,
   },
   {
     title: "学习画像",
@@ -73,11 +79,11 @@ export default function DashboardPage() {
 
         <div className="space-y-6">
           <section className="rounded-lg border bg-card p-6">
-            <Badge variant="warning">Phase 13 进行中</Badge>
-            <h1 className="mt-4 text-3xl font-bold tracking-tight">EduForge Dashboard</h1>
+            <Badge variant="outline">项目总览</Badge>
+            <h1 className="mt-4 text-3xl font-bold tracking-tight">EduForge 模块总览</h1>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground">
-              当前进入端到端彩排与缺陷修复阶段。前十二阶段已经形成可演示的完整学习闭环，
-              录屏或答辩前建议先进入 /demo 和 /qa 检查系统状态，再按步骤人工触发关键能力并修复发现的小问题。
+              这里保留研发、演示和管理入口。学生第一次使用建议从学习工作台开始，
+              录屏或答辩前再进入演示工作台和测试清单检查系统状态。
             </p>
           </section>
 

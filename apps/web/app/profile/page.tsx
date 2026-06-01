@@ -202,12 +202,11 @@ export default function ProfilePage() {
       <section className="rounded-lg border bg-card p-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
-            <Badge variant="warning">Phase 6</Badge>
+            <Badge variant="secondary">学习准备</Badge>
             <h1 className="mt-3 text-3xl font-bold">对话式学习画像</h1>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-              这是 A3 赛题核心功能之一：学生通过自然语言描述专业、目标、基础、薄弱点和偏好，
-              ProfileAgent 自动抽取并更新 8 维学习画像。当前阶段只使用 MockLLM，不调用真实外部 API，
-              不需要 API Key，不产生费用。
+              用几句话告诉系统你的学习基础、目标、薄弱点和偏好，系统会整理成 8 维画像，
+              供后续学习路径、学习资料和练习诊断使用。
             </p>
           </div>
           <div className="rounded-lg border bg-background p-4 text-sm">
@@ -323,14 +322,14 @@ export default function ProfilePage() {
                 />
                 <Button onClick={handleSend} disabled={sending || !message.trim()}>
                   <SendHorizonal className="h-4 w-4" aria-hidden="true" />
-                  {sending ? "发送中" : "发送给 ProfileAgent"}
+                  {sending ? "生成中" : "生成 / 更新画像"}
                 </Button>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">最近 ProfileAgent 运行记录</CardTitle>
+                <CardTitle className="text-base">最近画像更新记录</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 {agentRuns.length ? (
@@ -392,9 +391,9 @@ export default function ProfilePage() {
             </div>
 
             <Alert>
-              <AlertTitle>阶段边界</AlertTitle>
+              <AlertTitle>下一步建议</AlertTitle>
               <AlertDescription>
-                当前只实现 ProfileAgent 和画像记录。学习路径、资源生成、智能辅导、测验批改和完整多智能体编排将在后续阶段实现。
+                画像完成后，前往学习路径页生成你的专属复习计划。
               </AlertDescription>
             </Alert>
           </aside>

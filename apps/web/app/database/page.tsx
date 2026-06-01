@@ -63,10 +63,10 @@ export default function DatabasePage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-6">
-        <Badge variant="warning">第三阶段：数据库模型与基础 CRUD</Badge>
+        <Badge variant="secondary">数据状态</Badge>
         <h1 className="mt-3 text-3xl font-bold">数据底座</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          当前只展示 SQLite + SQLModel 的基础数据状态，为后续知识库、画像和资源生成预留结构。
+          查看课程、学生、画像草稿和资源占位等基础数据，确认学习平台的数据底座是否正常。
         </p>
       </div>
 

@@ -105,7 +105,7 @@ export default function CoursesPage() {
         <Badge variant="warning">课程管理</Badge>
         <h1 className="mt-3 text-3xl font-bold">课程与知识点</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          第三阶段只维护课程和知识点基础数据，课程资料上传和知识库检索后续再接入。
+          管理课程和知识点基础数据，学习路径、资源生成和练习测验都会引用这些课程结构。
         </p>
       </div>
 

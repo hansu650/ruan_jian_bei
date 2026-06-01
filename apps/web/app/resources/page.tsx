@@ -354,17 +354,17 @@ export default function ResourcesPage() {
       <section className="rounded-lg border bg-card p-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
-            <Badge variant="warning">Phase 8</Badge>
-            <h1 className="mt-3 text-3xl font-bold">多类型学习资源生成</h1>
+            <Badge variant="secondary">学习资料</Badge>
+            <h1 className="mt-3 text-3xl font-bold">学习资源</h1>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-              ResourceAgent 根据学习画像、学习路径步骤和课程知识库 chunk 生成讲义、思维导图、
-              练习题、拓展阅读、实操案例和视频脚本，并保存 citations_json 作为引用来源。
+              选择学习路径中的一个步骤，生成讲义、思维导图、练习题、拓展阅读、
+              实操案例或视频讲解脚本。资源会尽量带上课程知识库来源。
             </p>
           </div>
           <Alert className="max-w-md">
-            <AlertTitle>阶段边界</AlertTitle>
+            <AlertTitle>使用建议</AlertTitle>
             <AlertDescription>
-              当前只生成学习资源正文，不做智能辅导聊天、答题提交、自动批改或学习效果评估。
+              演示时建议先生成 1-2 类重点资源，确认质量后再批量生成全部类型。
             </AlertDescription>
           </Alert>
         </div>
@@ -585,7 +585,7 @@ export default function ResourcesPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">ResourceAgent 运行记录</CardTitle>
+                <CardTitle className="text-base">最近资源生成记录</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 {agentRuns.length ? (
@@ -606,7 +606,7 @@ export default function ResourcesPage() {
                     </div>
                   ))
                 ) : (
-                  <p className="text-sm text-muted-foreground">暂无 ResourceAgent 运行记录。</p>
+                  <p className="text-sm text-muted-foreground">暂无资源生成记录。</p>
                 )}
               </CardContent>
             </Card>
@@ -618,8 +618,7 @@ export default function ResourcesPage() {
         <CardContent className="flex items-start gap-3 p-4 text-sm text-muted-foreground">
           <BookOpenText className="mt-0.5 h-4 w-4 text-primary" aria-hidden="true" />
           <p>
-            资源内容会结合知识库 chunk，并把来源写入 citations_json。当前仍为 MockLLM 演示，
-            不调用真实外部 API，不产生费用，不复制出版教材原文。
+            资源内容会结合课程知识库，并记录引用来源。系统不会复制出版教材原文或未授权资料。
           </p>
         </CardContent>
       </Card>

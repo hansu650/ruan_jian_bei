@@ -40,7 +40,7 @@ export default function StudentsPage() {
     weak_points_json: '["JOIN", "事务隔离级别"]',
     preferences_json: '["例题", "图解"]',
     mastery_json: '{"SQL基础":70,"JOIN":45}',
-    notes: "第三阶段手动创建的画像草稿。",
+    notes: "用于学习画像初始化的示例草稿。",
   });
 
   async function loadData() {

@@ -411,17 +411,17 @@ export default function TutorPage() {
       <section className="rounded-lg border bg-card p-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
-            <Badge variant="warning">Phase 9</Badge>
+            <Badge variant="secondary">带来源答疑</Badge>
             <h1 className="mt-3 text-3xl font-bold">智能辅导</h1>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-              TutorAgent 基于课程知识库、学习画像、当前学习路径 step 和已生成资源进行问答。
-              每条回答展示 citations、防幻觉状态和质量检查结果。
+              围绕当前课程提问，系统会结合课程知识库、学习画像和当前学习步骤进行解释。
+              回答会展示引用来源和可信状态，方便你判断是否需要教师确认。
             </p>
           </div>
           <Alert className="max-w-md">
-            <AlertTitle>阶段边界</AlertTitle>
+            <AlertTitle>答疑边界</AlertTitle>
             <AlertDescription>
-              当前仍使用 MockLLM，不调用真实外部 API，不产生费用；本阶段不做答题提交、自动批改或学习效果评估。
+              系统只围绕合法课程资料和原创整理内容答疑，不会复制出版教材原文或扫描件。
             </AlertDescription>
           </Alert>
         </div>

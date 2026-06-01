@@ -100,7 +100,7 @@ function ReportCard({ report }: { report: LearningEvaluationReport }) {
         </div>
         <Alert>
           <AlertTitle>下一步建议</AlertTitle>
-          <AlertDescription>{report.next_plan_suggestion || "继续完成下一阶段练习。"}</AlertDescription>
+          <AlertDescription>{report.next_plan_suggestion || "继续完成下一次针对性练习。"}</AlertDescription>
         </Alert>
       </CardContent>
     </Card>
@@ -174,11 +174,11 @@ export default function AnalyticsPage() {
   return (
     <main className="mx-auto max-w-7xl space-y-6 px-4 py-8 sm:px-6 lg:px-8">
       <section className="rounded-lg border bg-card p-6">
-        <Badge variant="warning">第十阶段：学习效果评估与掌握度更新</Badge>
+        <Badge variant="secondary">学习诊断</Badge>
         <h1 className="mt-4 text-3xl font-bold tracking-tight">学习效果评估</h1>
         <p className="mt-3 max-w-4xl text-sm leading-6 text-muted-foreground">
-          这里展示测验次数、平均准确率、最新掌握度、薄弱点和评估报告。当前阶段使用 MockLLM，
-          不调用真实外部 API；掌握度根据测验表现动态更新。
+          这里汇总测验次数、平均准确率、最新掌握度、薄弱点和评估报告，
+          帮你判断下一轮应该优先补哪里。
         </p>
       </section>
 

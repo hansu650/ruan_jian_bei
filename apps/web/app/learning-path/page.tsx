@@ -242,17 +242,17 @@ export default function LearningPathPage() {
       <section className="rounded-lg border bg-card p-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
-            <Badge variant="warning">Phase 7</Badge>
+            <Badge variant="secondary">学习计划</Badge>
             <h1 className="mt-3 text-3xl font-bold">个性化学习路径</h1>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-              这是 A3 赛题核心功能：系统结合学生画像、课程知识点、掌握情况和学习偏好，
-              生成阶段化学习计划，并推荐讲义、思维导图、练习题、拓展阅读、实操案例和视频脚本等资源类型。
+              系统会结合学习画像、课程知识点和薄弱点，生成一条清晰的复习路线。
+              每一步都会给出学习目标、知识点、预计用时和推荐资料类型。
             </p>
           </div>
           <Alert className="max-w-md">
-            <AlertTitle>阶段边界</AlertTitle>
+            <AlertTitle>学习提示</AlertTitle>
             <AlertDescription>
-              第七阶段只推荐资源类型，不生成资源正文。ResourceAgent 会在第八阶段实现。
+              学习路径负责安排顺序和目标；具体讲义、导图和练习可以在学习资源页生成。
             </AlertDescription>
           </Alert>
         </div>

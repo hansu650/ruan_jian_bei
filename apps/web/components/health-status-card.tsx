@@ -73,7 +73,7 @@ export function HealthStatusCard({ compact = false }: HealthStatusCardProps) {
               <Badge variant="secondary">{state.data.stage}</Badge>
             </div>
             <p className="text-sm leading-6 text-muted-foreground">
-              {state.data.project} 后端已连通，当前接口面向 {state.data.competition} 第二阶段联调。
+              {state.data.project} 后端已连通，可以继续进入学习工作台或演示检查流程。
             </p>
           </div>
         )}

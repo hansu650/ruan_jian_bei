@@ -341,11 +341,10 @@ export default function PracticePage() {
   return (
     <main className="mx-auto max-w-7xl space-y-6 px-4 py-8 sm:px-6 lg:px-8">
       <section className="rounded-lg border bg-card p-6">
-        <Badge variant="warning">第十阶段：PracticeAgent + EvaluatorAgent 学习效果评估</Badge>
+        <Badge variant="secondary">练习与诊断</Badge>
         <h1 className="mt-4 text-3xl font-bold tracking-tight">练习测验</h1>
         <p className="mt-3 max-w-4xl text-sm leading-6 text-muted-foreground">
-          系统基于学习画像、学习路径和课程知识库生成练习。学生提交答案后，EvaluatorAgent 会自动批改、
-          分析薄弱点、更新掌握度并推荐补救资源。当前仍使用 MockLLM，不调用真实外部 API。
+          根据你的学习路径生成小测。提交答案后，系统会给出得分、错因分析、掌握度变化和补救建议。
         </p>
       </section>
 

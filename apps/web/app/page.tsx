@@ -1,97 +1,100 @@
-import { ArrowRight, CheckCircle2, LayoutDashboard } from "lucide-react";
+import { ArrowRight, BookOpenCheck, Brain, ShieldCheck, Sparkles } from "lucide-react";
 import Link from "next/link";
 
-import { HealthStatusCard } from "@/components/health-status-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import {
-  APP_NAME,
-  APP_SUBTITLE,
-  COMPANY_NAME,
-  COMPETITION_NAME,
-  COMPETITION_TRACK,
-  CORE_LOOP,
-  PROJECT_POSITIONING,
-} from "@/lib/constants";
+import { Card, CardContent } from "@/components/ui/card";
+
+const highlights = [
+  {
+    title: "从学习画像开始",
+    description: "用自然语言说明基础、目标和偏好，系统生成个性化学习画像。",
+    icon: Brain,
+  },
+  {
+    title: "沿着路径小步推进",
+    description: "把数据库系统拆成可执行的学习步骤，明确今天先学什么。",
+    icon: BookOpenCheck,
+  },
+  {
+    title: "回答带课程来源",
+    description: "辅导回答尽量引用课程知识库片段，降低空泛解释和幻觉风险。",
+    icon: ShieldCheck,
+  },
+];
 
 export default function HomePage() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <section className="grid gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-start">
-        <div className="space-y-6">
+    <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <section className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+        <div className="space-y-7">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="secondary">{COMPETITION_NAME}</Badge>
-            <Badge variant="outline">{COMPETITION_TRACK} 赛题</Badge>
-            <Badge variant="warning">第二阶段：前端骨架与前后端联调</Badge>
+            <Badge variant="secondary">第十五届中国软件杯 A3</Badge>
+            <Badge variant="outline">高校课程学习场景</Badge>
           </div>
-
           <div className="space-y-4">
-            <h1 className="text-4xl font-bold sm:text-5xl">{APP_NAME}</h1>
-            <p className="max-w-3xl text-xl text-muted-foreground">{APP_SUBTITLE}</p>
-            <p className="max-w-3xl text-base leading-7">{PROJECT_POSITIONING}</p>
+            <h1 className="max-w-4xl text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl">
+              EduForge 智学工坊
+            </h1>
+            <p className="max-w-3xl text-xl leading-8 text-slate-600">
+              面向《数据库系统》的个性化 AI 学习平台：从画像、路径、资源到练习评估，
+              帮学生知道自己该学什么、怎么学、学得怎么样。
+            </p>
           </div>
-
-          <div className="grid gap-3 text-sm sm:grid-cols-2">
-            <div className="rounded-lg border bg-card p-4">
-              <p className="font-semibold">赛题</p>
-              <p className="mt-1 text-muted-foreground">第十五届中国软件杯 A3</p>
-            </div>
-            <div className="rounded-lg border bg-card p-4">
-              <p className="font-semibold">出题企业</p>
-              <p className="mt-1 text-muted-foreground">{COMPANY_NAME}</p>
-            </div>
-          </div>
-
           <div className="flex flex-wrap gap-3">
-            <Button asChild size="lg">
-              <Link href="/dashboard">
-                <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
-                进入 Dashboard
+            <Button asChild size="lg" className="bg-sky-700 hover:bg-sky-800">
+              <Link href="/learn">
+                进入学习工作台
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
             </Button>
             <Button asChild variant="outline" size="lg">
-              <Link href="/health">
-                <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
-                查看 Health Check
-              </Link>
+              <Link href="/demo">查看演示准备</Link>
             </Button>
           </div>
         </div>
 
-        <HealthStatusCard compact />
-      </section>
-
-      <Separator className="my-10" />
-
-      <section className="space-y-4">
-        <div>
-          <h2 className="text-2xl font-semibold">核心闭环</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            当前仅展示产品骨架，正式业务能力将在后续阶段逐步接入。
-          </p>
-        </div>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">A3 个性化学习闭环设计</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap items-center gap-2">
-              {CORE_LOOP.map((item, index) => (
-                <div key={item} className="flex items-center gap-2">
-                  <span className="rounded-md border bg-background px-3 py-2 text-sm font-medium">
-                    {item}
-                  </span>
-                  {index < CORE_LOOP.length - 1 && (
-                    <ArrowRight className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-                  )}
-                </div>
-              ))}
+        <Card className="border-slate-200 bg-white shadow-sm">
+          <CardContent className="space-y-5 p-6">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-sky-50 text-sky-700">
+              <Sparkles className="h-6 w-6" aria-hidden="true" />
+            </div>
+            <div>
+              <h2 className="text-xl font-semibold text-slate-950">一条完整的学习闭环</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                画像生成、个性化路径、课程资料生成、带来源答疑、练习批改和学习诊断都围绕同一门课程展开。
+              </p>
+            </div>
+            <div className="grid gap-3 text-sm">
+              {["学习画像", "学习路径", "学习资源", "智能辅导", "练习测验", "学习评估"].map(
+                (item, index) => (
+                  <div key={item} className="flex items-center gap-3 rounded-lg bg-slate-50 px-3 py-2">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-md bg-white text-xs font-semibold text-sky-700">
+                      {index + 1}
+                    </span>
+                    <span className="font-medium text-slate-800">{item}</span>
+                  </div>
+                ),
+              )}
             </div>
           </CardContent>
         </Card>
       </section>
-    </div>
+
+      <section className="mt-12 grid gap-4 md:grid-cols-3">
+        {highlights.map((item) => {
+          const Icon = item.icon;
+          return (
+            <Card key={item.title} className="border-slate-200 bg-white">
+              <CardContent className="p-5">
+                <Icon className="h-5 w-5 text-sky-700" aria-hidden="true" />
+                <h3 className="mt-4 font-semibold text-slate-950">{item.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{item.description}</p>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </section>
+    </main>
   );
 }

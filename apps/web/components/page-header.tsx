@@ -12,7 +12,7 @@ interface PageHeaderProps {
 
 export function PageHeader({ title, description, phase, badges = [], children }: PageHeaderProps) {
   return (
-    <section className="rounded-lg border bg-card p-6">
+    <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
@@ -21,8 +21,8 @@ export function PageHeader({ title, description, phase, badges = [], children }:
               <span key={index}>{badge}</span>
             ))}
           </div>
-          <h1 className="mt-3 text-3xl font-bold tracking-tight">{title}</h1>
-          <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
+          <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-950">{title}</h1>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
             {description}
           </p>
         </div>

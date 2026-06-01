@@ -5,7 +5,10 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "EduForge 智学工坊",
-  description: "基于大模型的个性化资源生成与学习多智能体系统",
+  description: "面向高校课程学习场景的个性化 AI 学习平台",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

@@ -99,11 +99,10 @@ export default function QAPage() {
     <main className="mx-auto max-w-7xl space-y-6 px-4 py-8 sm:px-6 lg:px-8">
       <PageHeader
         title="人工测试清单"
-        description="这个页面用于团队在录屏、答辩或提交前逐项检查功能链路，不会自动调用大模型，也不会自动消耗 Spark 额度。"
-        phase="Phase 13"
+        description="这个页面用于团队在录屏、答辩或提交前逐项检查功能链路。它只展示检查项和状态，不会自动触发生成操作。"
         badges={[
           <Badge key="manual" variant="outline">
-            手动检查
+            测试辅助页
           </Badge>,
           <Badge key="no-auto-llm" variant="success">
             不自动调用 LLM

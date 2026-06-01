@@ -172,11 +172,11 @@ export default function KnowledgeBasePage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-6">
-        <Badge variant="warning">第四阶段：课程资料与知识库基础</Badge>
+        <Badge variant="secondary">课程资料</Badge>
         <h1 className="mt-3 text-3xl font-bold">课程知识库</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          本页只演示 Markdown/TXT 资料导入、文本分块、SQLite 入库和基础关键词检索，不接入
-          RAG、embedding 或大模型。
+          导入《数据库系统》原创课程资料后，可以按关键词检索来源片段。
+          这是后续学习资源、答疑引用和防幻觉展示的课程依据。
         </p>
       </div>
 
@@ -274,7 +274,7 @@ export default function KnowledgeBasePage() {
                     onChange={(event) => setSelectedFile(event.target.files?.[0] ?? null)}
                   />
                   <p className="text-xs text-muted-foreground">
-                    当前仅支持 Markdown 和 TXT，单文件不超过 2MB。PDF/Word/PPTX 后续阶段再扩展。
+                    当前支持 Markdown 和 TXT，单文件不超过 2MB。请上传你有合法使用权的课程笔记或原创资料。
                   </p>
                   <Button type="submit" variant="outline" disabled={busy || !selectedFile}>
                     <Upload className="h-4 w-4" aria-hidden="true" />

@@ -101,7 +101,7 @@ export default function LLMLabPage() {
       setGenerateResult(result);
       await refreshLogs();
     } catch (generateError) {
-      setError(generateError instanceof Error ? generateError.message : "Mock 生成失败");
+      setError(generateError instanceof Error ? generateError.message : "生成请求失败");
     } finally {
       setBusy(false);
     }
@@ -124,7 +124,7 @@ export default function LLMLabPage() {
       setChatResult(result);
       await refreshLogs();
     } catch (chatError) {
-      setError(chatError instanceof Error ? chatError.message : "Mock Chat 失败");
+      setError(chatError instanceof Error ? chatError.message : "对话请求失败");
     } finally {
       setBusy(false);
     }
@@ -133,15 +133,13 @@ export default function LLMLabPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-6">
-        <Badge variant="warning">Phase 10.1：MockLLM 与讯飞星火 HTTP 可选接入</Badge>
+        <Badge variant="secondary">模型接入调试</Badge>
         <h1 className="mt-3 text-3xl font-bold">模型实验室</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          当前页面只测试 Mock 模型和讯飞接口预留，不代表已经实现学习画像、智能体或资源生成。
-          本阶段不调用真实外部 API，不需要 API Key，不产生费用。
+          这里用于检查当前模型 Provider、场景提示词和调用日志。学生日常学习建议从学习工作台进入。
         </p>
         <p className="mt-2 text-sm text-muted-foreground">
-          默认使用 MockLLM，不产生费用。若需要演示讯飞星火，可在本地 .env 中配置
-          LLM_PROVIDER=spark-http，并在后端本地配置 Spark HTTP 密钥；密钥不会进入前端页面。
+          如本地启用讯飞星火真实模式，手动生成会调用真实 API；密钥不会进入前端页面。
         </p>
       </div>
 

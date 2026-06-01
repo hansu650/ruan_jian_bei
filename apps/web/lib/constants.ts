@@ -20,14 +20,14 @@ export const CORE_LOOP = [
 
 export const CORE_FEATURES = [
   {
-    title: "端到端彩排",
+    title: "学生端学习工作台",
     status: "进行中",
-    description: "Phase 13 聚焦完整演示链路、API 命名一致性、Mock/Spark 安全提示和低风险缺陷修复。",
+    description: "将学习画像、路径、资源、练习和评估组织成学生能直接理解的学习旅程。",
   },
   {
-    title: "测试清单",
+    title: "演示与测试辅助",
     status: "已完成",
-    description: "Phase 12 新增人工测试清单和 Smoke Status，录屏或答辩前可逐项核对完整链路。",
+    description: "演示工作台和测试清单保留为答辩前检查工具，不再作为学生主入口。",
   },
   {
     title: "演示工作台",

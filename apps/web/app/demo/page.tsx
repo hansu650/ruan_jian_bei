@@ -84,11 +84,10 @@ export default function DemoPage() {
         <div className="space-y-6">
           <PageHeader
             title="演示工作台"
-            description="这里是比赛现场演示前的检查入口，用来确认知识库、学习画像、学习路径、资源生成、智能辅导、练习测验和学习评估是否已经准备好。工作台只做状态检查和基础资料导入，不会自动调用 LLM。"
-            phase="Phase 11 / 12"
+            description="这是比赛现场演示前的检查入口，用来确认知识库、学习画像、学习路径、资源生成、智能辅导、练习测验和学习评估是否已经准备好。"
             badges={[
               <Badge key="status" variant="outline">
-                比赛演示入口
+                演示辅助页
               </Badge>,
             ]}
           />
@@ -117,8 +116,8 @@ export default function DemoPage() {
                       <p className="font-medium">{status.llm_mode.model}</p>
                     </div>
                     <div className="rounded-md border bg-muted/30 px-3 py-2">
-                      <p className="text-xs text-muted-foreground">Mock</p>
-                      <p className="font-medium">{status.llm_mode.use_mock_llm ? "true" : "false"}</p>
+                      <p className="text-xs text-muted-foreground">外部调用</p>
+                      <p className="font-medium">{status.llm_mode.use_mock_llm ? "关闭" : "可能启用"}</p>
                     </div>
                     <div className="rounded-md border bg-muted/30 px-3 py-2">
                       <p className="text-xs text-muted-foreground">Spark HTTP</p>
@@ -139,7 +138,7 @@ export default function DemoPage() {
                   <CardContent className="space-y-3">
                     <p className="text-sm leading-6 text-muted-foreground">
                       点击后只会确保默认学生、数据库系统课程、知识点和原创 Markdown 示例资料就绪。
-                      不会生成画像、路径、资源、辅导会话、测验，也不会调用 Spark 或 MockLLM。
+                      不会生成画像、路径、资源、辅导会话、测验，也不会调用任何模型。
                     </p>
                     {bootstrapResult ? (
                       <Alert variant="success">

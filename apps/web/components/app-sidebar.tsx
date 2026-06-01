@@ -1,4 +1,5 @@
 import {
+  Activity,
   BarChart3,
   BookOpen,
   ClipboardCheck,
@@ -6,6 +7,8 @@ import {
   FileQuestion,
   FileText,
   GraduationCap,
+  Home,
+  LayoutDashboard,
   LibraryBig,
   ListChecks,
   MessagesSquare,
@@ -18,59 +21,88 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
-const navItems = [
-  { label: "演示工作台", state: "已完成", icon: MonitorPlay, href: "/demo" },
-  { label: "测试清单", state: "彩排中", icon: ListChecks, href: "/qa" },
-  { label: "数据底座", state: "已完成", icon: Database, href: "/database" },
-  { label: "课程知识库", state: "已完成", icon: LibraryBig, href: "/knowledge-base" },
-  { label: "模型实验室", state: "已完成", icon: MessagesSquare, href: "/llm-lab" },
-  { label: "学习画像", state: "已完成", icon: UserRound, href: "/profile" },
-  { label: "学习路径", state: "已完成", icon: Route, href: "/learning-path" },
-  { label: "资源生成", state: "已完成", icon: FileText, href: "/resources" },
-  { label: "智能辅导", state: "已完成", icon: FileQuestion, href: "/tutor" },
-  { label: "练习测验", state: "已完成", icon: ClipboardCheck, href: "/practice" },
-  { label: "学习评估", state: "已完成", icon: BarChart3, href: "/analytics" },
-  { label: "课程管理", state: "可查看", icon: BookOpen, href: "/courses" },
-  { label: "学生管理", state: "可查看", icon: GraduationCap, href: "/students" },
+const sections = [
+  {
+    title: "学习中心",
+    items: [
+      { label: "学习工作台", icon: Home, href: "/learn", state: "主入口" },
+      { label: "学习画像", icon: UserRound, href: "/profile", state: "学习准备" },
+      { label: "学习路径", icon: Route, href: "/learning-path", state: "计划" },
+      { label: "学习资源", icon: FileText, href: "/resources", state: "资料" },
+      { label: "智能辅导", icon: FileQuestion, href: "/tutor", state: "答疑" },
+      { label: "练习测验", icon: ClipboardCheck, href: "/practice", state: "练习" },
+      { label: "学习评估", icon: BarChart3, href: "/analytics", state: "诊断" },
+    ],
+  },
+  {
+    title: "课程资料",
+    items: [{ label: "课程知识库", icon: LibraryBig, href: "/knowledge-base", state: "来源" }],
+  },
+  {
+    title: "演示与测试",
+    items: [
+      { label: "演示工作台", icon: MonitorPlay, href: "/demo", state: "准备" },
+      { label: "测试清单", icon: ListChecks, href: "/qa", state: "自测" },
+    ],
+  },
+  {
+    title: "项目与管理",
+    items: [
+      { label: "项目总览", icon: LayoutDashboard, href: "/dashboard", state: "总览" },
+      { label: "数据底座", icon: Database, href: "/database", state: "数据" },
+      { label: "课程管理", icon: BookOpen, href: "/courses", state: "管理" },
+      { label: "学生管理", icon: GraduationCap, href: "/students", state: "管理" },
+      { label: "模型实验室", icon: MessagesSquare, href: "/llm-lab", state: "调试" },
+      { label: "Health", icon: Activity, href: "/health", state: "联调" },
+    ],
+  },
 ];
 
 export function AppSidebar() {
   return (
-    <aside className="rounded-lg border bg-card p-4">
+    <aside className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
       <div>
-        <p className="text-sm font-semibold">EduForge 控制台</p>
-        <p className="mt-1 text-xs text-muted-foreground">
-          Phase 13 聚焦端到端彩排与低风险缺陷修复，录屏或答辩前可先检查 /demo 和 /qa。
+        <p className="text-sm font-semibold text-slate-950">EduForge 学习平台</p>
+        <p className="mt-1 text-xs leading-5 text-muted-foreground">
+          学生从学习工作台开始，演示和测试入口保留在辅助区域。
         </p>
       </div>
       <Separator className="my-4" />
-      <div className="space-y-2">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <Link
-              key={item.label}
-              href={item.href}
-              className="flex items-center justify-between gap-3 rounded-md border bg-background px-3 py-2 hover:border-primary/40"
-            >
-              <div className="flex min-w-0 items-center gap-2">
-                <Icon className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-                <span className="truncate text-sm">{item.label}</span>
-              </div>
-              <Badge
-                variant={item.state === "进行中" || item.state === "彩排中" ? "warning" : "outline"}
-                className="shrink-0"
-              >
-                {item.state}
-              </Badge>
-            </Link>
-          );
-        })}
+      <div className="space-y-5">
+        {sections.map((section) => (
+          <div key={section.title} className="space-y-2">
+            <p className="px-1 text-xs font-medium text-slate-500">{section.title}</p>
+            <div className="space-y-1.5">
+              {section.items.map((item) => {
+                const Icon = item.icon;
+                const primary = item.href === "/learn";
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={
+                      primary
+                        ? "flex items-center justify-between gap-3 rounded-md border border-sky-200 bg-sky-50 px-3 py-2 text-sky-900 hover:border-sky-300"
+                        : "flex items-center justify-between gap-3 rounded-md border border-transparent bg-background px-3 py-2 hover:border-slate-200 hover:bg-slate-50"
+                    }
+                  >
+                    <div className="flex min-w-0 items-center gap-2">
+                      <Icon
+                        className={primary ? "h-4 w-4 shrink-0 text-sky-700" : "h-4 w-4 shrink-0 text-slate-500"}
+                        aria-hidden="true"
+                      />
+                      <span className="truncate text-sm">{item.label}</span>
+                    </div>
+                    <Badge variant={primary ? "default" : "outline"} className="shrink-0">
+                      {item.state}
+                    </Badge>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </div>
-      <Separator className="my-4" />
-      <Link href="/health" className="text-sm font-medium text-primary hover:underline">
-        查看联调状态
-      </Link>
     </aside>
   );
 }
