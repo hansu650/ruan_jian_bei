@@ -39,8 +39,9 @@ const markdownComponents: Components = {
       {children}
     </a>
   ),
+  pre: ({ children }) => <>{children}</>,
   code: ({ className, children }) => {
-    const language = /language-(\w+)/.exec(className ?? "")?.[1] ?? "";
+    const language = /language-([^\s]+)/.exec(className ?? "")?.[1]?.toLowerCase() ?? "";
     const code = String(children).replace(/\n$/, "");
 
     if (language === "mermaid") {
@@ -49,8 +50,11 @@ const markdownComponents: Components = {
 
     if (language) {
       return (
-        <pre className="my-4 overflow-auto rounded-lg border bg-slate-950 p-4 text-sm leading-6 text-slate-50">
-          <code>{code}</code>
+        <pre className="my-4 overflow-auto rounded-lg border border-slate-800 bg-slate-950 p-4 text-sm leading-6 text-slate-50">
+          <div className="mb-3 text-xs font-medium uppercase tracking-wide text-slate-400">
+            {language === "sql" ? "SQL" : language}
+          </div>
+          <code className="font-mono">{code}</code>
         </pre>
       );
     }

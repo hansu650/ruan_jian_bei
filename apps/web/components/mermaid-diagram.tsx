@@ -6,10 +6,19 @@ interface MermaidDiagramProps {
   chart: string;
 }
 
+function normalizeMermaidChart(value: string) {
+  return value
+    .replace(/^\s*```mermaid\s*/i, "")
+    .replace(/^\s*```\s*/i, "")
+    .replace(/\s*```\s*$/i, "")
+    .trim();
+}
+
 export function MermaidDiagram({ chart }: MermaidDiagramProps) {
   const id = useId().replace(/[^a-zA-Z0-9_-]/g, "");
   const [svg, setSvg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const normalizedChart = normalizeMermaidChart(chart);
 
   useEffect(() => {
     let cancelled = false;
@@ -24,7 +33,7 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
           securityLevel: "strict",
           theme: "default",
         });
-        const result = await mermaid.render(`eduforge-mermaid-${id}`, chart);
+        const result = await mermaid.render(`eduforge-mermaid-${id}`, normalizedChart);
         if (!cancelled) {
           setSvg(result.svg);
         }
@@ -39,14 +48,14 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
     return () => {
       cancelled = true;
     };
-  }, [chart, id]);
+  }, [id, normalizedChart]);
 
   if (error) {
     return (
       <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
         <p className="text-sm font-medium text-amber-800">图表渲染失败，可查看源码。</p>
         <pre className="mt-3 overflow-auto rounded-md bg-white p-3 text-xs leading-5 text-slate-700">
-          {chart}
+          {normalizedChart}
         </pre>
       </div>
     );

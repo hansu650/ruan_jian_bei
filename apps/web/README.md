@@ -1,6 +1,6 @@
 # EduForge Web
 
-Next.js + TypeScript + Tailwind CSS 前端。当前进入 Phase 14A 学生端 UI 修复与内容渲染。
+Next.js + TypeScript + Tailwind CSS 前端。当前进入 Phase 14B 学生端体验修补与资源展示修复。
 
 ## 安装和启动
 
@@ -68,3 +68,13 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 - `components/mermaid-diagram.tsx` 渲染 `mermaid` 代码块，思维导图不再以源码为主展示。
 - `components/citation-list.tsx` 统一展示 filename、section title、chunk 和引用片段。
 - 不在前端输入、显示、传输或保存真实密钥。
+
+## Phase 14B 前端检查点
+
+- `/resources` 默认只选择讲义，避免 spark-http 模式下一进页面就全选 6 类资源。
+- `/resources` 资源卡片预览会清理 Markdown、SQL 和 Mermaid 源码，只保留适合列表阅读的摘要。
+- `components/markdown-preview.tsx` 避免代码块被重复包裹，SQL 代码块有清晰标签。
+- `components/mermaid-diagram.tsx` 会清理意外残留的 mermaid 代码围栏，渲染失败时展示兜底源码。
+- `/learn` 使用“学习流程基本就绪”等学生视角文案。
+- `/analytics` 补救建议以行动列表呈现，掌握度继续使用进度条。
+- 当前页面导航高亮更明显。

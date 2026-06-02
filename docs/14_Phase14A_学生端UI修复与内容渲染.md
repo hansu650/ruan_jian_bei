@@ -100,3 +100,5 @@ python scripts/check-env.py
 7. `/learn` 像学生学习首页，而不是项目后台。
 8. 学习页面不把 Phase 或 Mock 作为主文案。
 9. 没有真实密钥出现在页面、代码、日志或文档中。
+
+Phase 14A 之后的修补工作记录在 `docs/15_Phase14B_学生端体验修补与资源展示修复.md`。

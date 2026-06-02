@@ -90,7 +90,7 @@ export function AppSidebar() {
                     className={cn(
                       "flex items-center justify-between gap-3 rounded-md border px-3 py-2 transition",
                       active
-                        ? "border-sky-200 bg-sky-50 text-sky-900 hover:border-sky-300"
+                        ? "border-sky-300 bg-sky-100 font-medium text-sky-950 shadow-sm hover:border-sky-300"
                         : "border-transparent bg-background hover:border-slate-200 hover:bg-slate-50",
                     )}
                   >
@@ -98,7 +98,7 @@ export function AppSidebar() {
                       <Icon
                         className={cn(
                           "h-4 w-4 shrink-0",
-                          active || primary ? "text-sky-700" : "text-slate-500",
+                          active || primary ? "text-sky-800" : "text-slate-500",
                         )}
                         aria-hidden="true"
                       />

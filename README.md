@@ -6,7 +6,7 @@ EduForge 智学工坊是第十五届中国软件杯 A3 赛题项目，赛题为�
 
 ## 当前阶段
 
-当前阶段为 **Phase 14A：学生端 UI 修复与内容渲染**。
+当前阶段为 **Phase 14B：学生端体验修补与资源展示修复**。
 
 已完成能力：
 
@@ -24,6 +24,7 @@ EduForge 智学工坊是第十五届中国软件杯 A3 赛题项目，赛题为�
 - `/qa` 人工测试清单和 Smoke Status，用于录屏、答辩或提交前逐项核对
 - Phase 13 彩排修复：统一 generated-resources API 命名、模型模式提示和密钥外显风险
 - Phase 14A 学生端体验修复：`/learn` 学习工作台、导航高亮、Markdown/Mermaid 渲染和资源内容阅读体验
+- Phase 14B 学生端体验修补：资源预览清理、Mermaid 渲染兜底、学习评估列表化和 spark-http 批量生成确认
 
 仍未进入最终交付材料阶段：本阶段不生成 PPT、演示视频脚本、最终系统开发说明书，也不做 Docker 部署。
 
@@ -131,6 +132,17 @@ Phase 14A 不新增 Agent、不新增数据模型、不接入新的真实 API，
 - `MermaidDiagram` 支持思维导图代码块渲染，渲染失败时回退显示源码。
 - `/resources`、`/tutor`、`/practice`、`/analytics` 优先展示中文状态、引用来源、进度条和学习诊断，不把 JSON 或工程字段作为主视觉。
 
+## Phase 14B 学生端体验修补与资源展示
+
+Phase 14B 继续聚焦前端体验，不新增业务能力：
+
+- `/resources` 资源详情继续使用 Markdown 渲染，Mermaid 图渲染失败时有兜底源码提示。
+- 资源列表预览会清理 Markdown 标题、代码围栏、SQL 和 Mermaid 原文，避免看起来像半成品。
+- `/resources` 默认只选择讲义资源类型；spark-http 真实模式下选择多个资源类型需要确认后才能批量生成。
+- `/learn` 去掉“演示数据”这类后台视角文案，改为“学习流程”和“学习数据”表达。
+- `/analytics` 将补救建议展示为行动列表，掌握度继续用进度条展示。
+- 当前导航高亮进一步增强，帮助学生知道自己位于哪个学习环节。
+
 ## 可选讯飞星火 HTTP 接入
 
 默认配置仍为 Mock：
@@ -174,6 +186,7 @@ python scripts/check-env.py
 .\scripts\check-phase12.ps1
 .\scripts\check-phase13.ps1
 .\scripts\check-phase14a.ps1
+.\scripts\check-phase14b.ps1
 ```
 
 或手动执行：

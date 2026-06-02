@@ -348,7 +348,7 @@ export default function LearnPage() {
             </p>
           </div>
           <Badge variant={snapshot.demo.overall_ready ? "success" : "outline"}>
-            {snapshot.demo.overall_ready ? "演示数据基本就绪" : "继续补全学习数据"}
+            {snapshot.demo.overall_ready ? "学习流程基本就绪" : "继续补全学习数据"}
           </Badge>
         </div>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">

@@ -64,11 +64,12 @@ export function AppHeader() {
                 size="sm"
                 className={cn(
                   "border border-transparent text-slate-600",
-                  active && "border-sky-200 bg-sky-50 text-sky-700 hover:bg-sky-50",
+                  active &&
+                    "border-sky-300 bg-sky-100 font-semibold text-sky-800 shadow-sm hover:bg-sky-100",
                 )}
               >
                 <Link href={item.href}>
-                  <Icon className={cn("h-4 w-4", active ? "text-sky-700" : "text-slate-500")} aria-hidden="true" />
+                  <Icon className={cn("h-4 w-4", active ? "text-sky-800" : "text-slate-500")} aria-hidden="true" />
                   <span>{item.label}</span>
                 </Link>
               </Button>

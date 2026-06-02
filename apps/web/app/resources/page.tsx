@@ -70,6 +70,27 @@ function errorMessage(error: unknown): string {
   return error instanceof Error ? error.message : "请求失败，请确认后端服务是否启动。";
 }
 
+function resourcePreview(content: string) {
+  const withoutFences = content.replace(/```([a-zA-Z0-9_-]+)?\s*[\s\S]*?```/g, (_, language: string | undefined) => {
+    const label = language?.toLowerCase();
+    if (label === "mermaid") {
+      return "思维导图内容";
+    }
+    if (label === "sql") {
+      return "SQL 实操代码";
+    }
+    return "代码示例";
+  });
+  return withoutFences
+    .replace(/\[(.*?)\]\([^)]*\)/g, "$1")
+    .replace(/^#{1,6}\s*/gm, "")
+    .replace(/^[>*\-\d.\s]+/gm, "")
+    .replace(/[|`*_~]/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 120);
+}
+
 function ResourceTypeBadges({ values }: { values: string[] }) {
   return (
     <div className="flex flex-wrap gap-2">
@@ -261,7 +282,8 @@ export default function ResourcesPage() {
       setCourses(courseList);
       setResourceTypes(typeList);
       setLlmMode(demoStatus.llm_mode);
-      setSelectedTypes(typeList.map((item) => item.key));
+      const defaultType = typeList.find((item) => item.key === "lecture_note") ?? typeList[0];
+      setSelectedTypes(defaultType ? [defaultType.key] : []);
       const defaultStudent = studentList.find((item) => item.name === "示例学生") ?? studentList[0];
       const defaultCourse = courseList.find((item) => item.title === "数据库系统") ?? courseList[0];
       if (defaultStudent && defaultCourse) {
@@ -510,6 +532,9 @@ export default function ResourcesPage() {
                 <CardTitle className="text-base">资源类型</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
+                <p className="text-xs leading-5 text-muted-foreground">
+                  默认只选择讲义，适合先小流量确认质量；需要更多类型时再手动勾选。
+                </p>
                 {resourceTypes.map((type) => (
                   <label
                     key={type.key}
@@ -578,7 +603,7 @@ export default function ResourcesPage() {
                           </Badge>
                         </div>
                         <p className="mt-2 line-clamp-2 text-xs text-muted-foreground">
-                          {resource.content.slice(0, 120)}
+                          {resourcePreview(resource.content) || "已生成资源，点击查看正文。"}
                         </p>
                       </button>
                     ))}
@@ -611,7 +636,7 @@ export default function ResourcesPage() {
                         latency: {run.latency_ms ?? 0} ms · {new Date(run.created_at).toLocaleString()}
                       </p>
                       <p className="mt-2 line-clamp-2 text-muted-foreground">
-                        {run.output_preview || run.input_preview}
+                        {resourcePreview(run.output_preview || run.input_preview) || "资源生成记录已保存。"}
                       </p>
                     </div>
                   ))

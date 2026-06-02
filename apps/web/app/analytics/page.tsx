@@ -47,6 +47,21 @@ function JsonBadges({ values }: { values: string[] }) {
   );
 }
 
+function SuggestionList({ values }: { values: string[] }) {
+  if (!values.length) {
+    return <span className="text-sm text-muted-foreground">暂无</span>;
+  }
+  return (
+    <ul className="space-y-2 text-sm leading-6 text-slate-700">
+      {values.map((item) => (
+        <li key={item} className="rounded-lg border bg-slate-50 px-3 py-2">
+          {item}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function MasteryList({ masteryJson }: { masteryJson: string }) {
   const mastery = safeJson<Record<string, number>>(masteryJson, {});
   const entries = Object.entries(mastery);
@@ -55,15 +70,18 @@ function MasteryList({ masteryJson }: { masteryJson: string }) {
   }
   return (
     <div className="space-y-3">
-      {entries.map(([name, score]) => (
-        <div key={name} className="space-y-1">
-          <div className="flex justify-between text-xs">
-            <span>{name}</span>
-            <span>{score}</span>
+      {entries.map(([name, score]) => {
+        const normalized = Math.max(0, Math.min(100, Number(score)));
+        return (
+          <div key={name} className="space-y-1">
+            <div className="flex justify-between text-xs">
+              <span>{name}</span>
+              <span>{Math.round(normalized)} 分</span>
+            </div>
+            <Progress value={normalized} />
           </div>
-          <Progress value={Number(score)} />
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
@@ -78,7 +96,9 @@ function ReportCard({ report }: { report: LearningEvaluationReport }) {
         <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
           <div>
             <CardTitle className="text-base">{report.title}</CardTitle>
-            <p className="mt-1 text-xs text-muted-foreground">{report.created_at}</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {new Date(report.created_at).toLocaleString("zh-CN")}
+            </p>
           </div>
           <Badge variant={report.overall_score >= 80 ? "success" : "warning"}>
             {Math.round(report.overall_score)} 分
@@ -97,7 +117,7 @@ function ReportCard({ report }: { report: LearningEvaluationReport }) {
         </div>
         <div>
           <p className="mb-2 font-medium">补救资源建议</p>
-          <JsonBadges values={resources} />
+          <SuggestionList values={resources} />
         </div>
         <Alert>
           <AlertTitle>下一步建议</AlertTitle>
@@ -286,7 +306,7 @@ export default function AnalyticsPage() {
             </div>
             <div>
               <p className="mb-2 text-sm font-medium">补救行动</p>
-              <JsonBadges values={summary?.latest_recommended_actions ?? []} />
+              <SuggestionList values={summary?.latest_recommended_actions ?? []} />
             </div>
           </CardContent>
         </Card>
