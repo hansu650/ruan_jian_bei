@@ -6,7 +6,7 @@ EduForge 智学工坊是第十五届中国软件杯 A3 赛题项目，赛题为�
 
 ## 当前阶段
 
-当前阶段为 **Phase 16A：全站 UI V2 大重构**。
+当前阶段为 **Phase 16C：导航点击修复 + 学生端极简 UI 壳重写**。
 
 已完成能力：
 
@@ -28,6 +28,7 @@ EduForge 智学工坊是第十五届中国软件杯 A3 赛题项目，赛题为�
 - Phase 15A 产品化包装：`/agents-flow` 多智能体协作视图、`/innovation` 创新亮点页和学生端 UI 升级
 - Phase 15B 全局 UI 重构：统一导航、卡片、指标、状态标签和核心学习页面视觉，让系统更像正式学习产品
 - Phase 16A 全站 UI V2：重写学生端 app shell、左侧导航、顶部课程栏、首页、学习工作台和学习资源页布局
+- Phase 16C 导航修复：学生端改为顶部导航 + 居中内容，移除学生端左侧导航，修复核心学习入口跳转
 
 仍未进入最终交付材料阶段：本阶段不生成 PPT、演示视频脚本、最终系统开发说明书，也不做 Docker 部署。
 
@@ -181,6 +182,16 @@ Phase 16A 继续不新增后端业务功能，重点重写前端产品外壳和�
 - `/agents-flow` 和 `/innovation` 继续服务比赛讲解，强调真实已实现的多智能体协作与创新点。
 - 本阶段只借鉴成熟 dashboard 与学习平台的布局语言，不复制代码、不复制文案、不虚构未实现功能。
 
+## Phase 16C 导航修复与学生端极简 UI 壳
+
+Phase 16C 聚焦两个 P0/P1 体验问题：导航点击和学生端布局外壳。
+
+- 学生端路由使用顶部导航和居中内容，不再渲染左侧大 sidebar。
+- `/learn`、`/profile`、`/learning-path`、`/resources`、`/tutor`、`/practice`、`/analytics` 都是明确可点击的顶部导航项。
+- 当前页面使用浅蓝高亮，便于学生知道自己所在学习环节。
+- `/demo`、`/qa`、`/dashboard`、`/database`、`/courses`、`/students`、`/llm-lab`、`/health` 走简化管理壳，不影响学生端。
+- 本阶段不新增后端业务、不新增 Agent、不触发真实 Spark 生成。
+
 ## 可选讯飞星火 HTTP 接入
 
 默认配置仍为 Mock：
@@ -228,6 +239,7 @@ python scripts/check-env.py
 .\scripts\check-phase15a.ps1
 .\scripts\check-phase15b.ps1
 .\scripts\check-phase16a.ps1
+.\scripts\check-phase16c.ps1
 ```
 
 或手动执行：

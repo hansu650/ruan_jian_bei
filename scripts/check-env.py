@@ -257,6 +257,7 @@ def check_project_files(reporter: Reporter) -> None:
         "docs/15A_学生端UI升级与创新点包装.md",
         "docs/15B_全局UI重构与创新点包装.md",
         "docs/16A_全站UIV2大重构.md",
+        "docs/16C_导航修复与学生端UI壳子重写.md",
         "scripts/check-phase13.ps1",
         "scripts/check-phase13.sh",
         "scripts/check-phase14a.ps1",
@@ -269,6 +270,8 @@ def check_project_files(reporter: Reporter) -> None:
         "scripts/check-phase15b.sh",
         "scripts/check-phase16a.ps1",
         "scripts/check-phase16a.sh",
+        "scripts/check-phase16c.ps1",
+        "scripts/check-phase16c.sh",
         "apps/web/package.json",
         "apps/web/app/page.tsx",
         "apps/web/app/learn/page.tsx",
@@ -302,6 +305,11 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/web/components/agent-flow-card.tsx",
         "apps/web/components/innovation-card.tsx",
         "apps/web/components/learning-progress-overview.tsx",
+        "apps/web/components/layout/app-shell.tsx",
+        "apps/web/components/layout/student-shell.tsx",
+        "apps/web/components/layout/student-top-nav.tsx",
+        "apps/web/components/layout/student-page-container.tsx",
+        "apps/web/components/layout/admin-shell.tsx",
         "apps/web/components/v2/app-shell.tsx",
         "apps/web/components/v2/student-sidebar.tsx",
         "apps/web/components/v2/student-topbar.tsx",
@@ -390,7 +398,7 @@ def print_next_steps() -> None:
     print("5. 启动前端：")
     print("   cd apps/web")
     print("   pnpm dev")
-    print("6. 打开学生端与 Phase 16A 检查页面：")
+    print("6. 打开学生端与 Phase 16C 检查页面：")
     print("   http://localhost:3000/learn")
     print("   http://localhost:3000/agents-flow")
     print("   http://localhost:3000/innovation")
@@ -398,41 +406,44 @@ def print_next_steps() -> None:
     print("   http://localhost:3000/qa")
     print("   http://localhost:3000/practice")
     print("   http://localhost:3000/analytics")
-    print("7. 一键检查 Phase 16A：")
+    print("7. 一键检查 Phase 16C：")
+    print("   .\\scripts\\check-phase16c.ps1")
+    print("   ./scripts/check-phase16c.sh")
+    print("8. 一键检查 Phase 16A：")
     print("   .\\scripts\\check-phase16a.ps1")
     print("   ./scripts/check-phase16a.sh")
-    print("8. 一键检查 Phase 15B：")
+    print("9. 一键检查 Phase 15B：")
     print("   .\\scripts\\check-phase15b.ps1")
     print("   ./scripts/check-phase15b.sh")
-    print("9. 一键检查 Phase 15A：")
+    print("10. 一键检查 Phase 15A：")
     print("   .\\scripts\\check-phase15a.ps1")
     print("   ./scripts/check-phase15a.sh")
-    print("10. 一键检查 Phase 14B：")
+    print("11. 一键检查 Phase 14B：")
     print("   .\\scripts\\check-phase14b.ps1")
     print("   ./scripts/check-phase14b.sh")
-    print("11. 一键检查 Phase 14A：")
+    print("12. 一键检查 Phase 14A：")
     print("   .\\scripts\\check-phase14a.ps1")
     print("   ./scripts/check-phase14a.sh")
-    print("12. 一键检查 Phase 13：")
+    print("13. 一键检查 Phase 13：")
     print("   .\\scripts\\check-phase13.ps1")
     print("   ./scripts/check-phase13.sh")
-    print("13. 一键检查 Phase 12：")
+    print("14. 一键检查 Phase 12：")
     print("   .\\scripts\\check-phase12.ps1")
     print("   ./scripts/check-phase12.sh")
-    print("14. 一键检查 Phase 11：")
+    print("15. 一键检查 Phase 11：")
     print("   .\\scripts\\check-phase11.ps1")
     print("   ./scripts/check-phase11.sh")
-    print("15. 一键检查第十阶段：")
+    print("16. 一键检查第十阶段：")
     print("   .\\scripts\\check-phase10.ps1")
     print("   ./scripts/check-phase10.sh")
-    print("16. 一键检查 Phase 10.1：")
+    print("17. 一键检查 Phase 10.1：")
     print("   .\\scripts\\check-phase10-1.ps1")
     print("   ./scripts/check-phase10-1.sh")
 
 
 def main() -> int:
     reporter = Reporter()
-    print("EduForge 智学工坊 - Phase 16A 全站 UI V2 大重构环境自检")
+    print("EduForge 智学工坊 - Phase 16C 导航修复与学生端 UI 壳子重写环境自检")
     print()
 
     check_python(reporter)
@@ -468,7 +479,7 @@ def main() -> int:
         return 1
 
     print()
-    print("[OK] 环境自检通过，可以继续启动前后端或运行 Phase 16A 检查。")
+    print("[OK] 环境自检通过，可以继续启动前后端或运行 Phase 16C 检查。")
     return 0
 
 

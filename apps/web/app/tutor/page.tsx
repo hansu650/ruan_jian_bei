@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { PageContainer } from "@/components/v2/page-container";
 import {
   chatWithTutor,
   getCourses,
@@ -369,7 +370,7 @@ export default function TutorPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl space-y-6 px-4 py-8 sm:px-6 lg:px-8">
+    <PageContainer className="space-y-6">
       <section className="rounded-lg border bg-card p-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
@@ -397,13 +398,13 @@ export default function TutorPage() {
       ) : null}
 
       {loading ? (
-        <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
+        <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
           <Skeleton className="h-[760px]" />
           <Skeleton className="h-[760px]" />
         </div>
       ) : (
-        <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
-          <aside className="space-y-4">
+        <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+          <aside className="space-y-4 lg:order-2">
             <Card>
               <CardHeader>
                 <CardTitle className="text-base">学生与课程</CardTitle>
@@ -541,7 +542,7 @@ export default function TutorPage() {
             </Card>
           </aside>
 
-          <section className="space-y-4">
+          <section className="space-y-4 lg:order-1">
             <Card>
               <CardHeader>
                 <CardTitle className="text-base">快捷问题</CardTitle>
@@ -618,6 +619,6 @@ export default function TutorPage() {
           </section>
         </div>
       )}
-    </div>
+    </PageContainer>
   );
 }

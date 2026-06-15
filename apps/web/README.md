@@ -1,6 +1,6 @@
 # EduForge Web
 
-Next.js + TypeScript + Tailwind CSS 前端。当前进入 Phase 16A 全站 UI V2 大重构。
+Next.js + TypeScript + Tailwind CSS 前端。当前进入 Phase 16C 导航点击修复与学生端极简 UI 壳重写。
 
 ## 安装和启动
 
@@ -107,3 +107,11 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 - `/resources` 应像学习资料页面，资源列表不展示 Markdown 原文，详情继续使用 Markdown / Mermaid / CitationList。
 - `/agents-flow` 和 `/innovation` 使用 V2 卡片语言，能服务比赛讲解但不虚构未实现能力。
 - 导航中 `/learn` 优先，当前页高亮明显，演示、测试和管理入口降级。
+
+## Phase 16C 前端检查点
+
+- `components/layout/app-shell.tsx` 按路由分发 StudentShell 和 AdminShell。
+- 学生端路由只使用 `StudentTopNav`，不再渲染左侧导航。
+- 顶部导航项全部使用 Next.js `Link`，点击后应能跳转。
+- `/learn`、`/resources`、`/tutor` 保持居中内容布局，避免回到后台控制台观感。
+- `/demo` 和 `/qa` 仍可打开，但走管理壳，不抢学生端主入口。

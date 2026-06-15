@@ -369,7 +369,7 @@ export default function PracticePage() {
 
   if (loading) {
     return (
-      <main className="mx-auto max-w-7xl space-y-4 px-4 py-8 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-6xl space-y-4 px-4 py-8 sm:px-6 lg:px-8">
         <Skeleton className="h-36" />
         <Skeleton className="h-96" />
       </main>
@@ -377,7 +377,7 @@ export default function PracticePage() {
   }
 
   return (
-    <main className="mx-auto max-w-7xl space-y-6 px-4 py-8 sm:px-6 lg:px-8">
+    <main className="mx-auto max-w-6xl space-y-6 px-4 py-8 sm:px-6 lg:px-8">
       <section className="rounded-lg border bg-card p-6">
         <Badge variant="secondary">练习与诊断</Badge>
         <h1 className="mt-4 text-3xl font-bold tracking-tight">练习测验</h1>

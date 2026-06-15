@@ -1,7 +1,3 @@
 "use client";
 
-import { StudentTopbar } from "@/components/v2/student-topbar";
-
-export function AppHeader() {
-  return <StudentTopbar />;
-}
+export { StudentTopNav as AppHeader } from "@/components/layout/student-top-nav";
