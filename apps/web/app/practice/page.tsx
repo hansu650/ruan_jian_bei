@@ -1,11 +1,12 @@
 "use client";
 
-import { ClipboardCheck, Loader2 } from "lucide-react";
+import { ClipboardCheck, FileText, Loader2, Target, Trophy } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { LiveModelWarning } from "@/components/live-model-warning";
 import { MarkdownPreview } from "@/components/markdown-preview";
+import { MetricCard } from "@/components/metric-card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -61,6 +62,36 @@ function errorMessage(error: unknown): string {
   return error instanceof Error ? error.message : "请求失败，请确认后端服务是否启动。";
 }
 
+function InlineBadges({ values }: { values: string[] }) {
+  if (!values.length) {
+    return <p className="text-sm text-muted-foreground">暂无</p>;
+  }
+  return (
+    <div className="flex flex-wrap gap-2">
+      {values.map((value) => (
+        <Badge key={value} variant="outline">
+          {value}
+        </Badge>
+      ))}
+    </div>
+  );
+}
+
+function SuggestionList({ values }: { values: string[] }) {
+  if (!values.length) {
+    return <p className="text-sm text-muted-foreground">暂无补救建议。</p>;
+  }
+  return (
+    <ul className="space-y-2 text-sm leading-6 text-slate-700">
+      {values.map((value) => (
+        <li key={value} className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
+          {value}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function MasteryPreview({ before, after }: { before: string; after: string }) {
   const beforeMap = safeJson<Record<string, number>>(before, {});
   const afterMap = safeJson<Record<string, number>>(after, {});
@@ -105,7 +136,10 @@ function QuestionBlock({
     return (
       <div className="space-y-2">
         {options.map((option) => (
-          <label key={option.key} className="flex items-center gap-2 rounded-md border p-2 text-sm">
+          <label
+            key={option.key}
+            className="flex cursor-pointer items-center gap-2 rounded-lg border border-slate-200 p-3 text-sm transition hover:border-sky-200 hover:bg-sky-50/40"
+          >
             <input
               type="radio"
               name={`question-${question.id}`}
@@ -126,7 +160,10 @@ function QuestionBlock({
         {options.map((option) => {
           const checked = selectedMultiple.includes(option.key);
           return (
-            <label key={option.key} className="flex items-center gap-2 rounded-md border p-2 text-sm">
+            <label
+              key={option.key}
+              className="flex cursor-pointer items-center gap-2 rounded-lg border border-slate-200 p-3 text-sm transition hover:border-sky-200 hover:bg-sky-50/40"
+            >
               <input
                 type="checkbox"
                 checked={checked}
@@ -148,7 +185,7 @@ function QuestionBlock({
 
   return (
     <textarea
-      className="min-h-28 w-full rounded-md border bg-background p-3 text-sm"
+      className="min-h-28 w-full rounded-xl border border-slate-200 bg-white p-3 text-sm focus:border-sky-300 focus:outline-none"
       placeholder={question.question_type === "sql_practice" ? "输入 SQL，不会被执行" : "输入你的解释"}
       value={String(answer?.text ?? answer?.sql ?? "")}
       onChange={(event) =>
@@ -527,7 +564,7 @@ export default function PracticePage() {
                 </div>
               ) : (
                 questions.map((question) => (
-                  <div key={question.id} className="rounded-lg border p-4">
+                  <div key={question.id} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
                     <div className="mb-3 flex flex-wrap items-center gap-2">
                       <Badge variant="outline">{QUESTION_TYPE_LABELS[question.question_type] ?? question.question_type}</Badge>
                       <Badge variant="secondary">{question.knowledge_point}</Badge>
@@ -566,22 +603,26 @@ export default function PracticePage() {
               </CardHeader>
               <CardContent className="space-y-5">
                 <div className="grid gap-3 md:grid-cols-3">
-                  <div className="rounded-md border p-3">
-                    <p className="text-xs text-muted-foreground">得分</p>
-                    <p className="mt-1 text-2xl font-semibold">
-                      {result.attempt.total_score}/{result.attempt.max_score}
-                    </p>
-                  </div>
-                  <div className="rounded-md border p-3">
-                    <p className="text-xs text-muted-foreground">准确率</p>
-                    <p className="mt-1 text-2xl font-semibold">
-                      {Math.round(result.attempt.accuracy * 100)}%
-                    </p>
-                  </div>
-                  <div className="rounded-md border p-3">
-                    <p className="text-xs text-muted-foreground">评估报告</p>
-                    <p className="mt-1 text-2xl font-semibold">#{result.evaluation_report_id}</p>
-                  </div>
+                  <MetricCard
+                    label="得分"
+                    value={`${result.attempt.total_score}/${result.attempt.max_score}`}
+                    helper="本次小测得分"
+                    icon={Trophy}
+                    tone={result.attempt.accuracy >= 0.8 ? "success" : "warning"}
+                  />
+                  <MetricCard
+                    label="准确率"
+                    value={`${Math.round(result.attempt.accuracy * 100)}%`}
+                    helper="用于更新掌握度"
+                    icon={Target}
+                    tone={result.attempt.accuracy >= 0.8 ? "success" : "warning"}
+                  />
+                  <MetricCard
+                    label="评估报告"
+                    value={result.evaluation_report_id ? `#${result.evaluation_report_id}` : "已生成"}
+                    helper="可到学习评估页继续查看"
+                    icon={FileText}
+                  />
                 </div>
 
                 <Alert variant="success">
@@ -589,6 +630,21 @@ export default function PracticePage() {
                   <AlertDescription>系统已根据本次小测整理出薄弱点和补救建议。</AlertDescription>
                 </Alert>
                 <MarkdownPreview content={result.attempt.feedback_summary} />
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                    <h3 className="font-semibold text-slate-950">本次暴露的薄弱点</h3>
+                    <div className="mt-3">
+                      <InlineBadges values={safeJson<string[]>(result.attempt.weak_points_json, [])} />
+                    </div>
+                  </div>
+                  <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                    <h3 className="font-semibold text-slate-950">建议下一步</h3>
+                    <div className="mt-3">
+                      <SuggestionList values={safeJson<string[]>(result.attempt.recommended_actions_json, [])} />
+                    </div>
+                  </div>
+                </div>
 
                 <div>
                   <h3 className="mb-3 font-semibold">掌握度变化</h3>

@@ -17,19 +17,22 @@ export function WeakPointCard({ weakPoints, mastery }: WeakPointCardProps) {
   return (
     <Card className="border-slate-200 bg-white">
       <CardHeader>
-        <CardTitle>薄弱点与建议</CardTitle>
+        <CardTitle>我的薄弱点</CardTitle>
         <p className="text-sm leading-6 text-muted-foreground">
-          优先补齐低掌握度主题，再进入综合复习。
+          优先补齐低掌握度主题，再进入综合复习。系统会把这些主题用于路径、资料和测验。
         </p>
       </CardHeader>
       <CardContent className="space-y-5">
         {priority.length > 0 ? (
-          <div className="flex flex-wrap gap-2">
-            {priority.map((item) => (
-              <Badge key={item} variant="warning">
-                {item}
-              </Badge>
-            ))}
+          <div className="rounded-xl border border-amber-200 bg-amber-50/60 p-3">
+            <p className="text-xs font-medium text-amber-900">建议优先学习</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {priority.map((item) => (
+                <Badge key={item} variant="warning">
+                  {item}
+                </Badge>
+              ))}
+            </div>
           </div>
         ) : (
           <p className="rounded-lg border border-dashed bg-slate-50 p-3 text-sm text-slate-600">

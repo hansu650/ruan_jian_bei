@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { CitationList } from "@/components/citation-list";
 import { MarkdownPreview } from "@/components/markdown-preview";
+import { StatusBadge } from "@/components/status-badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -51,25 +52,6 @@ function safeJson<T>(value: string | undefined, fallback: T): T {
 
 function errorMessage(error: unknown): string {
   return error instanceof Error ? error.message : "请求失败，请确认后端服务是否启动。";
-}
-
-function safetyVariant(status: string): "success" | "warning" | "outline" {
-  if (status === "grounded") {
-    return "success";
-  }
-  if (status === "needs_review" || status === "unsafe") {
-    return "warning";
-  }
-  return "outline";
-}
-
-function safetyLabel(status: string): string {
-  const labels: Record<string, string> = {
-    grounded: "有来源",
-    needs_review: "需教师确认",
-    unsafe: "不适合处理",
-  };
-  return labels[status] ?? status;
 }
 
 function ProfileSummaryCard({ profile }: { profile: LearnerProfile | null }) {
@@ -130,8 +112,8 @@ function MessageBubble({
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
       <div
-        className={`max-w-[88%] rounded-lg border p-4 text-sm leading-6 ${
-          isUser ? "bg-primary text-primary-foreground" : "bg-background"
+        className={`max-w-[88%] rounded-2xl border p-4 text-sm leading-6 shadow-sm ${
+          isUser ? "border-sky-700 bg-sky-700 text-white" : "border-slate-200 bg-white"
         }`}
       >
         {isUser ? (
@@ -143,9 +125,7 @@ function MessageBubble({
         {!isUser ? (
           <div className="mt-4 space-y-3 border-t pt-3">
             <div className="flex flex-wrap items-center gap-2">
-              <Badge variant={safetyVariant(message.safety_status)}>
-                {safetyLabel(message.safety_status)}
-              </Badge>
+              <StatusBadge status={message.safety_status} />
               <span className="text-xs text-muted-foreground">
                 可信度 {(message.confidence_score * 100).toFixed(0)}%
               </span>
@@ -169,8 +149,8 @@ function MessageBubble({
             ) : null}
 
             <div>
-              <p className="mb-2 font-medium">引用来源</p>
-              <div>
+              <p className="mb-2 font-medium">参考资料</p>
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
                 <CitationList citations={message.citations_json} emptyText="暂无课程知识库引用。" />
               </div>
             </div>

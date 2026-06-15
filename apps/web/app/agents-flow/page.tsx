@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+import { AgentFlowCard } from "@/components/agent-flow-card";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -153,46 +154,28 @@ export default function AgentsFlowPage() {
           </section>
 
           <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {agents.map((agent) => {
-              const Icon = agent.icon;
-              return (
-                <Card key={agent.name} className="border-slate-200 bg-white shadow-sm">
-                  <CardHeader>
-                    <div className="flex items-start justify-between gap-3">
-                      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-sky-700">
-                        <Icon className="h-5 w-5" aria-hidden="true" />
-                      </span>
-                      <Badge variant="outline">{agent.name}</Badge>
-                    </div>
-                    <CardTitle className="text-lg">{agent.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4 text-sm">
-                    <p className="leading-6 text-slate-600">{agent.role}</p>
-                    <div className="space-y-2 rounded-lg bg-slate-50 p-3">
-                      <p>
-                        <span className="font-medium text-slate-900">输入：</span>
-                        <span className="text-slate-600">{agent.input}</span>
-                      </p>
-                      <p>
-                        <span className="font-medium text-slate-900">输出：</span>
-                        <span className="text-slate-600">{agent.output}</span>
-                      </p>
-                      <p>
-                        <span className="font-medium text-slate-900">数据：</span>
-                        <span className="text-slate-600">{agent.data}</span>
-                      </p>
-                    </div>
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="text-xs text-slate-500">下一环节：{agent.next}</span>
-                      <Button asChild variant="outline" size="sm">
-                        <Link href={agent.href}>查看页面</Link>
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
+            {agents.map((agent) => (
+              <AgentFlowCard key={agent.name} {...agent} />
+            ))}
           </section>
+
+          <Card className="border-slate-200 bg-white shadow-sm">
+            <CardHeader>
+              <CardTitle>数据如何在智能体之间流转</CardTitle>
+            </CardHeader>
+            <CardContent className="grid gap-3 text-sm md:grid-cols-3">
+              {[
+                ["学生输入", "学习目标、时间、基础和偏好先进入学习画像，后续模块不需要学生重复说明。"],
+                ["课程知识", "原创课程资料被分块检索，资源和答疑通过 citations_json 记录来源。"],
+                ["学习反馈", "测验结果会沉淀为掌握度变化和补救建议，让下一轮学习更有方向。"],
+              ].map(([title, description]) => (
+                <div key={title} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <p className="font-semibold text-slate-950">{title}</p>
+                  <p className="mt-2 leading-6 text-slate-600">{description}</p>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
 
           <Card className="border-slate-200 bg-white">
             <CardHeader>

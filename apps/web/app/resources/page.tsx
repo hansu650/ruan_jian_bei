@@ -8,6 +8,8 @@ import { ActionConfirmCard } from "@/components/action-confirm-card";
 import { CitationList } from "@/components/citation-list";
 import { LiveModelWarning } from "@/components/live-model-warning";
 import { MarkdownPreview } from "@/components/markdown-preview";
+import { ResourceTypeBadge, resourceTypeLabel } from "@/components/resource-type-badge";
+import { StatusBadge } from "@/components/status-badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -37,23 +39,6 @@ import type {
   ResourceTypeInfo,
   Student,
 } from "@/lib/types";
-
-const RESOURCE_LABELS: Record<string, string> = {
-  lecture_note: "讲义",
-  mindmap: "思维导图",
-  quiz: "练习题",
-  reading: "拓展阅读",
-  practice_case: "实操案例",
-  video_script: "视频脚本",
-};
-
-const RESOURCE_STATUS_LABELS: Record<string, string> = {
-  ready: "已生成",
-  generated: "已生成",
-  checked: "已检查",
-  needs_review: "需教师确认",
-  failed: "生成失败",
-};
 
 function safeJson<T>(value: string | undefined, fallback: T): T {
   if (!value) {
@@ -91,13 +76,15 @@ function resourcePreview(content: string) {
     .slice(0, 120);
 }
 
+function citationCount(value: string | undefined) {
+  return safeJson<Array<unknown>>(value, []).length;
+}
+
 function ResourceTypeBadges({ values }: { values: string[] }) {
   return (
     <div className="flex flex-wrap gap-2">
       {values.map((item) => (
-        <Badge key={item} variant="outline">
-          {RESOURCE_LABELS[item] ?? item}
-        </Badge>
+        <ResourceTypeBadge key={item} type={item} />
       ))}
     </div>
   );
@@ -157,13 +144,10 @@ function ResourceContent({ resource }: { resource: GeneratedResource | null }) {
           <div>
             <CardTitle>{resource.title}</CardTitle>
             <p className="mt-1 text-sm text-muted-foreground">
-              {RESOURCE_LABELS[resource.resource_type] ?? resource.resource_type} ·{" "}
-              {resource.content_format}
+              {resourceTypeLabel(resource.resource_type)} · 已保存为可继续学习的资料
             </p>
           </div>
-          <Badge variant={resource.status === "needs_review" ? "warning" : "success"}>
-            {RESOURCE_STATUS_LABELS[resource.status] ?? resource.status}
-          </Badge>
+          <StatusBadge status={resource.status} />
         </div>
       </CardHeader>
       <CardContent className="space-y-5">
@@ -589,24 +573,34 @@ export default function ResourcesPage() {
               <CardContent>
                 {resources.length ? (
                   <div className="grid gap-3 md:grid-cols-2">
-                    {resources.map((resource) => (
+                    {resources.map((resource) => {
+                      const active = selectedResource?.id === resource.id;
+                      return (
                       <button
                         key={resource.id}
-                        className="rounded-lg border bg-background p-3 text-left hover:border-primary/40"
+                        className={`rounded-xl border p-4 text-left transition hover:border-sky-300 hover:bg-sky-50/40 ${
+                          active ? "border-sky-300 bg-sky-50/70 shadow-sm" : "border-slate-200 bg-white"
+                        }`}
                         onClick={() => setSelectedResourceId(resource.id)}
                         type="button"
                       >
-                        <div className="flex items-center justify-between gap-2">
-                          <p className="line-clamp-1 text-sm font-medium">{resource.title}</p>
-                          <Badge variant="outline">
-                            {RESOURCE_LABELS[resource.resource_type] ?? resource.resource_type}
-                          </Badge>
+                        <div className="flex items-start justify-between gap-2">
+                          <p className="line-clamp-2 text-sm font-semibold leading-6 text-slate-950">
+                            {resource.title}
+                          </p>
+                          <ResourceTypeBadge type={resource.resource_type} />
                         </div>
                         <p className="mt-2 line-clamp-2 text-xs text-muted-foreground">
                           {resourcePreview(resource.content) || "已生成资源，点击查看正文。"}
                         </p>
+                        <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-slate-500">
+                          <StatusBadge status={resource.status} />
+                          <span>{citationCount(resource.citations_json)} 条来源</span>
+                          <span>{new Date(resource.created_at).toLocaleDateString("zh-CN")}</span>
+                        </div>
                       </button>
-                    ))}
+                      );
+                    })}
                   </div>
                 ) : (
                   <p className="text-sm text-muted-foreground">

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { StatusBadge } from "@/components/status-badge";
 
 interface LearningJourneyCardProps {
   title: string;
@@ -13,12 +13,6 @@ interface LearningJourneyCardProps {
   status: "done" | "active" | "todo";
   actionLabel: string;
 }
-
-const statusText = {
-  done: "已完成",
-  active: "可继续",
-  todo: "未开始",
-};
 
 export function LearningJourneyCard({
   title,
@@ -35,9 +29,7 @@ export function LearningJourneyCard({
           <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-sky-700">
             <Icon className="h-5 w-5" aria-hidden="true" />
           </span>
-          <Badge variant={status === "done" ? "success" : status === "active" ? "warning" : "outline"}>
-            {statusText[status]}
-          </Badge>
+          <StatusBadge status={status} />
         </div>
         <div className="min-h-0 flex-1">
           <h3 className="font-semibold text-slate-950">{title}</h3>

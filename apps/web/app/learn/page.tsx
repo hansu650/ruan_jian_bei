@@ -7,13 +7,14 @@ import {
   FileText,
   MessageCircleQuestion,
   Route,
+  Target,
   UserRound,
 } from "lucide-react";
 
 import { ErrorState } from "@/components/error-state";
 import { LearningJourneyCard } from "@/components/learning-journey-card";
+import { LearningProgressOverview } from "@/components/learning-progress-overview";
 import { LoadingState } from "@/components/loading-state";
-import { ProgressOverviewCard } from "@/components/progress-overview-card";
 import { StudentHeroCard } from "@/components/student-hero-card";
 import { TodayTaskCard } from "@/components/today-task-card";
 import { Badge } from "@/components/ui/badge";
@@ -204,16 +205,22 @@ export default function LearnPage() {
         label: "学习画像",
         value: profile ? "已完成" : "未完成",
         helper: profile ? `第 ${profile.version} 版画像` : "先告诉系统你的基础和目标",
+        icon: UserRound,
+        tone: profile ? ("success" as const) : ("warning" as const),
       },
       {
         label: "学习路径",
         value: snapshot.steps.length > 0 ? `${snapshot.steps.length} 步` : "未生成",
         helper: snapshot.paths[0]?.title ?? "生成后会安排每日学习顺序",
+        icon: Route,
+        tone: snapshot.steps.length > 0 ? ("success" as const) : ("default" as const),
       },
       {
         label: "学习资料",
         value: `${snapshot.resources.length} 个`,
         helper: "讲义、思维导图、练习题等资料",
+        icon: FileText,
+        tone: snapshot.resources.length > 0 ? ("success" as const) : ("default" as const),
       },
       {
         label: "练习结果",
@@ -221,6 +228,8 @@ export default function LearnPage() {
           ? formatPercent(snapshot.analytics.average_accuracy)
           : `${snapshot.attempts.length} 次`,
         helper: snapshot.analytics ? "平均准确率" : "完成小测后会出现诊断",
+        icon: Target,
+        tone: snapshot.attempts.length > 0 ? ("success" as const) : ("default" as const),
       },
     ];
 
@@ -347,7 +356,7 @@ export default function LearnPage() {
             这里汇总你当前已经完成的学习准备和练习反馈。
           </p>
         </div>
-        <ProgressOverviewCard items={derived.overviewItems} />
+        <LearningProgressOverview items={derived.overviewItems} />
       </section>
 
       <section className="space-y-4">

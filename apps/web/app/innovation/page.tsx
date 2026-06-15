@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 
 import { AppSidebar } from "@/components/app-sidebar";
+import { InnovationCard } from "@/components/innovation-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -106,32 +107,9 @@ export default function InnovationPage() {
           </section>
 
           <section className="grid gap-4 md:grid-cols-2">
-            {innovations.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <Card key={item.title} className="border-slate-200 bg-white shadow-sm">
-                  <CardHeader>
-                    <div className="flex items-start justify-between gap-3">
-                      <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-sky-50 text-sky-700">
-                        <Icon className="h-5 w-5" aria-hidden="true" />
-                      </span>
-                      <Badge variant="outline">创新点 {index + 1}</Badge>
-                    </div>
-                    <CardTitle className="text-lg">{item.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-sm leading-7 text-slate-600">{item.description}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {item.proof.map((proof) => (
-                        <Badge key={proof} variant="secondary">
-                          {proof}
-                        </Badge>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
+            {innovations.map((item, index) => (
+              <InnovationCard key={item.title} index={index + 1} {...item} />
+            ))}
           </section>
 
           <Card className="border-amber-200 bg-amber-50/60">

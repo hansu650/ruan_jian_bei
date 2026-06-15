@@ -1,9 +1,10 @@
 "use client";
 
-import { BarChart3, FileText } from "lucide-react";
+import { BarChart3, ClipboardCheck, FileText, Target, Trophy } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
 import { MarkdownPreview } from "@/components/markdown-preview";
+import { MetricCard } from "@/components/metric-card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -251,32 +252,32 @@ export default function AnalyticsPage() {
       </section>
 
       <section className="grid gap-4 md:grid-cols-4">
-        <Card>
-          <CardContent className="p-4">
-            <p className="text-xs text-muted-foreground">测验数</p>
-            <p className="mt-2 text-2xl font-semibold">{summary?.quiz_count ?? 0}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <p className="text-xs text-muted-foreground">提交次数</p>
-            <p className="mt-2 text-2xl font-semibold">{summary?.attempt_count ?? 0}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <p className="text-xs text-muted-foreground">平均准确率</p>
-            <p className="mt-2 text-2xl font-semibold">
-              {Math.round((summary?.average_accuracy ?? 0) * 100)}%
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <p className="text-xs text-muted-foreground">最新报告</p>
-            <p className="mt-2 text-2xl font-semibold">#{summary?.latest_report?.id ?? "-"}</p>
-          </CardContent>
-        </Card>
+        <MetricCard
+          label="测验数"
+          value={summary?.quiz_count ?? 0}
+          helper="已生成的小测数量"
+          icon={ClipboardCheck}
+        />
+        <MetricCard
+          label="提交次数"
+          value={summary?.attempt_count ?? 0}
+          helper="已完成的答题记录"
+          icon={Trophy}
+          tone={(summary?.attempt_count ?? 0) > 0 ? "success" : "default"}
+        />
+        <MetricCard
+          label="平均准确率"
+          value={`${Math.round((summary?.average_accuracy ?? 0) * 100)}%`}
+          helper="根据提交记录计算"
+          icon={Target}
+          tone={(summary?.average_accuracy ?? 0) >= 0.8 ? "success" : "warning"}
+        />
+        <MetricCard
+          label="最新报告"
+          value={summary?.latest_report?.id ? `#${summary.latest_report.id}` : "暂无"}
+          helper="完成测验后生成"
+          icon={FileText}
+        />
       </section>
 
       <section className="grid gap-4 lg:grid-cols-[1fr_1fr]">

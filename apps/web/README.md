@@ -1,6 +1,6 @@
 # EduForge Web
 
-Next.js + TypeScript + Tailwind CSS 前端。当前进入 Phase 15A 学生端 UI 升级与创新点包装。
+Next.js + TypeScript + Tailwind CSS 前端。当前进入 Phase 15B 全局 UI 重构与学习产品视觉升级。
 
 ## 安装和启动
 
@@ -56,7 +56,7 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 
 ## Phase 13 前端检查点
 
-- Dashboard 当前阶段显示 Phase 13。
+- Dashboard 当前阶段随 `constants.ts` 展示最新建设阶段。
 - `/qa` 继续用于人工测试清单和 Smoke Status。
 - `/llm-lab`、`/demo` 和 `/qa` 不显示或传输后端密钥。
 - `/resources` 在 spark-http 模式下保留高消耗操作确认。
@@ -89,3 +89,12 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 - 顶部导航只保留核心学习入口，架构、亮点、演示、测试和管理入口放在侧边栏。
 - `/learn` Hero 展示学生、课程、目标、当前薄弱点状态和平均准确率。
 - `/resources`、`/tutor`、`/practice`、`/analytics` 继续减少工程词，优先用学生能理解的状态和诊断表达。
+
+## Phase 15B 前端检查点
+
+- 首页 `/` 应像正式产品入口，主按钮进入 `/learn`。
+- `/learn` 应像学生学习首页，能看到今日任务、薄弱点、学习进度和继续学习。
+- `/resources` 资源卡片展示中文类型、摘要、引用数量和状态，默认不全选 6 类资源。
+- `/tutor`、`/practice`、`/analytics` 弱化技术字段，突出带来源答疑、批改反馈和学习诊断。
+- `/agents-flow` 和 `/innovation` 用于比赛讲解，但不虚构未实现能力。
+- 页面和文档不得出现真实密钥。
