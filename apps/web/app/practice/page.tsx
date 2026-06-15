@@ -462,9 +462,9 @@ export default function PracticePage() {
                 value={difficulty}
                 onChange={(event) => setDifficulty(event.target.value)}
               >
-                <option value="easy">easy</option>
-                <option value="medium">medium</option>
-                <option value="hard">hard</option>
+                <option value="easy">基础巩固</option>
+                <option value="medium">期末常规</option>
+                <option value="hard">提高挑战</option>
               </select>
             </label>
 

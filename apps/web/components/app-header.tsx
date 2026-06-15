@@ -7,10 +7,7 @@ import {
   FileText,
   Home,
   LayoutDashboard,
-  LibraryBig,
-  Route,
   Sparkles,
-  UserRound,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -20,13 +17,10 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/learn", label: "学习工作台", icon: Home },
-  { href: "/profile", label: "学习画像", icon: UserRound },
-  { href: "/learning-path", label: "学习路径", icon: Route },
   { href: "/resources", label: "学习资源", icon: FileText },
   { href: "/tutor", label: "智能辅导", icon: FileQuestion },
-  { href: "/practice", label: "练习", icon: ClipboardCheck },
+  { href: "/practice", label: "练习测验", icon: ClipboardCheck },
   { href: "/analytics", label: "学习评估", icon: BarChart3 },
-  { href: "/knowledge-base", label: "知识库", icon: LibraryBig },
 ];
 
 function isActive(pathname: string, href: string) {

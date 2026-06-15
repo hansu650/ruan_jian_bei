@@ -2,6 +2,7 @@ import Link from "next/link";
 import { HelpCircle, LibraryBig, ListChecks, Route } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { LearningPathStep } from "@/lib/types";
 
@@ -17,7 +18,21 @@ const sequence = [
   { label: "做小测", icon: ListChecks, href: "/practice" },
 ];
 
+function parseJsonArray(value?: string | null): string[] {
+  if (!value) {
+    return [];
+  }
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    return Array.isArray(parsed) ? parsed.map(String).filter(Boolean) : [];
+  } catch {
+    return [];
+  }
+}
+
 export function TodayTaskCard({ step, reason }: TodayTaskCardProps) {
+  const knowledgePoints = parseJsonArray(step?.knowledge_points_json);
+
   return (
     <Card className="border-slate-200 bg-white">
       <CardHeader className="pb-3">
@@ -37,6 +52,14 @@ export function TodayTaskCard({ step, reason }: TodayTaskCardProps) {
             </h2>
             <p className="mt-2 text-sm leading-6 text-slate-600">{step.objective}</p>
             <p className="mt-3 text-sm font-medium text-sky-800">{reason}</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Badge variant="secondary">预计 {step.estimated_minutes} 分钟</Badge>
+              {knowledgePoints.slice(0, 4).map((point) => (
+                <Badge key={point} variant="outline">
+                  {point}
+                </Badge>
+              ))}
+            </div>
           </div>
         ) : (
           <div className="rounded-lg border border-dashed bg-slate-50 p-4">

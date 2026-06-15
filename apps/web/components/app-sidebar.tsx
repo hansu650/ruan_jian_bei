@@ -3,6 +3,7 @@
 import {
   Activity,
   BarChart3,
+  Bot,
   BookOpen,
   ClipboardCheck,
   Database,
@@ -11,6 +12,7 @@ import {
   GraduationCap,
   Home,
   LayoutDashboard,
+  Lightbulb,
   LibraryBig,
   ListChecks,
   MessagesSquare,
@@ -39,8 +41,15 @@ const sections = [
     ],
   },
   {
-    title: "课程资料",
+    title: "课程与知识",
     items: [{ label: "课程知识库", icon: LibraryBig, href: "/knowledge-base", state: "来源" }],
+  },
+  {
+    title: "架构与亮点",
+    items: [
+      { label: "智能体协作", icon: Bot, href: "/agents-flow", state: "架构" },
+      { label: "创新亮点", icon: Lightbulb, href: "/innovation", state: "亮点" },
+    ],
   },
   {
     title: "演示与测试",

@@ -6,7 +6,7 @@ EduForge 智学工坊是第十五届中国软件杯 A3 赛题项目，赛题为�
 
 ## 当前阶段
 
-当前阶段为 **Phase 14B：学生端体验修补与资源展示修复**。
+当前阶段为 **Phase 15A：学生端 UI 升级 + 创新点包装 + 多智能体协作呈现**。
 
 已完成能力：
 
@@ -25,6 +25,7 @@ EduForge 智学工坊是第十五届中国软件杯 A3 赛题项目，赛题为�
 - Phase 13 彩排修复：统一 generated-resources API 命名、模型模式提示和密钥外显风险
 - Phase 14A 学生端体验修复：`/learn` 学习工作台、导航高亮、Markdown/Mermaid 渲染和资源内容阅读体验
 - Phase 14B 学生端体验修补：资源预览清理、Mermaid 渲染兜底、学习评估列表化和 spark-http 批量生成确认
+- Phase 15A 产品化包装：`/agents-flow` 多智能体协作视图、`/innovation` 创新亮点页和学生端 UI 升级
 
 仍未进入最终交付材料阶段：本阶段不生成 PPT、演示视频脚本、最终系统开发说明书，也不做 Docker 部署。
 
@@ -79,6 +80,8 @@ conda activate cnsoftbei_a3_eduforge
 - 智能辅导：http://localhost:3000/tutor
 - 练习测验：http://localhost:3000/practice
 - 学习评估：http://localhost:3000/analytics
+- 智能体协作：http://localhost:3000/agents-flow
+- 创新亮点：http://localhost:3000/innovation
 - Swagger：http://localhost:8000/docs
 
 ## Phase 11 演示工作台
@@ -143,6 +146,17 @@ Phase 14B 继续聚焦前端体验，不新增业务能力：
 - `/analytics` 将补救建议展示为行动列表，掌握度继续用进度条展示。
 - 当前导航高亮进一步增强，帮助学生知道自己位于哪个学习环节。
 
+## Phase 15A 学生端 UI 升级与创新点包装
+
+Phase 15A 不新增 Agent、不新增后端业务能力，重点把已有功能包装成更容易理解的比赛作品：
+
+- `/learn` 继续作为学生端主入口，强化“当前课程、今日任务、薄弱点、继续学习、学习评估”。
+- `/agents-flow` 展示 ProfileAgent、PlannerAgent、ResourceAgent、TutorAgent、PracticeAgent、EvaluatorAgent 与 CitationVerifier 的协作链路。
+- `/innovation` 将真实实现能力整理为画像驱动闭环、可信课程知识库、多智能体学习流水线、六类资源生成、轻量掌握度追踪、Mock/Spark 双模式和引用来源防幻觉。
+- 首页增加智能体协作和创新亮点入口，但学生学习入口仍优先。
+- Dashboard 增加架构与亮点入口，便于评委或团队成员理解系统结构。
+- 不把费曼学习法、BKT、情感感知、多 Agent 辩论等未实现能力写成已完成。
+
 ## 可选讯飞星火 HTTP 接入
 
 默认配置仍为 Mock：
@@ -187,6 +201,7 @@ python scripts/check-env.py
 .\scripts\check-phase13.ps1
 .\scripts\check-phase14a.ps1
 .\scripts\check-phase14b.ps1
+.\scripts\check-phase15a.ps1
 ```
 
 或手动执行：

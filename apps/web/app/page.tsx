@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpenCheck, Brain, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpenCheck, Bot, Brain, Lightbulb, ShieldCheck, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
@@ -51,6 +51,9 @@ export default function HomePage() {
             <Button asChild variant="outline" size="lg">
               <Link href="/demo">查看演示准备</Link>
             </Button>
+            <Button asChild variant="ghost" size="lg">
+              <Link href="/agents-flow">了解智能体协作</Link>
+            </Button>
           </div>
         </div>
 
@@ -94,6 +97,38 @@ export default function HomePage() {
             </Card>
           );
         })}
+      </section>
+
+      <section className="mt-12 grid gap-4 lg:grid-cols-[1fr_1fr]">
+        <Card className="border-slate-200 bg-white">
+          <CardContent className="flex h-full flex-col gap-4 p-6">
+            <Bot className="h-6 w-6 text-sky-700" aria-hidden="true" />
+            <div>
+              <h2 className="text-lg font-semibold text-slate-950">多智能体学习流水线</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                画像、路径、资源、辅导、练习和评估由不同智能体分工完成，方便评委理解系统不是单点聊天。
+              </p>
+            </div>
+            <Button asChild variant="outline" className="mt-auto w-fit">
+              <Link href="/agents-flow">查看协作流程</Link>
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card className="border-slate-200 bg-white">
+          <CardContent className="flex h-full flex-col gap-4 p-6">
+            <Lightbulb className="h-6 w-6 text-sky-700" aria-hidden="true" />
+            <div>
+              <h2 className="text-lg font-semibold text-slate-950">真实能力包装成创新亮点</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                画像驱动闭环、可信知识库、六类资源、引用来源和轻量掌握度追踪，都能在系统中找到对应页面和数据。
+              </p>
+            </div>
+            <Button asChild variant="outline" className="mt-auto w-fit">
+              <Link href="/innovation">查看创新亮点</Link>
+            </Button>
+          </CardContent>
+        </Card>
       </section>
     </main>
   );

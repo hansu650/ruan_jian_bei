@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen, GraduationCap } from "lucide-react";
+import { ArrowRight, BookOpen, GraduationCap, TrendingUp } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,6 +9,8 @@ interface StudentHeroCardProps {
   studentMeta?: string | null;
   courseTitle?: string | null;
   learningGoal?: string | null;
+  currentStatus?: string | null;
+  averageAccuracy?: string | null;
   nextHref: string;
   nextLabel: string;
 }
@@ -18,6 +20,8 @@ export function StudentHeroCard({
   studentMeta,
   courseTitle,
   learningGoal,
+  currentStatus,
+  averageAccuracy,
   nextHref,
   nextLabel,
 }: StudentHeroCardProps) {
@@ -31,11 +35,11 @@ export function StudentHeroCard({
           </div>
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              学习工作台
+              你好，{studentName || "示例学生"}
             </h1>
             <p className="mt-3 max-w-2xl text-base leading-7 text-slate-600">
               面向{courseTitle ? `《${courseTitle}》` : "当前课程"}的个性化 AI 学习助手。
-              系统会根据你的画像、路径和练习结果，提醒你下一步最值得做什么。
+              系统会根据你的画像、路径和练习结果，提醒你今天最值得推进的一小步。
             </p>
           </div>
           <Button asChild size="lg" className="bg-sky-700 hover:bg-sky-800">
@@ -67,6 +71,21 @@ export function StudentHeroCard({
               <p className="mt-1 leading-6 text-slate-700">
                 {learningGoal || "先完成学习画像，再生成适合你的学习计划。"}
               </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="rounded-lg border bg-slate-50 p-3">
+                <p className="text-slate-500">当前状态</p>
+                <p className="mt-1 font-medium leading-6 text-slate-900">
+                  {currentStatus || "正在补全学习数据"}
+                </p>
+              </div>
+              <div className="rounded-lg border bg-slate-50 p-3">
+                <div className="flex items-center gap-2 text-slate-500">
+                  <TrendingUp className="h-4 w-4 text-sky-700" aria-hidden="true" />
+                  平均准确率
+                </div>
+                <p className="mt-1 font-medium text-slate-900">{averageAccuracy || "完成小测后出现"}</p>
+              </div>
             </div>
           </div>
         </div>

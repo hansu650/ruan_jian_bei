@@ -620,20 +620,20 @@ export default function ResourcesPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">最近资源生成记录</CardTitle>
+                <CardTitle className="text-base">最近学习资料记录</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 {agentRuns.length ? (
                   agentRuns.map((run) => (
                     <div key={run.id} className="rounded-lg border bg-background p-3 text-sm">
                       <div className="flex flex-wrap items-center justify-between gap-2">
-                        <p className="font-medium">{run.agent_name}</p>
+                        <p className="font-medium">学习资料已保存</p>
                         <Badge variant={run.status === "success" ? "success" : "warning"}>
-                          {run.status}
+                          {run.status === "success" ? "已完成" : "需查看"}
                         </Badge>
                       </div>
                       <p className="mt-2 text-xs text-muted-foreground">
-                        latency: {run.latency_ms ?? 0} ms · {new Date(run.created_at).toLocaleString()}
+                        {new Date(run.created_at).toLocaleString("zh-CN")}
                       </p>
                       <p className="mt-2 line-clamp-2 text-muted-foreground">
                         {resourcePreview(run.output_preview || run.input_preview) || "资源生成记录已保存。"}
@@ -641,7 +641,7 @@ export default function ResourcesPage() {
                     </div>
                   ))
                 ) : (
-                  <p className="text-sm text-muted-foreground">暂无资源生成记录。</p>
+                  <p className="text-sm text-muted-foreground">暂无学习资料记录。</p>
                 )}
               </CardContent>
             </Card>

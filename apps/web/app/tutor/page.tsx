@@ -147,7 +147,7 @@ function MessageBubble({
                 {safetyLabel(message.safety_status)}
               </Badge>
               <span className="text-xs text-muted-foreground">
-                confidence {(message.confidence_score * 100).toFixed(0)}%
+                可信度 {(message.confidence_score * 100).toFixed(0)}%
               </span>
             </div>
             <p className="text-xs text-muted-foreground">{message.verifier_summary}</p>
@@ -181,7 +181,7 @@ function MessageBubble({
               onClick={() => onQualityCheck(message.id)}
               type="button"
             >
-              查看质量检查
+              查看引用质量
             </Button>
 
             {quality ? (

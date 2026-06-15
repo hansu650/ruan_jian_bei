@@ -21,8 +21,18 @@ export const CORE_LOOP = [
 export const CORE_FEATURES = [
   {
     title: "学生端学习工作台",
-    status: "进行中",
+    status: "已完成",
     description: "将学习画像、路径、资源、练习和评估组织成学生能直接理解的学习旅程。",
+  },
+  {
+    title: "多智能体协作呈现",
+    status: "进行中",
+    description: "用架构视图解释 ProfileAgent、PlannerAgent、ResourceAgent、TutorAgent、PracticeAgent 和 EvaluatorAgent 的协作链路。",
+  },
+  {
+    title: "创新亮点包装",
+    status: "进行中",
+    description: "将画像驱动闭环、可信知识库、引用防幻觉、轻量掌握度追踪等真实能力整理成评委易懂的亮点。",
   },
   {
     title: "演示与测试辅助",
@@ -79,5 +89,8 @@ export const PROJECT_STAGES: Array<{
   { name: "Phase 10.1", description: "讯飞星火 HTTP Provider 可选接入", status: "已完成" },
   { name: "Phase 11", description: "端到端演示工作台与稳定性打磨", status: "已完成" },
   { name: "Phase 12", description: "前端体验打磨与人工测试清单", status: "已完成" },
-  { name: "Phase 13", description: "端到端彩排与缺陷修复", status: "进行中" },
+  { name: "Phase 13", description: "端到端彩排与缺陷修复", status: "已完成" },
+  { name: "Phase 14A", description: "学生端 UI 修复与内容渲染", status: "已完成" },
+  { name: "Phase 14B", description: "学生端体验修补与资源展示修复", status: "已完成" },
+  { name: "Phase 15A", description: "学生端 UI 升级与创新点包装", status: "进行中" },
 ];

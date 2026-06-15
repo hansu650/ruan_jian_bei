@@ -1,6 +1,6 @@
 # EduForge Web
 
-Next.js + TypeScript + Tailwind CSS 前端。当前进入 Phase 14B 学生端体验修补与资源展示修复。
+Next.js + TypeScript + Tailwind CSS 前端。当前进入 Phase 15A 学生端 UI 升级与创新点包装。
 
 ## 安装和启动
 
@@ -27,6 +27,8 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 - `/tutor`：智能辅导与引用校验。
 - `/practice`：练习测验。
 - `/analytics`：学习效果评估。
+- `/agents-flow`：多智能体协作流程视图。
+- `/innovation`：创新亮点展示页。
 - `/demo`：演示工作台，检查端到端演示准备状态。
 - `/qa`：人工测试清单，展示 Smoke Status 和本地勾选进度。
 - `/llm-lab`：模型实验室，可查看 MockLLM 和可选 spark-http Provider 状态。
@@ -78,3 +80,12 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 - `/learn` 使用“学习流程基本就绪”等学生视角文案。
 - `/analytics` 补救建议以行动列表呈现，掌握度继续使用进度条。
 - 当前页面导航高亮更明显。
+
+## Phase 15A 前端检查点
+
+- `/agents-flow` 展示已实现 Agent 的协作链路，不宣称接入 CrewAI / LangGraph。
+- `/innovation` 只包装真实已有能力，不把 BKT、情感感知、费曼学习法、多 Agent 辩论写成已实现。
+- 首页增加智能体协作与创新亮点入口，但 `/learn` 仍是主入口。
+- 顶部导航只保留核心学习入口，架构、亮点、演示、测试和管理入口放在侧边栏。
+- `/learn` Hero 展示学生、课程、目标、当前薄弱点状态和平均准确率。
+- `/resources`、`/tutor`、`/practice`、`/analytics` 继续减少工程词，优先用学生能理解的状态和诊断表达。

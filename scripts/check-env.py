@@ -254,15 +254,20 @@ def check_project_files(reporter: Reporter) -> None:
         "docs/13_Phase13_端到端彩排与缺陷修复.md",
         "docs/14_Phase14A_学生端UI修复与内容渲染.md",
         "docs/15_Phase14B_学生端体验修补与资源展示修复.md",
+        "docs/15A_学生端UI升级与创新点包装.md",
         "scripts/check-phase13.ps1",
         "scripts/check-phase13.sh",
         "scripts/check-phase14a.ps1",
         "scripts/check-phase14a.sh",
         "scripts/check-phase14b.ps1",
         "scripts/check-phase14b.sh",
+        "scripts/check-phase15a.ps1",
+        "scripts/check-phase15a.sh",
         "apps/web/package.json",
         "apps/web/app/page.tsx",
         "apps/web/app/learn/page.tsx",
+        "apps/web/app/agents-flow/page.tsx",
+        "apps/web/app/innovation/page.tsx",
         "apps/web/app/dashboard/page.tsx",
         "apps/web/app/knowledge-base/page.tsx",
         "apps/web/app/profile/page.tsx",
@@ -357,38 +362,43 @@ def print_next_steps() -> None:
     print("5. 启动前端：")
     print("   cd apps/web")
     print("   pnpm dev")
-    print("6. 打开学生端与 Phase 14B 检查页面：")
+    print("6. 打开学生端与 Phase 15A 检查页面：")
     print("   http://localhost:3000/learn")
+    print("   http://localhost:3000/agents-flow")
+    print("   http://localhost:3000/innovation")
     print("   http://localhost:3000/demo")
     print("   http://localhost:3000/qa")
     print("   http://localhost:3000/practice")
     print("   http://localhost:3000/analytics")
-    print("7. 一键检查 Phase 14B：")
+    print("7. 一键检查 Phase 15A：")
+    print("   .\\scripts\\check-phase15a.ps1")
+    print("   ./scripts/check-phase15a.sh")
+    print("8. 一键检查 Phase 14B：")
     print("   .\\scripts\\check-phase14b.ps1")
     print("   ./scripts/check-phase14b.sh")
-    print("8. 一键检查 Phase 14A：")
+    print("9. 一键检查 Phase 14A：")
     print("   .\\scripts\\check-phase14a.ps1")
     print("   ./scripts/check-phase14a.sh")
-    print("9. 一键检查 Phase 13：")
+    print("10. 一键检查 Phase 13：")
     print("   .\\scripts\\check-phase13.ps1")
     print("   ./scripts/check-phase13.sh")
-    print("10. 一键检查 Phase 12：")
+    print("11. 一键检查 Phase 12：")
     print("   .\\scripts\\check-phase12.ps1")
     print("   ./scripts/check-phase12.sh")
-    print("11. 一键检查 Phase 11：")
+    print("12. 一键检查 Phase 11：")
     print("   .\\scripts\\check-phase11.ps1")
     print("   ./scripts/check-phase11.sh")
-    print("12. 一键检查第十阶段：")
+    print("13. 一键检查第十阶段：")
     print("   .\\scripts\\check-phase10.ps1")
     print("   ./scripts/check-phase10.sh")
-    print("13. 一键检查 Phase 10.1：")
+    print("14. 一键检查 Phase 10.1：")
     print("   .\\scripts\\check-phase10-1.ps1")
     print("   ./scripts/check-phase10-1.sh")
 
 
 def main() -> int:
     reporter = Reporter()
-    print("EduForge 智学工坊 - Phase 14B 学生端体验修补与资源展示修复环境自检")
+    print("EduForge 智学工坊 - Phase 15A 学生端 UI 升级与创新点包装环境自检")
     print()
 
     check_python(reporter)
@@ -424,7 +434,7 @@ def main() -> int:
         return 1
 
     print()
-    print("[OK] 环境自检通过，可以继续启动前后端或运行 Phase 14B 检查。")
+    print("[OK] 环境自检通过，可以继续启动前后端或运行 Phase 15A 检查。")
     return 0
 
 

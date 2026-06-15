@@ -1,9 +1,11 @@
 import {
   BarChart3,
+  Bot,
   ClipboardCheck,
   FileQuestion,
   FileText,
   Home,
+  Lightbulb,
   ListChecks,
   MonitorPlay,
   Route,
@@ -38,6 +40,18 @@ const entryCards = [
     description: "录屏或答辩前查看 Smoke Status，并按模块勾选人工测试项。",
     href: "/qa",
     icon: ListChecks,
+  },
+  {
+    title: "智能体协作",
+    description: "展示 ProfileAgent、PlannerAgent、ResourceAgent、TutorAgent、PracticeAgent 和 EvaluatorAgent 的协作链路。",
+    href: "/agents-flow",
+    icon: Bot,
+  },
+  {
+    title: "创新亮点",
+    description: "把画像驱动闭环、可信知识库、引用防幻觉和轻量掌握度追踪整理成比赛讲解亮点。",
+    href: "/innovation",
+    icon: Lightbulb,
   },
   {
     title: "学习画像",

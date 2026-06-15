@@ -283,6 +283,15 @@ export default function LearnPage() {
       mastery,
       overviewItems,
       journey,
+      currentStatus:
+        weakPoints.length > 0
+          ? `正在优先补 ${weakPoints.slice(0, 3).join("、")}`
+          : todayStep
+            ? `正在推进 ${todayStep.title}`
+            : "准备生成专属学习计划",
+      averageAccuracy: snapshot.analytics
+        ? formatPercent(snapshot.analytics.average_accuracy)
+        : null,
     };
   }, [snapshot]);
 
@@ -313,6 +322,8 @@ export default function LearnPage() {
         }
         courseTitle={snapshot.demo.course_title}
         learningGoal={derived.profile?.learning_goal}
+        currentStatus={derived.currentStatus}
+        averageAccuracy={derived.averageAccuracy}
         nextHref={derived.nextAction.href}
         nextLabel={derived.nextAction.label}
       />
