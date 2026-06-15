@@ -10,53 +10,60 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-import { AppSidebar } from "@/components/app-sidebar";
-import { InnovationCard } from "@/components/innovation-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { InnovationCard } from "@/components/v2/innovation-card";
+import { PageContainer } from "@/components/v2/page-container";
 
 const innovations = [
   {
     title: "画像驱动的个性化学习闭环",
-    description: "学生通过自然语言生成 8 维画像，画像会影响路径、资源、测验和评估，并可随反馈更新。",
+    value: "学生通过自然语言生成 8 维画像，画像会影响路径、资源、测验和评估，并可随反馈更新。",
     proof: ["专业背景", "学习目标", "知识基础", "学习偏好", "薄弱点", "掌握度"],
+    href: "/profile",
     icon: Brain,
   },
   {
     title: "可信课程知识库与引用来源",
-    description: "使用团队原创《数据库系统》资料，完成文档解析、分块、检索和 citations_json 引用记录。",
+    value: "使用团队原创《数据库系统》资料，完成文档解析、分块、检索和 citations_json 引用记录。",
     proof: ["原创资料", "文档分块", "关键词检索", "引用片段", "来源文件"],
+    href: "/knowledge-base",
     icon: BookOpenText,
   },
   {
     title: "多智能体学习流水线",
-    description: "ProfileAgent、PlannerAgent、ResourceAgent、TutorAgent、PracticeAgent、EvaluatorAgent 按学习环节协作。",
+    value: "ProfileAgent、PlannerAgent、ResourceAgent、TutorAgent、PracticeAgent、EvaluatorAgent 按学习环节协作。",
     proof: ["画像", "路径", "资源", "辅导", "测验", "评估"],
+    href: "/agents-flow",
     icon: Bot,
   },
   {
     title: "六类个性化学习资源生成",
-    description: "围绕学习路径步骤生成讲义、思维导图、练习题、拓展阅读、SQL 实操和视频脚本。",
+    value: "围绕学习路径步骤生成讲义、思维导图、练习题、拓展阅读、SQL 实操和视频脚本。",
     proof: ["讲义", "思维导图", "练习题", "拓展阅读", "实操案例", "视频脚本"],
+    href: "/resources",
     icon: FileStack,
   },
   {
     title: "轻量掌握度追踪与学习效果评估",
-    description: "自动批改后生成错因分析、掌握度变化、补救建议和学习评估报告。",
+    value: "自动批改后生成错因分析、掌握度变化、补救建议和学习评估报告。",
     proof: ["自动批改", "错因分析", "掌握度更新", "补救建议", "评估报告"],
+    href: "/analytics",
     icon: CheckCircle2,
   },
   {
     title: "Mock / Spark 双模式",
-    description: "Mock 保证离线开发和自动化测试稳定，Spark HTTP Provider 支持本地可选接入讯飞星火 Lite。",
+    value: "Mock 保证离线开发和自动化测试稳定，Spark HTTP Provider 支持本地可选接入讯飞星火 Lite。",
     proof: ["默认 Mock", "可选 Spark", "测试不联网", "密钥不进前端", "无 Key 可演示"],
+    href: "/llm-lab",
     icon: Sparkles,
   },
   {
     title: "引用来源防幻觉与版权边界",
-    description: "回答和资源尽量带课程来源；来源不足时提示教师确认，版权风险请求会被提醒或拒绝。",
+    value: "回答和资源尽量带课程来源；来源不足时提示教师确认，版权风险请求会被提醒或拒绝。",
     proof: ["有来源", "需教师确认", "不适合处理", "不复制教材原文"],
+    href: "/tutor",
     icon: ShieldCheck,
   },
 ];
@@ -70,47 +77,43 @@ const notClaimed = [
 
 export default function InnovationPage() {
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
-        <AppSidebar />
-
-        <div className="space-y-6">
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-              <div>
-                <Badge variant="secondary">比赛亮点</Badge>
-                <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-                  创新亮点
-                </h1>
-                <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">
-                  这里把 EduForge 已经实现的能力整理成评委易懂的产品亮点。
-                  我们只包装真实功能，不把未实现的算法或系统写成已完成。
-                </p>
-                <div className="mt-5 flex flex-wrap gap-3">
-                  <Button asChild className="bg-sky-700 hover:bg-sky-800">
-                    <Link href="/agents-flow">查看智能体协作</Link>
-                  </Button>
-                  <Button asChild variant="outline">
-                    <Link href="/learn">进入学习工作台</Link>
-                  </Button>
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-sky-100 bg-sky-50/60 p-5">
-                <Layers3 className="h-8 w-8 text-sky-700" aria-hidden="true" />
-                <p className="mt-4 font-semibold text-slate-950">一句话概括</p>
-                <p className="mt-2 text-sm leading-7 text-slate-600">
-                  EduForge 用“画像驱动 + 可信知识库 + 多智能体流水线”把课程学习拆成可执行、可追踪、可解释的个性化学习闭环。
-                </p>
-              </div>
+    <PageContainer className="space-y-6">
+      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+          <div>
+            <Badge variant="secondary">比赛亮点</Badge>
+            <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+              创新亮点
+            </h1>
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">
+              这里把 EduForge 已经实现的能力整理成评委易懂的产品亮点。
+              我们只包装真实功能，不把未实现的算法或系统写成已完成。
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Button asChild className="bg-sky-700 hover:bg-sky-800">
+                <Link href="/agents-flow">查看智能体协作</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/learn">进入学习工作台</Link>
+              </Button>
             </div>
-          </section>
+          </div>
 
-          <section className="grid gap-4 md:grid-cols-2">
-            {innovations.map((item, index) => (
-              <InnovationCard key={item.title} index={index + 1} {...item} />
-            ))}
-          </section>
+          <div className="rounded-2xl border border-sky-100 bg-sky-50/60 p-5">
+            <Layers3 className="h-8 w-8 text-sky-700" aria-hidden="true" />
+            <p className="mt-4 font-semibold text-slate-950">一句话概括</p>
+            <p className="mt-2 text-sm leading-7 text-slate-600">
+              EduForge 用“画像驱动 + 可信知识库 + 多智能体流水线”把课程学习拆成可执行、可追踪、可解释的个性化学习闭环。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="grid gap-4 md:grid-cols-2">
+        {innovations.map((item, index) => (
+          <InnovationCard key={item.title} index={index + 1} {...item} />
+        ))}
+      </section>
 
           <Card className="border-amber-200 bg-amber-50/60">
             <CardHeader>
@@ -126,8 +129,6 @@ export default function InnovationPage() {
               </ul>
             </CardContent>
           </Card>
-        </div>
-      </div>
-    </main>
+    </PageContainer>
   );
 }

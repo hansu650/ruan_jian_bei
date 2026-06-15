@@ -6,7 +6,7 @@ EduForge 智学工坊是第十五届中国软件杯 A3 赛题项目，赛题为�
 
 ## 当前阶段
 
-当前阶段为 **Phase 15B：全局 UI 重构 + 学习产品视觉升级**。
+当前阶段为 **Phase 16A：全站 UI V2 大重构**。
 
 已完成能力：
 
@@ -27,6 +27,7 @@ EduForge 智学工坊是第十五届中国软件杯 A3 赛题项目，赛题为�
 - Phase 14B 学生端体验修补：资源预览清理、Mermaid 渲染兜底、学习评估列表化和 spark-http 批量生成确认
 - Phase 15A 产品化包装：`/agents-flow` 多智能体协作视图、`/innovation` 创新亮点页和学生端 UI 升级
 - Phase 15B 全局 UI 重构：统一导航、卡片、指标、状态标签和核心学习页面视觉，让系统更像正式学习产品
+- Phase 16A 全站 UI V2：重写学生端 app shell、左侧导航、顶部课程栏、首页、学习工作台和学习资源页布局
 
 仍未进入最终交付材料阶段：本阶段不生成 PPT、演示视频脚本、最终系统开发说明书，也不做 Docker 部署。
 
@@ -113,7 +114,7 @@ conda activate cnsoftbei_a3_eduforge
 
 - `/qa`：展示 Smoke Status、按模块分组的人工测试项、本地勾选进度和 Mock/Spark 模式提示。
 
-`/qa` 不会自动调用 LLM，也不会自动调用 Spark。真实 Spark Lite 模式下，页面只提醒“手动点击生成类操作会调用真实 API”，不会显示、输入、保存或传输 APIPassword。
+`/qa` 不会自动调用 LLM，也不会自动调用 Spark。真实 Spark Lite 模式下，页面只提醒“手动点击生成类操作会调用真实 API”，不会显示、输入、保存或传输真实密钥。
 
 ## Phase 13 端到端彩排
 
@@ -169,6 +170,17 @@ Phase 15B 继续不新增业务大功能，重点把前端从“功能模块集�
 - `/agents-flow` 与 `/innovation` 保持比赛讲解入口，但只陈述真实已实现能力。
 - 本阶段只借鉴开源项目的布局和信息层级，不复制代码、文案、图片或未授权资产。
 
+## Phase 16A 全站 UI V2 大重构
+
+Phase 16A 继续不新增后端业务功能，重点重写前端产品外壳和核心学生端页面：
+
+- 全局 layout 使用 V2 app shell：左侧学生导航、顶部课程栏和统一内容容器。
+- `/` 作为正式产品首页，突出 AI 个性化学习助手和完整学习闭环。
+- `/learn` 作为学生端第一入口，展示今日任务、继续学习、学习进度、薄弱点和最近结果。
+- `/resources` 更像学习资料页面，资源类型、列表卡片、Markdown/Mermaid 内容和引用来源展示更统一。
+- `/agents-flow` 和 `/innovation` 继续服务比赛讲解，强调真实已实现的多智能体协作与创新点。
+- 本阶段只借鉴成熟 dashboard 与学习平台的布局语言，不复制代码、不复制文案、不虚构未实现功能。
+
 ## 可选讯飞星火 HTTP 接入
 
 默认配置仍为 Mock：
@@ -215,6 +227,7 @@ python scripts/check-env.py
 .\scripts\check-phase14b.ps1
 .\scripts\check-phase15a.ps1
 .\scripts\check-phase15b.ps1
+.\scripts\check-phase16a.ps1
 ```
 
 或手动执行：

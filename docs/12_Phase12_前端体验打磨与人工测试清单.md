@@ -44,7 +44,7 @@ Phase 12 的目标是让 EduForge 在比赛录屏、答辩和提交前更容易�
 USE_MOCK_LLM=false
 LLM_PROVIDER=spark-http
 SPARK_MODEL=lite
-SPARK_HTTP_API_PASSWORD=只放在本地 .env
+本地 Spark HTTP 密钥只放在本机环境文件中
 ```
 
 `/qa` 和 `/api/qa/*` 不会自动调用模型。若当前是 spark-http 模式，前端会提示：手动点击画像、路径、资源、辅导、测验等生成类操作会调用真实 API，可能受网络、并发或额度策略影响。
@@ -55,10 +55,10 @@ SPARK_HTTP_API_PASSWORD=只放在本地 .env
 
 `/practice` 在生成测验区域显示真实模型调用提示，但不阻断用户操作。
 
-## 9. APIPassword 安全要求
+## 9. 真实密钥安全要求
 
 - 不提交 `.env`
-- 不提交 APIPassword
+- 不提交真实密钥
 - 不在前端输入 key
 - 不在日志输出 key
 - 不把 key 粘贴到 Codex 提示词里
@@ -102,7 +102,7 @@ pnpm typecheck
 - `/qa` 能展示人工测试清单并本地勾选。
 - `/qa` 不自动调用 LLM 或 Spark。
 - `/resources` 在 spark-http 模式下批量生成前有确认提示。
-- 页面和接口不出现 APIPassword。
+- 页面和接口不出现真实密钥。
 
 ## 12. Phase 13 衔接说明
 

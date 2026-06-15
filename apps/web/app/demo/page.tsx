@@ -4,7 +4,6 @@ import { PlayCircle, RefreshCw, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { AppSidebar } from "@/components/app-sidebar";
 import { DemoStepCard } from "@/components/demo-step-card";
 import { EmptyState } from "@/components/empty-state";
 import { ErrorState } from "@/components/error-state";
@@ -16,6 +15,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PageContainer } from "@/components/v2/page-container";
 import { bootstrapDemoData, getDemoStatus } from "@/lib/api";
 import type { DemoBootstrapResponse, DemoStatusResponse } from "@/lib/types";
 
@@ -77,11 +77,8 @@ export default function DemoPage() {
   }
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
-        <AppSidebar />
-
-        <div className="space-y-6">
+    <PageContainer>
+      <div className="space-y-6">
           <PageHeader
             title="演示工作台"
             description="这是比赛现场演示前的检查入口，用来确认知识库、学习画像、学习路径、资源生成、智能辅导、练习测验和学习评估是否已经准备好。"
@@ -226,8 +223,7 @@ export default function DemoPage() {
               </Card>
             </>
           ) : null}
-        </div>
       </div>
-    </main>
+    </PageContainer>
   );
 }

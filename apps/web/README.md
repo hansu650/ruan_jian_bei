@@ -1,6 +1,6 @@
 # EduForge Web
 
-Next.js + TypeScript + Tailwind CSS 前端。当前进入 Phase 15B 全局 UI 重构与学习产品视觉升级。
+Next.js + TypeScript + Tailwind CSS 前端。当前进入 Phase 16A 全站 UI V2 大重构。
 
 ## 安装和启动
 
@@ -41,7 +41,7 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 - `components/model-mode-badge.tsx`
 - `components/demo-step-card.tsx`
 
-`/demo` 页面不会自动调用生成类接口，不会自动调用 Spark，也不会接触 APIPassword。真实 Key 只允许放在后端本地 `.env`。
+`/demo` 页面不会自动调用生成类接口，不会自动调用 Spark，也不会接触真实密钥。真实密钥只允许放在后端本地环境文件中。
 
 ## Phase 12 前端组件
 
@@ -98,3 +98,12 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 - `/tutor`、`/practice`、`/analytics` 弱化技术字段，突出带来源答疑、批改反馈和学习诊断。
 - `/agents-flow` 和 `/innovation` 用于比赛讲解，但不虚构未实现能力。
 - 页面和文档不得出现真实密钥。
+
+## Phase 16A 前端检查点
+
+- 全局 layout 使用 `components/v2/app-shell.tsx`，采用左侧学生导航和简洁顶部课程栏。
+- `/` 应像正式产品首页，主行动进入 `/learn`。
+- `/learn` 应像学生学习首页，突出今日任务、继续学习、学习进度、薄弱点和最近结果。
+- `/resources` 应像学习资料页面，资源列表不展示 Markdown 原文，详情继续使用 Markdown / Mermaid / CitationList。
+- `/agents-flow` 和 `/innovation` 使用 V2 卡片语言，能服务比赛讲解但不虚构未实现能力。
+- 导航中 `/learn` 优先，当前页高亮明显，演示、测试和管理入口降级。

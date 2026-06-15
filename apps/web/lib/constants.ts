@@ -36,8 +36,13 @@ export const CORE_FEATURES = [
   },
   {
     title: "全局学习产品视觉升级",
-    status: "进行中",
+    status: "已完成",
     description: "收敛首页、学习工作台、资源、辅导、练习和评估页面，让系统更像正式学习平台而不是后台控制台。",
+  },
+  {
+    title: "UI V2 学生端外壳",
+    status: "进行中",
+    description: "重写全局 app shell、左侧学生导航、顶部课程栏和核心学习页面布局，形成成熟学习产品的第一印象。",
   },
   {
     title: "演示与测试辅助",
@@ -98,5 +103,6 @@ export const PROJECT_STAGES: Array<{
   { name: "Phase 14A", description: "学生端 UI 修复与内容渲染", status: "已完成" },
   { name: "Phase 14B", description: "学生端体验修补与资源展示修复", status: "已完成" },
   { name: "Phase 15A", description: "学生端 UI 升级与创新点包装", status: "已完成" },
-  { name: "Phase 15B", description: "全局 UI 重构与学习产品视觉升级", status: "进行中" },
+  { name: "Phase 15B", description: "全局 UI 重构与学习产品视觉升级", status: "已完成" },
+  { name: "Phase 16A", description: "全站 UI V2 大重构", status: "进行中" },
 ];

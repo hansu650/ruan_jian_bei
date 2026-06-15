@@ -28,7 +28,7 @@ Provider 名称：
 
 - HTTP Chat Completions
 - 非流式调用
-- `Authorization: Bearer <APIPassword>`
+- 请求头使用 Bearer 认证，本地密钥只放在开发者本机环境文件中。
 
 默认地址：
 
@@ -58,11 +58,11 @@ LLM_MODEL=mock-edu-model
 USE_MOCK_LLM=false
 LLM_PROVIDER=spark-http
 SPARK_HTTP_API_URL=https://spark-api-open.xf-yun.com/v1/chat/completions
-SPARK_HTTP_API_PASSWORD=自己的 APIPassword
+本地 Spark HTTP 密钥=自己的本地密钥
 SPARK_MODEL=lite
 ```
 
-如果 `LLM_PROVIDER=spark-http` 但未配置 `SPARK_HTTP_API_PASSWORD`，系统会自动回退 MockLLMProvider，并在 `/api/llm/status` 中返回 warning。
+如果 `LLM_PROVIDER=spark-http` 但未配置本地 Spark HTTP 密钥，系统会自动回退 MockLLMProvider，并在 `/api/llm/status` 中返回 warning。
 
 ## 5. Spark Lite / Pro-128K 区别
 
@@ -71,33 +71,33 @@ SPARK_MODEL=lite
 
 实际可用模型以讯飞开放平台控制台为准，例如 `lite`、`generalv3`、`pro-128k`、`generalv3.5`、`max-32k`、`4.0Ultra`。
 
-## 6. 如何获取 APIPassword
+## 6. 如何获取本地 Spark HTTP 密钥
 
 参考流程：
 
 1. 前往讯飞星火产品页面领取或购买额度。
 2. 前往讯飞开放平台控制台。
 3. 进入对应应用或服务配置页面。
-4. 获取 HTTP APIPassword。
-5. 将 APIPassword 只写入本地 `.env`。
+4. 获取 HTTP 调用使用的本地密钥。
+5. 将本地密钥只写入本机环境文件。
 
 具体入口和字段名称以讯飞官方控制台为准。
 
 ## 7. 安全要求
 
 - 不提交 `.env`。
-- 不提交 APIPassword。
+- 不提交真实密钥。
 - 不在前端输入 key。
 - 不在日志输出 key。
 - 不把 key 粘贴到 Codex 提示词里。
 - 不把 key 发到 GitHub issue、README、截图或聊天记录中。
-- 自动化测试不使用真实 APIPassword。
+- 自动化测试不使用真实密钥。
 
 `/api/llm/status` 只返回：
 
 - `spark_http_configured: true | false`
 
-不会返回 APIPassword 原文。
+不会返回真实密钥原文。
 
 ## 8. 当前限制
 
@@ -125,7 +125,7 @@ python scripts/check-env.py
 ```env
 USE_MOCK_LLM=false
 LLM_PROVIDER=spark-http
-SPARK_HTTP_API_PASSWORD=
+本地 Spark HTTP 密钥留空
 ```
 
 启动后访问：
@@ -151,10 +151,10 @@ Phase 10.1 后先进入 Phase 11：端到端演示工作台与稳定性打磨。
 
 Phase 11 允许本地继续使用 spark-http + lite，但 `/demo` 不会自动调用模型。只有用户手动进入画像、路径、资源、辅导、练习等页面并点击生成类按钮时，才会触发真实 API 调用。
 
-自动化测试会强制 Mock 或 mock 外部请求，不真实调用讯飞 API，也不要求配置 APIPassword。
+自动化测试会强制 Mock 或 mock 外部请求，不真实调用讯飞 API，也不要求配置真实密钥。
 
 # Phase 12 衔接说明
 
 Phase 12 新增 `/qa` 人工测试清单和 Smoke Status。即使本地保持 spark-http + lite，`/api/qa/checklist` 和 `/api/qa/smoke-status` 也只读取配置和数据库，不调用真实讯飞星火 API。
 
-前端在 `/resources` 等高消耗生成操作前会提示真实 Spark 模式可能消耗额度，但不会显示、输入、传输或保存 APIPassword。
+前端在 `/resources` 等高消耗生成操作前会提示真实 Spark 模式可能消耗额度，但不会显示、输入、传输或保存真实密钥。

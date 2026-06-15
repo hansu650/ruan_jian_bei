@@ -79,15 +79,15 @@ Spark Lite 真实模式允许本地继续使用：
 USE_MOCK_LLM=false
 LLM_PROVIDER=spark-http
 SPARK_MODEL=lite
-SPARK_HTTP_API_PASSWORD=只放在本地 .env
+本地 Spark HTTP 密钥只放在本机环境文件中
 ```
 
 真实模式下，手动点击画像、路径、资源、辅导、测验等生成按钮会调用真实 API；`/demo` 本身不会自动批量调用模型。
 
-## 8. APIPassword 安全要求
+## 8. 真实密钥安全要求
 
 - 不提交 `.env`
-- 不提交 APIPassword
+- 不提交真实密钥
 - 不在前端输入 key
 - 不在日志输出 key
 - 不把 key 粘贴到 Codex 提示词里

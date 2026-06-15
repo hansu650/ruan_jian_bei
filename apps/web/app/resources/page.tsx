@@ -15,6 +15,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { EmptyPanel } from "@/components/v2/empty-panel";
+import { PageContainer } from "@/components/v2/page-container";
+import { PageHero } from "@/components/v2/page-hero";
+import { ResourcePreviewCard } from "@/components/v2/resource-preview-card";
+import { SectionCard } from "@/components/v2/section-card";
+import { StatusPill } from "@/components/v2/status-pill";
 import {
   generateResourcesForStep,
   getDemoStatus,
@@ -366,25 +372,20 @@ export default function ResourcesPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl space-y-6 px-4 py-8 sm:px-6 lg:px-8">
-      <section className="rounded-lg border bg-card p-6">
-        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-          <div>
-            <Badge variant="secondary">学习资料</Badge>
-            <h1 className="mt-3 text-3xl font-bold">学习资源</h1>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-              选择学习路径中的一个步骤，生成讲义、思维导图、练习题、拓展阅读、
-              实操案例或视频讲解脚本。资源会尽量带上课程知识库来源。
+    <PageContainer className="space-y-6">
+      <PageHero
+        eyebrow="学习资料"
+        title="学习资源"
+        description="根据当前学习步骤生成讲义、思维导图、练习题、实操案例和视频脚本。生成后可以继续提问或完成练习。"
+        aside={
+          <div className="rounded-2xl border border-sky-100 bg-sky-50/70 p-4">
+            <p className="font-medium text-slate-950">建议演示方式</p>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              先生成讲义或思维导图，确认质量后再选择更多资源类型。真实模型模式下批量生成需要确认。
             </p>
           </div>
-          <Alert className="max-w-md">
-            <AlertTitle>使用建议</AlertTitle>
-            <AlertDescription>
-              演示时建议先生成 1-2 类重点资源，确认质量后再批量生成全部类型。
-            </AlertDescription>
-          </Alert>
-        </div>
-      </section>
+        }
+      />
 
       {error ? (
         <Alert variant="destructive">
@@ -399,13 +400,12 @@ export default function ResourcesPage() {
           <Skeleton className="h-[720px]" />
         </div>
       ) : (
-        <div className="grid gap-6 lg:grid-cols-[380px_1fr]">
+        <div className="grid gap-6 xl:grid-cols-[360px_1fr]">
           <aside className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">学生与课程</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
+            <SectionCard>
+              <h2 className="text-base font-semibold text-slate-950">选择学习上下文</h2>
+              <p className="mt-1 text-sm text-slate-500">资源会围绕当前学生、课程和学习步骤生成。</p>
+              <div className="mt-4 space-y-3">
                 <label className="space-y-1 text-sm">
                   <span className="font-medium">学生</span>
                   <select
@@ -442,18 +442,16 @@ export default function ResourcesPage() {
                     ))}
                   </select>
                 </label>
-              </CardContent>
-            </Card>
+              </div>
+            </SectionCard>
 
             <ProfileCard profile={profile} />
 
             <LiveModelWarning mode={llmMode} compact />
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">路径与步骤</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
+            <SectionCard>
+              <h2 className="text-base font-semibold text-slate-950">学习路径与步骤</h2>
+              <div className="mt-4 space-y-3">
                 {paths.length ? (
                   <>
                     <label className="space-y-1 text-sm">
@@ -508,14 +506,12 @@ export default function ResourcesPage() {
                     </AlertDescription>
                   </Alert>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </SectionCard>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">资源类型</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
+            <SectionCard>
+              <h2 className="text-base font-semibold text-slate-950">选择资源类型</h2>
+              <div className="mt-4 space-y-3">
                 <p className="text-xs leading-5 text-muted-foreground">
                   默认只选择讲义，适合先小流量确认质量；需要更多类型时再手动勾选。
                 </p>
@@ -548,6 +544,17 @@ export default function ResourcesPage() {
                   />
                 ) : null}
                 <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => {
+                    setConfirmedLiveGenerate(false);
+                    setSelectedTypes(resourceTypes.map((type) => type.key));
+                  }}
+                >
+                  选择 6 类资源
+                </Button>
+                <Button
                   className="w-full"
                   disabled={
                     !profile ||
@@ -561,54 +568,47 @@ export default function ResourcesPage() {
                   <Sparkles className="h-4 w-4" aria-hidden="true" />
                   {generating ? "生成中" : "生成选中资源"}
                 </Button>
-              </CardContent>
-            </Card>
+              </div>
+            </SectionCard>
           </aside>
 
           <section className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">已生成资源</CardTitle>
-              </CardHeader>
-              <CardContent>
+            <SectionCard>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <h2 className="text-lg font-semibold text-slate-950">已生成学习资料</h2>
+                  <p className="mt-1 text-sm text-slate-500">点击卡片查看正文、思维导图、代码块和引用来源。</p>
+                </div>
+                <StatusPill>{resources.length} 个资料</StatusPill>
+              </div>
+              <div className="mt-4">
                 {resources.length ? (
                   <div className="grid gap-3 md:grid-cols-2">
                     {resources.map((resource) => {
                       const active = selectedResource?.id === resource.id;
                       return (
-                      <button
-                        key={resource.id}
-                        className={`rounded-xl border p-4 text-left transition hover:border-sky-300 hover:bg-sky-50/40 ${
-                          active ? "border-sky-300 bg-sky-50/70 shadow-sm" : "border-slate-200 bg-white"
-                        }`}
-                        onClick={() => setSelectedResourceId(resource.id)}
-                        type="button"
-                      >
-                        <div className="flex items-start justify-between gap-2">
-                          <p className="line-clamp-2 text-sm font-semibold leading-6 text-slate-950">
-                            {resource.title}
-                          </p>
-                          <ResourceTypeBadge type={resource.resource_type} />
-                        </div>
-                        <p className="mt-2 line-clamp-2 text-xs text-muted-foreground">
-                          {resourcePreview(resource.content) || "已生成资源，点击查看正文。"}
-                        </p>
-                        <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-slate-500">
-                          <StatusBadge status={resource.status} />
-                          <span>{citationCount(resource.citations_json)} 条来源</span>
-                          <span>{new Date(resource.created_at).toLocaleDateString("zh-CN")}</span>
-                        </div>
-                      </button>
+                        <ResourcePreviewCard
+                          key={resource.id}
+                          title={resource.title}
+                          type={resource.resource_type}
+                          preview={resourcePreview(resource.content)}
+                          citationCount={citationCount(resource.citations_json)}
+                          status={resource.status}
+                          createdAt={resource.created_at}
+                          active={active}
+                          onSelect={() => setSelectedResourceId(resource.id)}
+                        />
                       );
                     })}
                   </div>
                 ) : (
-                  <p className="text-sm text-muted-foreground">
-                    选择步骤并生成资源后，这里会展示 6 类资源卡片。
-                  </p>
+                  <EmptyPanel
+                    title="还没有学习资料"
+                    description="选择学习步骤和资源类型后，先生成一份讲义或思维导图。"
+                  />
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </SectionCard>
 
             <ResourceContent resource={selectedResource} />
 
@@ -643,14 +643,14 @@ export default function ResourcesPage() {
         </div>
       )}
 
-      <Card>
-        <CardContent className="flex items-start gap-3 p-4 text-sm text-muted-foreground">
+      <SectionCard>
+        <div className="flex items-start gap-3 text-sm text-muted-foreground">
           <BookOpenText className="mt-0.5 h-4 w-4 text-primary" aria-hidden="true" />
           <p>
             资源内容会结合课程知识库，并记录引用来源。系统不会复制出版教材原文或未授权资料。
           </p>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+      </SectionCard>
+    </PageContainer>
   );
 }

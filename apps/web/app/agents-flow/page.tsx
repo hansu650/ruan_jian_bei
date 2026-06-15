@@ -11,11 +11,11 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-import { AgentFlowCard } from "@/components/agent-flow-card";
-import { AppSidebar } from "@/components/app-sidebar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { AgentCard } from "@/components/v2/agent-card";
+import { PageContainer } from "@/components/v2/page-container";
 
 const agents = [
   {
@@ -101,63 +101,61 @@ const loop = ["画像", "路径", "资源", "辅导", "测验", "评估", "更�
 
 export default function AgentsFlowPage() {
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
-        <AppSidebar />
+    <PageContainer className="space-y-6">
+      <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div className="grid gap-6 p-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div>
+            <Badge variant="secondary">智能体协作</Badge>
+            <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+              多智能体协作流程
+            </h1>
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">
+              EduForge 不是单一聊天机器人，而是把画像、路径、资源、答疑、练习和评估拆成多个专业智能体。
+              每个智能体负责一个清晰环节，数据在数据库中沉淀，形成可继续学习的闭环。
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Button asChild className="bg-sky-700 hover:bg-sky-800">
+                <Link href="/learn">回到学习工作台</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/innovation">查看创新亮点</Link>
+              </Button>
+            </div>
+          </div>
 
-        <div className="space-y-6">
-          <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-            <div className="grid gap-6 p-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div className="rounded-2xl border border-sky-100 bg-sky-50/60 p-5">
+            <div className="flex items-center gap-3">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-sky-700 shadow-sm">
+                <Bot className="h-5 w-5" aria-hidden="true" />
+              </span>
               <div>
-                <Badge variant="secondary">智能体协作</Badge>
-                <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-                  多智能体协作流程
-                </h1>
-                <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">
-                  EduForge 不是单一聊天机器人，而是把画像、路径、资源、答疑、练习和评估拆成多个专业智能体。
-                  每个智能体负责一个清晰环节，数据在数据库中沉淀，形成可继续学习的闭环。
+                <p className="font-semibold text-slate-950">自研轻量多智能体流水线</p>
+                <p className="text-sm text-slate-600">
+                  不依赖 CrewAI / LangGraph，当前实现以服务层和 Agent 类组织。
                 </p>
-                <div className="mt-5 flex flex-wrap gap-3">
-                  <Button asChild className="bg-sky-700 hover:bg-sky-800">
-                    <Link href="/learn">回到学习工作台</Link>
-                  </Button>
-                  <Button asChild variant="outline">
-                    <Link href="/innovation">查看创新亮点</Link>
-                  </Button>
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-sky-100 bg-sky-50/60 p-5">
-                <div className="flex items-center gap-3">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-sky-700 shadow-sm">
-                    <Bot className="h-5 w-5" aria-hidden="true" />
-                  </span>
-                  <div>
-                    <p className="font-semibold text-slate-950">自研轻量多智能体流水线</p>
-                    <p className="text-sm text-slate-600">不依赖 CrewAI / LangGraph，当前实现以服务层和 Agent 类组织。</p>
-                  </div>
-                </div>
-                <div className="mt-5 flex flex-wrap items-center gap-2 text-sm">
-                  {loop.map((item, index) => (
-                    <div key={item} className="flex items-center gap-2">
-                      <span className="rounded-full border border-sky-200 bg-white px-3 py-1 font-medium text-sky-800">
-                        {item}
-                      </span>
-                      {index < loop.length - 1 ? (
-                        <ArrowRight className="h-4 w-4 text-sky-500" aria-hidden="true" />
-                      ) : null}
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
-          </section>
+            <div className="mt-5 flex flex-wrap items-center gap-2 text-sm">
+              {loop.map((item, index) => (
+                <div key={item} className="flex items-center gap-2">
+                  <span className="rounded-full border border-sky-200 bg-white px-3 py-1 font-medium text-sky-800">
+                    {item}
+                  </span>
+                  {index < loop.length - 1 ? (
+                    <ArrowRight className="h-4 w-4 text-sky-500" aria-hidden="true" />
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
-          <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {agents.map((agent) => (
-              <AgentFlowCard key={agent.name} {...agent} />
-            ))}
-          </section>
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {agents.map((agent) => (
+          <AgentCard key={agent.name} {...agent} />
+        ))}
+      </section>
 
           <Card className="border-slate-200 bg-white shadow-sm">
             <CardHeader>
@@ -197,8 +195,6 @@ export default function AgentsFlowPage() {
               ))}
             </CardContent>
           </Card>
-        </div>
-      </div>
-    </main>
+    </PageContainer>
   );
 }

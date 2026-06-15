@@ -1,6 +1,6 @@
 # EduForge API
 
-FastAPI 后端，当前进入 Phase 15B：全局 UI 重构与学习产品视觉升级。后端业务能力保持稳定，本阶段主要由前端进行产品化呈现。
+FastAPI 后端，当前进入 Phase 16A：全站 UI V2 大重构。后端业务能力保持稳定，本阶段主要由前端进行产品化呈现。
 
 ## 技术栈
 
@@ -73,13 +73,6 @@ USE_MOCK_LLM=true
 LLM_PROVIDER=mock
 ```
 
-本地可选 Spark Lite：
+本地可选 Spark Lite 配置只放在开发者本机环境文件中，不写入仓库、文档示例、测试 fixture 或前端页面。
 
-```env
-USE_MOCK_LLM=false
-LLM_PROVIDER=spark-http
-SPARK_HTTP_API_PASSWORD=自己的 APIPassword
-SPARK_MODEL=lite
-```
-
-后端只返回 `spark_http_configured: true | false`，不会返回 APIPassword。自动化测试通过 `tests/conftest.py` 强制 Mock，避免本地 spark-http 配置导致真实联网。
+后端只返回 `spark_http_configured: true | false` 这类布尔配置状态，不返回真实密钥。自动化测试通过 `tests/conftest.py` 强制 Mock，避免本地 spark-http 配置导致真实联网。

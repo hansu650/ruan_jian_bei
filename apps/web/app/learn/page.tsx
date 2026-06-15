@@ -10,16 +10,18 @@ import {
   Target,
   UserRound,
 } from "lucide-react";
+import Link from "next/link";
 
-import { ErrorState } from "@/components/error-state";
-import { LearningJourneyCard } from "@/components/learning-journey-card";
-import { LearningProgressOverview } from "@/components/learning-progress-overview";
 import { LoadingState } from "@/components/loading-state";
-import { StudentHeroCard } from "@/components/student-hero-card";
-import { TodayTaskCard } from "@/components/today-task-card";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { WeakPointCard } from "@/components/weak-point-card";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { ErrorPanel } from "@/components/v2/error-panel";
+import { LearningStepCard } from "@/components/v2/learning-step-card";
+import { LearningTaskCard } from "@/components/v2/learning-task-card";
+import { PageContainer } from "@/components/v2/page-container";
+import { SectionCard } from "@/components/v2/section-card";
+import { StatCard } from "@/components/v2/stat-card";
+import { StatusPill } from "@/components/v2/status-pill";
 import {
   getDemoStatus,
   getGeneratedResources,
@@ -306,110 +308,160 @@ export default function LearnPage() {
 
   if (loading) {
     return (
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <PageContainer>
         <LoadingState title="正在整理你的学习状态..." rows={5} />
-      </main>
+      </PageContainer>
     );
   }
 
   if (error || !snapshot || !derived) {
     return (
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <ErrorState message={error ?? "学习工作台暂时无法加载。"} onRetry={load} />
-      </main>
+      <PageContainer>
+        <ErrorPanel message={error ?? "学习工作台暂时无法加载。"} onRetry={load} />
+      </PageContainer>
     );
   }
 
   return (
-    <main className="mx-auto max-w-7xl space-y-8 px-4 py-8 sm:px-6 lg:px-8">
-      <StudentHeroCard
-        studentName={snapshot.demo.student_name}
-        studentMeta={
-          snapshot.student
-            ? `${snapshot.student.major || "专业待补充"} · ${snapshot.student.grade_level || "年级待补充"}`
-            : null
-        }
-        courseTitle={snapshot.demo.course_title}
-        learningGoal={derived.profile?.learning_goal}
-        currentStatus={derived.currentStatus}
-        averageAccuracy={derived.averageAccuracy}
-        nextHref={derived.nextAction.href}
-        nextLabel={derived.nextAction.label}
-      />
-
-      <section className="grid gap-6 lg:grid-cols-[1.4fr_0.8fr]">
-        <TodayTaskCard
-          step={derived.todayStep}
-          reason={
-            derived.todayStep
-              ? "根据当前路径和薄弱点，建议今天先推进这一小步。"
-              : "生成路径后，系统会自动推荐今天最适合的主题。"
-          }
-        />
-        <WeakPointCard weakPoints={derived.weakPoints} mastery={derived.mastery} />
-      </section>
-
-      <section className="space-y-4">
-        <div>
-          <h2 className="text-xl font-semibold text-slate-950">学习进度概览</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            这里汇总你当前已经完成的学习准备和练习反馈。
-          </p>
-        </div>
-        <LearningProgressOverview items={derived.overviewItems} />
-      </section>
-
-      <section className="space-y-4">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+    <PageContainer className="space-y-8">
+      <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+        <div className="grid gap-6 p-6 lg:grid-cols-[1.25fr_0.75fr] lg:items-center lg:p-8">
           <div>
-            <h2 className="text-xl font-semibold text-slate-950">你的学习旅程</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              从画像到评估，按顺序完成会形成一条完整的学习闭环。
+            <StatusPill tone="active">学习工作台</StatusPill>
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+              你好，{snapshot.demo.student_name ?? "示例学生"}
+            </h1>
+            <p className="mt-4 max-w-3xl text-base leading-7 text-slate-600">
+              今天继续学习《{snapshot.demo.course_title ?? "数据库系统"}》。系统会根据你的画像、路径和练习反馈，
+              推荐下一步最值得推进的学习任务。
             </p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              <StatusPill>当前目标：{derived.profile?.learning_goal || "7 天掌握数据库系统期末重点"}</StatusPill>
+              <StatusPill tone="warning">{derived.currentStatus}</StatusPill>
+            </div>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button asChild className="bg-sky-700 hover:bg-sky-800">
+                <Link href={derived.nextAction.href}>{derived.nextAction.label}</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/analytics">查看学习评估</Link>
+              </Button>
+            </div>
           </div>
-          <Badge variant={snapshot.demo.overall_ready ? "success" : "outline"}>
-            {snapshot.demo.overall_ready ? "学习流程基本就绪" : "继续补全学习数据"}
-          </Badge>
-        </div>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {derived.journey.map((item) => (
-            <LearningJourneyCard key={item.href} {...item} />
-          ))}
+
+          <div className="grid gap-3 rounded-3xl border border-slate-200 bg-slate-50 p-4">
+            <StatCard
+              label="平均准确率"
+              value={derived.averageAccuracy ?? "暂无"}
+              helper="完成测验后自动更新"
+              icon={Target}
+              tone={snapshot.attempts.length > 0 ? "success" : "default"}
+            />
+            <div className="rounded-2xl border border-slate-200 bg-white p-4">
+              <p className="text-sm font-medium text-slate-950">今日任务状态</p>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                {derived.todayStep ? `推荐推进：${derived.todayStep.title}` : "先补齐画像或学习路径。"}
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
-      <Card className="border-slate-200 bg-white">
-        <CardHeader>
-          <CardTitle>最近学习结果</CardTitle>
-          <p className="text-sm leading-6 text-muted-foreground">
-            完成练习后，这里会沉淀为学习诊断，而不是只留下孤立的一次分数。
-          </p>
-        </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-3">
-          <div className="rounded-lg border bg-slate-50 p-4">
-            <p className="text-sm text-slate-500">最近画像更新</p>
-            <p className="mt-2 text-sm font-medium text-slate-900">
-              {derived.profile?.updated_at
-                ? new Date(derived.profile.updated_at).toLocaleString("zh-CN")
-                : "尚未生成画像"}
+      <div className="grid gap-6 xl:grid-cols-[1fr_360px]">
+        <div className="space-y-6">
+          <LearningTaskCard
+            title={derived.todayStep?.title ?? "先生成你的个性化学习路径"}
+            description={
+              derived.todayStep?.objective ?? "系统会根据你的画像和课程知识点，安排今天应该优先学习的主题。"
+            }
+            reason={
+              derived.todayStep
+                ? "根据当前学习路径和薄弱点，建议先推进这一小步，再进入资源学习、提问和练习。"
+                : "生成路径后，今日任务会自动出现在这里。"
+            }
+            minutes={derived.todayStep?.estimated_minutes}
+            tags={derived.todayStep ? parseJsonArray(derived.todayStep.knowledge_points_json) : derived.weakPoints}
+            href={derived.todayStep ? "/resources" : derived.nextAction.href}
+            actionLabel={derived.todayStep ? "继续学习这一步" : derived.nextAction.label}
+          />
+
+          <SectionCard>
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h2 className="text-xl font-semibold text-slate-950">学习旅程</h2>
+                <p className="mt-1 text-sm leading-6 text-slate-600">
+                  按顺序完成画像、路径、资源、辅导、练习和评估，会形成一条可持续优化的学习闭环。
+                </p>
+              </div>
+              <StatusPill tone={snapshot.demo.overall_ready ? "success" : "default"}>
+                {snapshot.demo.overall_ready ? "流程基本就绪" : "继续补全学习数据"}
+              </StatusPill>
+            </div>
+            <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {derived.journey.map((item) => (
+                <LearningStepCard key={item.href} {...item} />
+              ))}
+            </div>
+          </SectionCard>
+        </div>
+
+        <aside className="space-y-6">
+          <SectionCard>
+            <h2 className="text-lg font-semibold text-slate-950">我的薄弱点</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              这些主题会影响学习路径、资源生成和测验重点。
             </p>
-          </div>
-          <div className="rounded-lg border bg-slate-50 p-4">
-            <p className="text-sm text-slate-500">最近一次测验</p>
-            <p className="mt-2 text-sm font-medium text-slate-900">
-              {snapshot.attempts[0]
-                ? `${snapshot.attempts[0].total_score}/${snapshot.attempts[0].max_score} 分`
-                : "尚未提交测验"}
-            </p>
-          </div>
-          <div className="rounded-lg border bg-slate-50 p-4">
-            <p className="text-sm text-slate-500">学习诊断</p>
-            <p className="mt-2 text-sm font-medium leading-6 text-slate-900">
-              {snapshot.analytics?.latest_report?.summary || "完成一次测验后会生成诊断摘要。"}
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-    </main>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {(derived.weakPoints.length ? derived.weakPoints.slice(0, 5) : ["JOIN", "事务隔离级别", "B+ 树索引"]).map(
+                (item) => (
+                  <StatusPill key={item} tone="warning">
+                    {item}
+                  </StatusPill>
+                ),
+              )}
+            </div>
+            <div className="mt-5 space-y-4">
+              {Object.entries(derived.mastery).slice(0, 5).map(([name, value]) => (
+                <div key={name}>
+                  <div className="mb-2 flex items-center justify-between text-sm">
+                    <span className="font-medium text-slate-800">{name}</span>
+                    <span className="text-slate-500">{Math.round(value)}%</span>
+                  </div>
+                  <Progress value={Math.max(0, Math.min(100, value))} />
+                </div>
+              ))}
+            </div>
+          </SectionCard>
+
+          <SectionCard>
+            <h2 className="text-lg font-semibold text-slate-950">学习概览</h2>
+            <div className="mt-4 grid gap-3">
+              {derived.overviewItems.map((item) => (
+                <StatCard
+                  key={item.label}
+                  label={item.label}
+                  value={item.value}
+                  helper={item.helper}
+                  icon={item.icon}
+                  tone={item.tone}
+                />
+              ))}
+            </div>
+          </SectionCard>
+
+          <SectionCard>
+            <h2 className="text-lg font-semibold text-slate-950">最近结果</h2>
+            <div className="mt-4 space-y-3 text-sm">
+              <p className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+                最近测验：{snapshot.attempts[0] ? `${snapshot.attempts[0].total_score}/${snapshot.attempts[0].max_score} 分` : "尚未提交测验"}
+              </p>
+              <p className="rounded-2xl border border-slate-200 bg-slate-50 p-3 leading-6">
+                评估建议：{snapshot.analytics?.latest_report?.next_plan_suggestion || "完成一次测验后会生成下一步建议。"}
+              </p>
+            </div>
+          </SectionCard>
+        </aside>
+      </div>
+    </PageContainer>
   );
 }

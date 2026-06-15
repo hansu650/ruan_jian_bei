@@ -13,12 +13,12 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-import { AppSidebar } from "@/components/app-sidebar";
 import { FeatureCard } from "@/components/feature-card";
 import { StageCard } from "@/components/stage-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PageContainer } from "@/components/v2/page-container";
 import { CORE_FEATURES, PROJECT_STAGES } from "@/lib/constants";
 
 const entryCards = [
@@ -87,11 +87,8 @@ const entryCards = [
 
 export default function DashboardPage() {
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
-        <AppSidebar />
-
-        <div className="space-y-6">
+    <PageContainer>
+      <div className="space-y-6">
           <section className="rounded-lg border bg-card p-6">
             <Badge variant="outline">项目总览</Badge>
             <h1 className="mt-4 text-3xl font-bold tracking-tight">EduForge 模块总览</h1>
@@ -160,8 +157,7 @@ export default function DashboardPage() {
               />
             ))}
           </section>
-        </div>
       </div>
-    </main>
+    </PageContainer>
   );
 }

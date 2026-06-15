@@ -256,6 +256,7 @@ def check_project_files(reporter: Reporter) -> None:
         "docs/15_Phase14B_学生端体验修补与资源展示修复.md",
         "docs/15A_学生端UI升级与创新点包装.md",
         "docs/15B_全局UI重构与创新点包装.md",
+        "docs/16A_全站UIV2大重构.md",
         "scripts/check-phase13.ps1",
         "scripts/check-phase13.sh",
         "scripts/check-phase14a.ps1",
@@ -266,6 +267,8 @@ def check_project_files(reporter: Reporter) -> None:
         "scripts/check-phase15a.sh",
         "scripts/check-phase15b.ps1",
         "scripts/check-phase15b.sh",
+        "scripts/check-phase16a.ps1",
+        "scripts/check-phase16a.sh",
         "apps/web/package.json",
         "apps/web/app/page.tsx",
         "apps/web/app/learn/page.tsx",
@@ -299,6 +302,21 @@ def check_project_files(reporter: Reporter) -> None:
         "apps/web/components/agent-flow-card.tsx",
         "apps/web/components/innovation-card.tsx",
         "apps/web/components/learning-progress-overview.tsx",
+        "apps/web/components/v2/app-shell.tsx",
+        "apps/web/components/v2/student-sidebar.tsx",
+        "apps/web/components/v2/student-topbar.tsx",
+        "apps/web/components/v2/page-container.tsx",
+        "apps/web/components/v2/page-hero.tsx",
+        "apps/web/components/v2/section-card.tsx",
+        "apps/web/components/v2/stat-card.tsx",
+        "apps/web/components/v2/learning-task-card.tsx",
+        "apps/web/components/v2/learning-step-card.tsx",
+        "apps/web/components/v2/resource-preview-card.tsx",
+        "apps/web/components/v2/agent-card.tsx",
+        "apps/web/components/v2/innovation-card.tsx",
+        "apps/web/components/v2/status-pill.tsx",
+        "apps/web/components/v2/empty-panel.tsx",
+        "apps/web/components/v2/error-panel.tsx",
         "apps/web/lib/api.ts",
         "apps/web/lib/types.ts",
     ]
@@ -340,16 +358,17 @@ def check_project_files(reporter: Reporter) -> None:
     env_example = root / ".env.example"
     if env_example.exists():
         env_text = env_example.read_text(encoding="utf-8")
-        for key in ["SPARK_HTTP_API_PASSWORD", "SPARK_HTTP_API_URL", "SPARK_MODEL"]:
-            if key in env_text:
-                reporter.ok(f".env.example 包含 {key}")
-            else:
-                reporter.error(f".env.example 缺少 {key}")
+        spark_http_keys = ["SPARK_HTTP_API_PASSWORD", "SPARK_HTTP_API_URL", "SPARK_MODEL"]
+        missing_spark_http_keys = [key for key in spark_http_keys if key not in env_text]
+        if not missing_spark_http_keys:
+            reporter.ok(".env.example 包含 Spark HTTP 可选配置占位")
+        else:
+            reporter.error(".env.example 缺少 Spark HTTP 可选配置占位")
 
     if os.environ.get("SPARK_HTTP_API_PASSWORD"):
-        reporter.ok("SPARK_HTTP_API_PASSWORD 已配置（自检不会读取或输出密钥内容）")
+        reporter.ok("Spark HTTP 本地密钥已配置（自检不会读取或输出密钥内容）")
     else:
-        reporter.warn("SPARK_HTTP_API_PASSWORD 未配置；USE_MOCK_LLM=true 时这是正常状态")
+        reporter.warn("Spark HTTP 本地密钥未配置；USE_MOCK_LLM=true 时这是正常状态")
 
 
 def print_next_steps() -> None:
@@ -371,7 +390,7 @@ def print_next_steps() -> None:
     print("5. 启动前端：")
     print("   cd apps/web")
     print("   pnpm dev")
-    print("6. 打开学生端与 Phase 15B 检查页面：")
+    print("6. 打开学生端与 Phase 16A 检查页面：")
     print("   http://localhost:3000/learn")
     print("   http://localhost:3000/agents-flow")
     print("   http://localhost:3000/innovation")
@@ -379,38 +398,41 @@ def print_next_steps() -> None:
     print("   http://localhost:3000/qa")
     print("   http://localhost:3000/practice")
     print("   http://localhost:3000/analytics")
-    print("7. 一键检查 Phase 15B：")
+    print("7. 一键检查 Phase 16A：")
+    print("   .\\scripts\\check-phase16a.ps1")
+    print("   ./scripts/check-phase16a.sh")
+    print("8. 一键检查 Phase 15B：")
     print("   .\\scripts\\check-phase15b.ps1")
     print("   ./scripts/check-phase15b.sh")
-    print("8. 一键检查 Phase 15A：")
+    print("9. 一键检查 Phase 15A：")
     print("   .\\scripts\\check-phase15a.ps1")
     print("   ./scripts/check-phase15a.sh")
-    print("9. 一键检查 Phase 14B：")
+    print("10. 一键检查 Phase 14B：")
     print("   .\\scripts\\check-phase14b.ps1")
     print("   ./scripts/check-phase14b.sh")
-    print("10. 一键检查 Phase 14A：")
+    print("11. 一键检查 Phase 14A：")
     print("   .\\scripts\\check-phase14a.ps1")
     print("   ./scripts/check-phase14a.sh")
-    print("11. 一键检查 Phase 13：")
+    print("12. 一键检查 Phase 13：")
     print("   .\\scripts\\check-phase13.ps1")
     print("   ./scripts/check-phase13.sh")
-    print("12. 一键检查 Phase 12：")
+    print("13. 一键检查 Phase 12：")
     print("   .\\scripts\\check-phase12.ps1")
     print("   ./scripts/check-phase12.sh")
-    print("13. 一键检查 Phase 11：")
+    print("14. 一键检查 Phase 11：")
     print("   .\\scripts\\check-phase11.ps1")
     print("   ./scripts/check-phase11.sh")
-    print("14. 一键检查第十阶段：")
+    print("15. 一键检查第十阶段：")
     print("   .\\scripts\\check-phase10.ps1")
     print("   ./scripts/check-phase10.sh")
-    print("15. 一键检查 Phase 10.1：")
+    print("16. 一键检查 Phase 10.1：")
     print("   .\\scripts\\check-phase10-1.ps1")
     print("   ./scripts/check-phase10-1.sh")
 
 
 def main() -> int:
     reporter = Reporter()
-    print("EduForge 智学工坊 - Phase 15B 全局 UI 重构与学习产品视觉升级环境自检")
+    print("EduForge 智学工坊 - Phase 16A 全站 UI V2 大重构环境自检")
     print()
 
     check_python(reporter)
@@ -446,7 +468,7 @@ def main() -> int:
         return 1
 
     print()
-    print("[OK] 环境自检通过，可以继续启动前后端或运行 Phase 15B 检查。")
+    print("[OK] 环境自检通过，可以继续启动前后端或运行 Phase 16A 检查。")
     return 0
 
 
